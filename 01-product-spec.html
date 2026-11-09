@@ -1,0 +1,938 @@
+<title>Lampada</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300..700;1,6..72,300..600&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap">
+
+<style>
+:root {
+  --ground:   #EEF0F6;
+  --surface:  #FFFFFF;
+  --surface2: #E6E9F2;
+  --ink:      #141829;
+  --ink2:     #333A52;
+  --muted:    #5B6379;
+  --faint:    #868DA3;
+  --line:     #D6DAE7;
+  --line2:    #C3C9DA;
+  --accent:   #9C6B18;
+  --accent-soft: #F3E7D0;
+  --ok:       #2E7A57;
+  --ok-soft:  #DCEDE4;
+  --stop:     #A03A31;
+  --stop-soft:#F4E0DE;
+
+  --f-display: "Newsreader", "Iowan Old Style", Georgia, serif;
+  --f-body: "IBM Plex Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --f-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+
+  --measure: 34rem;
+  --wide: 62rem;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --ground:   #0E1120;
+    --surface:  #161A2B;
+    --surface2: #1D2235;
+    --ink:      #E5E8F1;
+    --ink2:     #C4CAD9;
+    --muted:    #949CB4;
+    --faint:    #737B94;
+    --line:     #262C43;
+    --line2:    #333A55;
+    --accent:   #DFA850;
+    --accent-soft: #2C2617;
+    --ok:       #5BBE8F;
+    --ok-soft:  #172C23;
+    --stop:     #E07C72;
+    --stop-soft:#2E1B1A;
+  }
+}
+
+:root[data-theme="dark"] {
+  --ground:   #0E1120;
+  --surface:  #161A2B;
+  --surface2: #1D2235;
+  --ink:      #E5E8F1;
+  --ink2:     #C4CAD9;
+  --muted:    #949CB4;
+  --faint:    #737B94;
+  --line:     #262C43;
+  --line2:    #333A55;
+  --accent:   #DFA850;
+  --accent-soft: #2C2617;
+  --ok:       #5BBE8F;
+  --ok-soft:  #172C23;
+  --stop:     #E07C72;
+  --stop-soft:#2E1B1A;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--f-body);
+  font-size: 16.5px;
+  line-height: 1.62;
+  -webkit-font-smoothing: antialiased;
+}
+
+.page {
+  max-width: var(--wide);
+  margin: 0 auto;
+  padding: clamp(2rem, 6vw, 5rem) clamp(1.1rem, 4vw, 3rem) 6rem;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(3rem, 6vw, 4.75rem);
+}
+
+.col { max-width: var(--measure); display: flex; flex-direction: column; gap: 1.05rem; }
+.col > * { margin: 0; }
+
+/* ---------- masthead ---------- */
+
+.mast { display: flex; flex-direction: column; gap: 1.5rem; }
+
+.mast-rule {
+  height: 1px;
+  background: linear-gradient(90deg, var(--accent), var(--line2) 45%, transparent);
+}
+
+.wordmark {
+  font-family: var(--f-display);
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-size: clamp(3.4rem, 11vw, 6.5rem);
+  line-height: 0.92;
+  letter-spacing: -0.025em;
+  margin: 0;
+  text-wrap: balance;
+}
+.wordmark em { font-style: italic; color: var(--accent); }
+
+.tagline {
+  font-family: var(--f-display);
+  font-size: clamp(1.15rem, 2.6vw, 1.5rem);
+  font-weight: 300;
+  line-height: 1.4;
+  color: var(--ink2);
+  max-width: 30rem;
+  margin: 0;
+  text-wrap: balance;
+}
+
+.verse {
+  font-family: var(--f-display);
+  font-style: italic;
+  font-size: 1.02rem;
+  color: var(--muted);
+  border-left: 2px solid var(--accent);
+  padding-left: 1rem;
+  max-width: 26rem;
+  margin: 0;
+}
+.verse span { display: block; font-style: normal; font-family: var(--f-mono); font-size: 0.7rem; letter-spacing: 0.09em; text-transform: uppercase; color: var(--faint); margin-top: 0.5rem; }
+
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 2rem;
+  font-family: var(--f-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--faint);
+}
+.meta b { color: var(--ink2); font-weight: 500; }
+
+/* ---------- contents ---------- */
+
+.toc {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(13rem, 1fr));
+  gap: 0;
+  border-top: 1px solid var(--line);
+}
+.toc a {
+  display: flex;
+  align-items: baseline;
+  gap: 0.6rem;
+  padding: 0.7rem 0.9rem 0.7rem 0;
+  border-bottom: 1px solid var(--line);
+  color: var(--ink2);
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+.toc a:hover { color: var(--accent); }
+.toc a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.toc i {
+  font-family: var(--f-mono);
+  font-style: normal;
+  font-size: 0.68rem;
+  color: var(--faint);
+  letter-spacing: 0.05em;
+}
+
+/* ---------- sections ---------- */
+
+section { display: flex; flex-direction: column; gap: 1.5rem; scroll-margin-top: 1.5rem; }
+
+.eyebrow {
+  font-family: var(--f-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--accent);
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+}
+.eyebrow::after { content: ""; flex: 1; height: 1px; background: var(--line); }
+
+h2 {
+  font-family: var(--f-display);
+  font-optical-sizing: auto;
+  font-size: clamp(1.75rem, 4vw, 2.4rem);
+  font-weight: 400;
+  line-height: 1.12;
+  letter-spacing: -0.018em;
+  margin: 0;
+  max-width: 26rem;
+  text-wrap: balance;
+}
+
+h3 {
+  font-family: var(--f-body);
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: 0.005em;
+  margin: 0;
+  color: var(--ink);
+}
+
+p { margin: 0; color: var(--ink2); }
+p.lead { font-size: 1.06rem; color: var(--ink); }
+strong { font-weight: 600; color: var(--ink); }
+em.q { font-style: italic; font-family: var(--f-display); font-size: 1.05em; }
+
+a.ref { color: var(--accent); text-decoration: none; border-bottom: 1px solid var(--accent-soft); }
+
+ul.dash { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.6rem; }
+ul.dash li { padding-left: 1.1rem; position: relative; color: var(--ink2); }
+ul.dash li::before { content: ""; position: absolute; left: 0; top: 0.72em; width: 0.5rem; height: 1px; background: var(--line2); }
+
+/* ---------- callout ---------- */
+
+.note {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-left: 2px solid var(--accent);
+  padding: 1.1rem 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  max-width: var(--measure);
+}
+.note .eyebrow { color: var(--accent); }
+.note .eyebrow::after { display: none; }
+.note p { font-size: 0.95rem; }
+
+/* ---------- tables ---------- */
+
+.scroller { overflow-x: auto; border: 1px solid var(--line); background: var(--surface); }
+
+table { border-collapse: collapse; width: 100%; min-width: 44rem; font-size: 0.88rem; }
+thead th {
+  text-align: left;
+  font-family: var(--f-mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-weight: 500;
+  color: var(--faint);
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--line2);
+  white-space: nowrap;
+  background: var(--surface2);
+}
+tbody td { padding: 0.8rem 1rem; border-bottom: 1px solid var(--line); vertical-align: top; color: var(--ink2); }
+tbody tr:last-child td { border-bottom: none; }
+tbody th {
+  text-align: left;
+  padding: 0.8rem 1rem;
+  border-bottom: 1px solid var(--line);
+  vertical-align: top;
+  font-weight: 600;
+  color: var(--ink);
+  white-space: nowrap;
+}
+tbody tr:last-child th { border-bottom: none; }
+td small { display: block; color: var(--faint); font-size: 0.92em; margin-top: 0.2rem; }
+
+/* ---------- pills ---------- */
+
+.pill {
+  display: inline-block;
+  font-family: var(--f-mono);
+  font-size: 0.63rem;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  padding: 0.2rem 0.5rem;
+  border: 1px solid var(--line2);
+  color: var(--muted);
+  white-space: nowrap;
+}
+.pill.mvp { border-color: var(--accent); color: var(--accent); background: var(--accent-soft); }
+.pill.free { border-color: var(--ok); color: var(--ok); background: var(--ok-soft); }
+.pill.stop { border-color: var(--stop); color: var(--stop); background: var(--stop-soft); }
+
+/* ---------- phases ---------- */
+
+.phases { display: flex; flex-direction: column; gap: 0; border-top: 1px solid var(--line); }
+.phase {
+  display: grid;
+  grid-template-columns: 3.4rem 1fr;
+  gap: 0 1.4rem;
+  padding: 1.5rem 0;
+  border-bottom: 1px solid var(--line);
+}
+.phase-num {
+  font-family: var(--f-display);
+  font-size: 2.1rem;
+  line-height: 1;
+  color: var(--accent);
+  font-weight: 300;
+  font-variant-numeric: tabular-nums;
+}
+.phase-body { display: flex; flex-direction: column; gap: 0.7rem; max-width: 40rem; }
+.phase-body h3 { font-family: var(--f-display); font-size: 1.3rem; font-weight: 500; line-height: 1.2; }
+.phase-body .goal { font-family: var(--f-mono); font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--faint); }
+
+/* ---------- metric row ---------- */
+
+.metrics { display: grid; grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr)); gap: 1px; background: var(--line); border: 1px solid var(--line); }
+.metric { background: var(--surface); padding: 1.1rem 1.2rem; display: flex; flex-direction: column; gap: 0.35rem; }
+.metric b { font-family: var(--f-display); font-size: 1.9rem; font-weight: 400; line-height: 1; color: var(--accent); font-variant-numeric: tabular-nums; }
+.metric span { font-size: 0.85rem; color: var(--muted); line-height: 1.4; }
+
+/* ---------- two column split ---------- */
+
+.split { display: grid; grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr)); gap: 1.75rem 2.5rem; }
+.split > div { display: flex; flex-direction: column; gap: 0.6rem; }
+
+/* ---------- closing ---------- */
+
+.close { border-top: 1px solid var(--line2); padding-top: 1.6rem; display: flex; flex-direction: column; gap: 0.8rem; }
+.close p { font-family: var(--f-display); font-size: 1.15rem; font-style: italic; color: var(--muted); max-width: 30rem; }
+
+@media (max-width: 560px) {
+  body { font-size: 16px; }
+  .phase { grid-template-columns: 2.4rem 1fr; gap: 0 1rem; }
+  .phase-num { font-size: 1.6rem; }
+}
+</style>
+
+<div class="page">
+
+  <header class="mast">
+    <div class="mast-rule"></div>
+    <h1 class="wordmark">Lam<em>pada</em></h1>
+    <p class="tagline">Стих Писания на каждом экране телефона. Не приложение для чтения, а слой поверх устройства.</p>
+    <p class="verse">Светильник ноге моей — слово Твоё и свет стезе моей.<span>Пс 118:105 · откуда имя</span></p>
+    <div class="meta">
+      <span>Документ <b>Продуктовая спецификация</b></span>
+      <span>Версия <b>0.5</b></span>
+      <span>Дата <b>30.08.2026</b></span>
+      <span>Платформа <b>iOS 17+, затем Android</b></span>
+      <span>Релиз <b>V1.0</b></span>
+    </div>
+  </header>
+
+  <nav class="toc" aria-label="Содержание">
+    <a href="#concept"><i>01</i> Концепция</a>
+    <a href="#audience"><i>02</i> Задача пользователя</a>
+    <a href="#corpus"><i>03</i> Корпус</a>
+    <a href="#surfaces"><i>04</i> Карта поверхностей</a>
+    <a href="#engine"><i>05</i> Движок выдачи</a>
+    <a href="#languages"><i>06</i> Языки</a>
+    <a href="#arch"><i>07</i> Архитектура</a>
+    <a href="#design"><i>08</i> Оформление</a>
+    <a href="#money"><i>09</i> Монетизация</a>
+    <a href="#growth"><i>10</i> Рост</a>
+    <a href="#no"><i>11</i> Чего не делаем</a>
+    <a href="#releases"><i>12</i> Релизы</a>
+    <a href="#metrics"><i>13</i> Метрики</a>
+    <a href="#risks"><i>14</i> Риски и проверки</a>
+  </nav>
+
+  <!-- 01 -->
+  <section id="concept">
+    <div class="eyebrow">01 · Концепция</div>
+    <h2>Продукт живёт снаружи приложения</h2>
+    <div class="col">
+      <p class="lead">Lampada — не читалка Библии. Это слой, который размещает стих там, где человек и так смотрит: экран блокировки, рабочий стол, часы, телефон на зарядке ночью. Само приложение — пульт управления, и после настройки открывается редко.</p>
+      <p>Это осознанное решение, а не недоработка. Оно определяет всё остальное: метрику, онбординг, границу пейволла и архитектуру.</p>
+    </div>
+
+    <div class="note">
+      <div class="eyebrow">Главный принцип</div>
+      <p><strong>Удержание строится через встроенность, а не через привычку.</strong> Пользователь с одним виджетом уходит за две недели. Пользователь, у которого стих стоит на локскрине, домашнем экране, часах и в StandBy, не удалит приложение — удаление сломает ему четыре места в телефоне сразу.</p>
+      <p>Отсюда северная звезда: <strong>среднее число активированных поверхностей на пользователя</strong>. Онбординг существует ради одной цели — довести до второй поверхности в первой сессии.</p>
+    </div>
+
+    <div class="col">
+      <h3>Два слоя позиционирования</h3>
+      <p><strong>База — виджет со стихом везде, где на телефоне помещается строка.</strong> Это то, чем приложение является. По базе человек узнаёт категорию и решает, скачивать ли вообще.</p>
+      <p><strong>УТП — «пауза перед лентой».</strong> Стих встречает в тот момент, когда открываешь соцсеть. Это то, из-за чего выбирают нас, а не соседнее приложение из выдачи.</p>
+      <p>Функция необязательная и по умолчанию выключена, но <strong>предлагается прямо на онбординге одним касанием</strong>, поэтому обычная беда фич на быстрых командах — о них никто не узнаёт — здесь не возникает. Порядок в онбординге: сначала виджет (база, всем), следом пауза перед лентой (УТП, кому нужно).</p>
+    </div>
+
+    <div class="note">
+      <div class="eyebrow">Чем это отличается от того, что уже есть на рынке</div>
+      <p>Ближайший конкурент, Heavenly, предлагает <em>замещение</em>: листай Библию у нас вместо соцсети. Это требует от человека самому решить открыть их приложение — а именно такого решения в момент срыва он и не принимает.</p>
+      <p>У нас <em>перехват</em>: система показывает стих там, куда человек уже пошёл, без всякого решения с его стороны. Разница между «предлагаем альтернативу» и «встречаем в нужный момент» — и это единственная часть набора, которую нельзя повторить без системной интеграции.</p>
+    </div>
+  </section>
+
+  <!-- 02 -->
+  <section id="audience">
+    <div class="eyebrow">02 · Задача пользователя</div>
+    <h2>Поведение уже существует, просто обслуживается руками</h2>
+    <div class="col">
+      <p>Миллионы людей ищут в Pinterest картинку со стихом, сохраняют её, ставят на обои и через неделю меняют. Мы не создаём новую привычку, а автоматизируем существующую — задача принципиально легче.</p>
+      <p><em class="q">Когда я беру телефон десятки раз в день, я хочу, чтобы он напоминал мне о вере, а не только о делах — и чтобы это выглядело красиво, а не как церковная брошюра.</em></p>
+      <h3>Три мотива, по убыванию силы</h3>
+      <ul class="dash">
+        <li><strong>Напоминание.</strong> Держать веру в поле зрения в течение дня без отдельного ритуала.</li>
+        <li><strong>Эстетика и самовыражение.</strong> Телефон как личное пространство; красивый экран — форма тихого исповедания.</li>
+        <li><strong>Утешение по запросу.</strong> В тревоге, потере, перед трудным разговором — найти нужные слова быстро.</li>
+      </ul>
+      <p>Мы <strong>не</strong> обслуживаем задачу «систематически изучать Писание» — это YouVersion, и там мы не выиграем.</p>
+    </div>
+  </section>
+
+  <!-- 03 -->
+  <section id="corpus">
+    <div class="eyebrow">03 · Корпус</div>
+    <h2>Одно приложение, одна тема: Библия</h2>
+    <div class="col">
+      <p>Рассматривались три корпуса: Писание, античные стоики и цитаты известных людей. Выбрана Библия по трём причинам, в порядке убывания веса.</p>
+      <ul class="dash">
+        <li><strong>Единственный корпус, который выполняет ограничение по языкам без бюджета на перевод.</strong> Стоики свободно доступны только в европейских языках и упираются в стену на турецком, корейском, индонезийском. Библия переведена везде, и значительная часть переводов свободна.</li>
+        <li><strong>Длина.</strong> Стих Писания в среднем помещается в прямоугольный виджет локскрина — две короткие строки. Абзац Марка Аврелия не помещается физически. Главная поверхность продукта лучше подходит под Библию.</li>
+        <li><strong>Спрос виден невооружённым глазом.</strong> Массового бытового поведения «ставлю Сенеку на обои» не существует, а со стихами оно есть.</li>
+      </ul>
+      <p>Цитаты известных людей отвергнуты отдельно: копирайт на тексты XX века, право на имя и образ в ряде юрисдикций, огромная доля ложных атрибуций, и — главное — афоризмы требуют дорогого литературного перевода на каждый язык, то есть ломают основное ограничение проекта.</p>
+    </div>
+  </section>
+
+  <!-- 04 -->
+  <section id="surfaces">
+    <div class="eyebrow">04 · Карта поверхностей</div>
+    <h2>Везде, где на телефоне помещается строка</h2>
+    <div class="col">
+      <p>Ядро продукта. В V1.0 входят почти все поверхности сразу — решение принято сознательно: продукт продаётся именно широтой размещения, и урезанный набор в первом релизе не показал бы главного.</p>
+    </div>
+
+    <div class="note">
+      <div class="eyebrow">Почему такой объём V1.0 подъёмен</div>
+      <p>Пять «дорогих» на вид поверхностей — интерактивный виджет, Пункт управления, шорткат для соцсетей, Focus-фильтры и Siri — <strong>стоят на одном фундаменте App Intents</strong>. Построив его один раз ради интерактивного виджета, остальные четыре получаешь с небольшой доплатой.</p>
+      <p>Настоящая добавленная стоимость была одна — <strong>Apple Watch</strong> с отдельным таргетом, своей сборкой и профилями. <strong>Она перенесена в V2.0</strong>, и после этого весь V1.0 умещается в один таргет приложения плюс расширения, которые делят общее ядро.</p>
+    </div>
+
+    <div class="scroller">
+      <table>
+        <thead>
+          <tr><th>Поверхность</th><th>Приоритет</th><th>Что показывает</th><th>Инженерные заметки</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th>Домашний экран</th>
+            <td><span class="pill mvp">V1.0</span></td>
+            <td>Стих дня, три размера: 2×2, 4×2, 4×4</td>
+            <td>Базовая поверхность, с неё начинают все. WidgetKit, ограниченный бюджет обновлений в сутки.</td>
+          </tr>
+          <tr>
+            <th>Экран блокировки</th>
+            <td><span class="pill mvp">V1.0</span></td>
+            <td>Прямоугольный и инлайн-виджет; круглый — иконка-ярлык</td>
+            <td><strong>Вмещает ~2 короткие строки.</strong> Требует отдельного поля «короткая форма» в корпусе. Ключевое ограничение всего контента.</td>
+          </tr>
+          <tr>
+            <th>StandBy</th>
+            <td><span class="pill mvp">V1.0</span></td>
+            <td>Крупный стих в альбомной ориентации</td>
+            <td>Телефон на зарядке = прикроватный дисплей. Последнее перед сном и первое утром — самая органичная поверхность. Свой дизайн, не растянутый виджет.</td>
+          </tr>
+          <tr>
+            <th>Обои через Photo&nbsp;Shuffle</th>
+            <td><span class="pill mvp">V1.0</span></td>
+            <td>Пачка сгенерированных картинок в Фото</td>
+            <td>Приложение пишет ~30 изображений, пользователь один раз выбирает их в системных обоях с частотой «раз в день». Дальше ротация идёт средствами iOS. <strong>Самая сильная фича списка.</strong></td>
+          </tr>
+          <tr>
+            <th>Уведомление</th>
+            <td><span class="pill">v2.0</span></td>
+            <td>Стих дня в заданное время</td>
+            <td>Перенесено из V1.0. Локальные уведомления упираются в лимит iOS — <strong>64 запланированных на приложение</strong>, то есть около двух месяцев запаса при одном в день. Пополнить очередь может только работающее приложение, а продукт спроектирован так, чтобы его не открывали: у идеального пользователя уведомления кончатся молча на 64-й день. До релиза нужно решить, чем пополнять — расширением виджета, фоновым обновлением или одним повторяющимся уведомлением как страховкой.</td>
+          </tr>
+          <tr>
+            <th>Шеринг-карточка</th>
+            <td><span class="pill mvp">V1.0</span></td>
+            <td>Сторис 9:16, квадрат 1:1, статус WhatsApp</td>
+            <td>Основной органический канал. <strong>Без водяного знака и на бесплатном тарифе</strong> — карточка должна выглядеть как личное, а не как реклама, иначе ею не делятся.</td>
+          </tr>
+          <tr>
+            <th>Mac и iPad</th>
+            <td><span class="pill mvp">V1.0</span></td>
+            <td>Тот же виджет на рабочем столе macOS</td>
+            <td>Достаётся <strong>бесплатно</strong> через Continuity, если виджет сделан. Отдельной разработки не требует.</td>
+          </tr>
+          <tr>
+            <th>Apple Watch</th>
+            <td><span class="pill">v2.0</span></td>
+            <td>Компликация на циферблате, виджет в Smart Stack</td>
+            <td>Перенесено из V1.0. Самая частая поверхность вообще — десятки взглядов в день, — но это отдельный таргет со своей сборкой и профилями, и единственный блок, который снимался с релиза без переделки остального. Снят сознательно, чтобы не растягивать срок V1.0.</td>
+          </tr>
+          <tr>
+            <th>Интерактивный виджет</th>
+            <td><span class="pill mvp">V1.0</span></td>
+            <td>Тап прямо в виджете: сохранить, следующий</td>
+            <td>iOS 17+. Превращает виджет из плаката в продукт. Следить за бюджетом перезагрузок таймлайна.</td>
+          </tr>
+          <tr>
+            <th>Пункт управления</th>
+            <td><span class="pill mvp">V1.0</span></td>
+            <td>Кнопка «стих сейчас»</td>
+            <td>Требует iOS 18 — единственная поверхность выше базовой планки, гейтится по версии. Остальное работает с iOS 17.</td>
+          </tr>
+          <tr>
+            <th>Стих перед соцсетью</th>
+            <td><span class="pill mvp">V1.0</span></td>
+            <td>Автоматизация Shortcuts на открытие приложения</td>
+            <td><strong>УТП продукта.</strong> Открываешь Instagram — сначала видишь стих. Готовый шорткат ставится в один тап прямо на онбординге. Единственная поверхность, где стих появляется не там, где красиво, а там, где нужен — и единственная, которую нельзя повторить без системной интеграции.</td>
+          </tr>
+          <tr>
+            <th>Siri и Spotlight</th>
+            <td><span class="pill mvp">V1.0</span></td>
+            <td>«Стих дня» голосом, App Intents</td>
+            <td>Побочный продукт: App Intents уже построены ради интерактивного виджета и контролов, Siri достаётся почти даром.</td>
+          </tr>
+          <tr>
+            <th>Focus-фильтры</th>
+            <td><span class="pill mvp">V1.0</span></td>
+            <td>Разные темы под разные режимы</td>
+            <td>В «Сне» — про покой, в «Работе» — про труд и терпение.</td>
+          </tr>
+          <tr>
+            <th>iMessage и клавиатура</th>
+            <td><span class="pill">v1.1</span></td>
+            <td>Стикеры и вставка стиха в любой чат</td>
+            <td>Нишево, но буквально «везде».</td>
+          </tr>
+          <tr>
+            <th>Vision Pro</th>
+            <td><span class="pill">позже</span></td>
+            <td>Виджет, закреплённый на стене</td>
+            <td>Рано по объёму рынка, но хорошая строчка в питче.</td>
+          </tr>
+          <tr>
+            <th>Live Activities</th>
+            <td><span class="pill stop">не делаем</span></td>
+            <td>—</td>
+            <td>Предназначены для событий, ограничены по времени. <strong>Такое отклоняют на ревью.</strong> Потеря недели и реджект.</td>
+          </tr>
+          <tr>
+            <th>CarPlay</th>
+            <td><span class="pill stop">не делаем</span></td>
+            <td>—</td>
+            <td>Чтение за рулём. Apple не пропустит и будет права.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="note">
+      <div class="eyebrow">Android, на будущее</div>
+      <p>У Android есть то, чего нет у iOS: настоящие живые обои, которые меняют стих сами, без обходного манёвра через Photo Shuffle. Это будет главным аргументом второй платформы. Виджеты — Glance; часы — тайлы Wear OS.</p>
+    </div>
+  </section>
+
+  <!-- 05 -->
+  <section id="engine">
+    <div class="eyebrow">05 · Движок выдачи</div>
+    <h2>Детерминированный выбор без единого запроса</h2>
+    <div class="col">
+      <p>Индекс стиха вычисляется на устройстве: <strong>хеш от даты, языка, корпуса и режима — по модулю размера выборки</strong>. Ноль сетевых запросов, работает офлайн, виджет никогда не показывает спиннер или пустоту.</p>
+      <p>Побочный эффект, который стоит использовать: если убрать пользовательский сид, все, у кого выбран этот язык, видят сегодня <strong>один и тот же стих</strong>. Шеринг перестаёт быть «смотри, картинка» и становится «сегодня у всех вот это». Стоит ноль.</p>
+    </div>
+
+    <div class="split">
+      <div>
+        <h3>Режимы ротации</h3>
+        <ul class="dash">
+          <li><strong>По дню</strong> — одна цитата на сутки. Дефолт.</li>
+          <li><strong>По обновлению виджета</strong> — учитывать бюджет WidgetKit; «каждый час» честно не сделать.</li>
+          <li><strong>По тапу</strong> — iOS 17+, интерактивный виджет.</li>
+          <li><strong>Последовательно</strong> — «день 47 из 366», тяга к завершению без единой буквы от пользователя.</li>
+        </ul>
+      </div>
+      <div>
+        <h3>Темы — состояния, а не ярлыки</h3>
+        <p>Не «мотивирующие» и «вдохновляющие» — это пустые слова. Состояния: <strong>тревога, потеря, благодарность, прощение, начало дела, бессонница, сомнение, благодарение</strong>.</p>
+        <p>Пользователь выбирает одну-две, корпус фильтруется. Побочная выгода: это готовые ASO-запросы на каждом языке.</p>
+      </div>
+    </div>
+
+    <div class="col">
+      <h3>Строка контекста</h3>
+      <p>Под стихом — до тридцати слов о том, кто говорит и при каких обстоятельствах. Не толкование. Снимает главную содержательную претензию к жанру «стих дня» — выдёргивание из контекста — и стоит почти ничего. В виджете скрыта, раскрывается по тапу: это же и есть повод открыть приложение.</p>
+    </div>
+  </section>
+
+  <!-- 06 -->
+  <section id="languages">
+    <div class="eyebrow">06 · Языки</div>
+    <h2>Пять на старте, отобранных по правам, а не по размеру</h2>
+    <div class="col">
+      <p>Критерии: свободный перевод <strong>приличного качества</strong>, реальные деньги в сторе, тонкая конкуренция, разумная стоимость поддержки. «Топ-5 по числу христиан» — неправильный список.</p>
+    </div>
+
+    <div class="scroller">
+      <table>
+        <thead>
+          <tr><th>Язык</th><th>Перевод</th><th>Права</th><th>Зачем в списке</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th>English</th>
+            <td>World English Bible<small>Не KJV: у него в Британии до сих пор Crown copyright, и язык XVII века</small></td>
+            <td><span class="pill free">свободен</span></td>
+            <td>Витрина, фолбэк, англоязычные сторы Нигерии, Кении, Филиппин, Индии. WEB сознательно выпущен в public domain и написан современным языком. <small>За топ выдачи здесь не боремся — слишком конкурентно.</small></td>
+          </tr>
+          <tr>
+            <th>Español</th>
+            <td>Reina-Valera 1909<small>RV1960 — права Объединённых библейских обществ</small></td>
+            <td><span class="pill free">свободен</span></td>
+            <td>Второй христианский язык мира. Мексика и Колумбия дают объём, Испания, Чили и латиноамериканцы в США — деньги. Архаичный регистр здесь не отталкивает: он звучит как «настоящая Библия».</td>
+          </tr>
+          <tr>
+            <th>Français</th>
+            <td>Louis Segond 1910</td>
+            <td><span class="pill free">свободен</span></td>
+            <td>Лучшее соотношение качества бесплатного текста к рынку: Segond остаётся действующим стандартом, а не архаичным компромиссом. Франция, Квебек, Бельгия, Швейцария платят; франкофонная Африка даёт объём.</td>
+          </tr>
+          <tr>
+            <th>Deutsch</th>
+            <td>Luther 1912<small>Luther 2017 — права Немецкого библейского общества</small></td>
+            <td><span class="pill free">свободен</span></td>
+            <td>Второй якорь по платёжеспособности, локализованных девоционных виджетов почти нет. Минус: секулярный рынок и заметно архаичный текст.</td>
+          </tr>
+          <tr>
+            <th>Русский</th>
+            <td>Синодальный перевод</td>
+            <td><span class="pill free">свободен</span></td>
+            <td>Единственный язык набора, который команда вычитывает своими силами — корпус, короткие формы, отзывы. Это экономит реальные деньги на QA и даёт возможность отладить редакторский процесс на понятном языке, прежде чем повторять его на остальных. <small><strong>Не рассчитывать на выручку:</strong> платежи в российском App Store не работают с 2022 года. Деньги — только диаспора: Германия, Израиль, США, Казахстан, Балтия.</small></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="split">
+      <div>
+        <h3>Первый в очереди — португальский</h3>
+        <p><strong>Бразилия — крупнейшая потеря этого набора, и её надо вернуть в V1.1.</strong> Там культура ежедневного шеринга религиозного контента в статусах WhatsApp, то есть генератор карточек работает как основной канал роста. Ни один язык из пятёрки такого не даёт.</p>
+        <p>Задержка обоснована: современные ARC и ACF принадлежат библейским обществам, свободны только старые редакции Алмейды и проект Bíblia Livre. Права проверяются отдельно и не должны держать релиз.</p>
+        <h3>Дальше</h3>
+        <ul class="dash">
+          <li><strong>Polski</strong> — высокая религиозная практика, EU-цены, нулевая конкуренция. Упирается в лицензию UBG: Тысячелетия и Варшавская под правами, свободна лишь Гданьская 1632 года.</li>
+          <li><strong>Italiano, Română, Tagalog, Bahasa Indonesia</strong> — после подтверждения петли.</li>
+          <li><strong>한국어</strong> — треть населения христиане и отлично платят, но основной перевод принадлежит Корейскому библейскому обществу. Отложить.</li>
+        </ul>
+      </div>
+      <div>
+        <h3>Что даёт этот набор</h3>
+        <p><strong>Ни одного блокера по правам.</strong> WEB, Reina-Valera 1909, Segond 1910, Luther 1912 и Синодальный — все пять текстов свободны и проверяемы за вечер. Единственная неопределённость набора (редакция Алмейды) вынесена за пределы релиза, и критический путь V1.0 больше не зависит от юридических выяснений.</p>
+        <p>Обратная сторона: <strong>четыре из пяти языков — Европа и США</strong>, а два (немецкий и русский) слабы по разным причинам — секулярность и неработающие платежи. Реальную выручку V1.0 несут английский, испанский и французский.</p>
+        <h3>Что не бесплатно даже при свободном тексте</h3>
+        <ul class="dash">
+          <li>Отбор короткой формы под локскрин: длина стиха гуляет между языками, немецкий длиннее английского примерно на треть.</li>
+          <li>Скриншоты и описание в сторе — пять комплектов. Единственное место, куда я бы точно вложил деньги.</li>
+          <li>Ответы на отзывы на пяти языках. Заготовить шаблоны заранее.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 07 -->
+  <section id="arch">
+    <div class="eyebrow">07 · Архитектура</div>
+    <h2>Бэкенда почти нет, и это правильно</h2>
+
+    <div class="note">
+      <div class="eyebrow">Решение, определяющее стоимость языков</div>
+      <p><strong>Размечать по ссылке, а не по тексту.</strong> Ин 3:16 — это Ин 3:16 в любом переводе мира. Вся кураторская работа — темы, отбор коротких стихов, подборки, последовательности — делается один раз на уровне ссылок, а перевод подставляется отдельным слоем.</p>
+      <p>Без этого каждый новый язык будет стоить как первый: десять тысяч стихов придётся тегировать заново.</p>
+    </div>
+
+    <div class="split">
+      <div>
+        <h3>Данные</h3>
+        <ul class="dash">
+          <li>Корпус — текстовый файл в бандле либо языковой пак, скачиваемый один раз при выборе языка. Порядок величины — единицы мегабайт.</li>
+          <li>Раздача паков — статикой на бесплатном CDN или прямо в релизах App Store. <strong>Не через Firebase Hosting:</strong> там скромный дневной лимит трафика.</li>
+          <li>Никаких аккаунтов и регистрации. Записей нет, синхронизировать нечего; регистрация стоила бы 20–30% воронки. Покупки восстанавливаются через Apple ID.</li>
+        </ul>
+      </div>
+      <div>
+        <h3>Техническая база</h3>
+        <ul class="dash">
+          <li><strong>Минимум iOS 17.</strong> Его требуют StandBy и интерактивные виджеты — обе в V1.0. Пункт управления требует iOS 18 и гейтится по версии, остальное работает с 17.</li>
+          <li><strong>App Intents — общий фундамент</strong> для интерактивного виджета, Пункта управления, Siri, шортката и Focus-фильтров. Проектировать сразу как один слой намерений, а не пять отдельных интеграций.</li>
+          <li>Apple Watch перенесён в V2.0 — это был единственный блок, который снимался без переделки остального, и его сняли.</li>
+        </ul>
+      </div>
+      <div>
+        <h3>Что делает Firebase (Spark)</h3>
+        <ul class="dash">
+          <li><strong>Remote Config</strong> — флаги, конфигурация пейволла, версия манифеста контента.</li>
+          <li><strong>Analytics и Crashlytics</strong> — бесплатно, без лимитов.</li>
+          <li><strong>Firestore</strong> — только манифест обновлений, чтение раз в неделю. Порядка четырёх чтений на пользователя в месяц против дневного лимита в десятки тысяч: упереться невозможно.</li>
+          <li>Cloud Functions не нужны — и это удачно, они давно требуют привязки биллинга.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 08 -->
+  <section id="design">
+    <div class="eyebrow">08 · Оформление</div>
+    <h2>Раз текст бесплатный, отличие целиком в оболочке</h2>
+    <div class="col">
+      <p>Свободный перевод есть у всех, кто захочет. Значит защищаемость продукта — не в тексте, а в отборе, ритме подачи и дизайне. Это надо принять целиком, а не наполовину.</p>
+      <p><strong>Только градиенты и типографика, никаких фотографий.</strong> Фото — это гигабайты трафика, лицензии на стоки и мгновенный вид дешёвого клона. Хороший градиент с точной типографикой выглядит дороже стокового заката и весит ноль.</p>
+      <h3>Что входит в стиль</h3>
+      <ul class="dash">
+        <li>Шрифтовые пары, палитры, зерно и текстура бумаги, рамки.</li>
+        <li>Вертикальные и горизонтальные композиции под разные поверхности.</li>
+        <li>Свой размер шрифта, прозрачность подложки, автоподбор палитры под текущие обои телефона.</li>
+      </ul>
+      <p>Ключевое свойство: <strong>у визуала нулевая стоимость локализации</strong>. Один пак продаётся во всех пяти языках без единого переведённого слова. Это единственная часть продукта, масштабирующаяся линейно.</p>
+    </div>
+  </section>
+
+  <!-- 09 -->
+  <section id="money">
+    <div class="eyebrow">09 · Монетизация</div>
+    <h2>Платят за поверхности и оформление, не за Писание</h2>
+    <div class="col">
+      <p>Доступ к тексту всегда бесплатный. Платный доступ к Писанию вызовет волну одноздёздочных отзывов на всех языках сразу, а рынок уже приучен бесплатным YouVersion.</p>
+    </div>
+
+    <div class="scroller">
+      <table>
+        <thead>
+          <tr><th>Тариф</th><th>Что входит</th><th>Логика</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th>Бесплатно</th>
+            <td>Домашний виджет, <strong>виджет на экране блокировки</strong>, стих дня, интерактивность, Пункт управления, шорткат для соцсетей, Focus-фильтры, три стиля, <strong>шеринг без водяного знака</strong></td>
+            <td>Щедро и осознанно. Локскрин — самая заметная поверхность: чужой телефон с красивым стихом сам вызывает вопрос «что за приложение?». А карточка без водяного знака выглядит как что-то своё, а не как реклама, и ею делятся охотнее.</td>
+          </tr>
+          <tr>
+            <th>Год<br><span class="pill mvp">основной оффер</span></th>
+            <td>StandBy, обои-пачки под Photo&nbsp;Shuffle, все стили и палитры, темы состояний</td>
+            <td><strong>$24.99/год, первые 7 дней бесплатно.</strong> Дефолт на пейволле. Триал вешаем только на годовой: план, который хотим продать, становится единственным «бесплатным» (Moonly, +39%), а сам триал удваивает конверсию против «купить сразу» (PDF Scanner, ×2).</td>
+          </tr>
+          <tr>
+            <th>Месяц</th>
+            <td>То же</td>
+            <td><strong>$5.99/мес</strong>, без триала. Для тех, кто не готов к году; заодно делает «−65%» на годовом честной цифрой.</td>
+          </tr>
+          <tr>
+            <th>Неделя</th>
+            <td>То же</td>
+            <td><strong>$2.99/нед</strong>, без триала. Низкий порог для рынков со слабым проникновением подписок и для «попробовать на выходных». Под наблюдением: если отъедает у годового — уберём с онбординга.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="note">
+      <div class="eyebrow">Граница пейволла</div>
+      <p>Линия проходит так: <strong>бесплатно — всё, что человек показывает другим; платно — всё, что он настраивает под себя.</strong> Домашний экран, локскрин и шеринг видны окружающим и работают на нас как витрина. StandBy, обои и палитры видит в основном он сам — это и есть предмет покупки.</p>
+      <p><strong>Напоминаний в V1.0 нет.</strong> Ни ежедневного уведомления (ушло в V2.0 вместе с бэкендом), ни «напомнить позже» на пейволле — вместо него «Не сейчас», а дорога назад к покупке лежит через карточку в настройках. Единственное напоминание, которое получит пользователь, — письмо от Apple перед концом пробного периода.</p>
+      <p>Осознанный размен: щедрый бесплатный тариф понижает конверсию, но повышает охват. Значит <strong>вся нагрузка по деньгам ложится на эстетику и на две личные поверхности</strong>, и проверять надо именно готовность платить за оформление. Разовых паков и lifetime нет — одна подписка в трёх длительностях, никакой лоскутности.</p>
+      <p><strong>Рекламы нет.</strong> На девоционной поверхности она разрушает доверие быстрее, чем приносит деньги.</p>
+    </div>
+
+    <div class="note">
+      <div class="eyebrow">Как устроен пейволл</div>
+      <p>Собран по восьми A/B-тестам, в дизайне это экраны ОБ2 · 05–08.</p>
+      <ul class="dash">
+        <li><strong>Экран «почему» перед пейволлом</strong> (Opal, +143%): «В этом году ты возьмёшь телефон 35 000 раз — сколько из них начнутся со Слова?»</li>
+        <li><strong>Эмоция вместо списка выгод</strong> (Neos Kosmos, +16%): «Пусть светильник не гаснет», подписка — масло в светильнике. Функции — сеткой иконок, совпавшие с ответами онбординга горят.</li>
+        <li><strong>Кнопка называет триал, а не покупку</strong> (TIPSTOP, +190%): «Начать 7 дней бесплатно», сразу под ней «потом $24.99 в год, отменить можно в любой момент», бейдж −65% на годовом.</li>
+        <li><strong>«Как работает пробный период»</strong> (Blinkist, +23%): поп-ап с таймлайном Сегодня → накануне (письмо от Apple) → День 7 и блоком «Как отменить». Своих уведомлений в V1.0 нет, поэтому напоминание — только штатное от Apple.</li>
+        <li><strong>Пандус, а не стена</strong> (Slopes, +25%): карточка «Забрать бесплатную неделю» в настройках для тех, кто закрыл пейволл; «Напомнить позже» вместо тупика (TikTok).</li>
+      </ul>
+      <p><strong>Lifetime пока не выпускаем.</strong> Триала на разовой покупке у Apple не бывает, а вся выборка показывает триал главным рычагом. Если в отзывах пойдёт запрос «дайте купить навсегда» — вернём как win-back-оффер, не как дефолт.</p>
+    </div>
+  </section>
+
+  <!-- 10 -->
+  <section id="growth">
+    <div class="eyebrow">10 · Рост</div>
+    <h2>Шеринг и локализованная витрина</h2>
+    <div class="split">
+      <div>
+        <h3>Органика</h3>
+        <ul class="dash">
+          <li><strong>Карточки для сторис и статусов — бесплатно и без водяного знака.</strong> Главный канал; в стартовом наборе языков сильнее всего работает в Мексике, Колумбии, Испании и франкофонной Африке. Делятся на родном языке, поэтому виральность сама разносит продукт по географиям.</li>
+          <li><strong>Бесплатный локскрин как витрина.</strong> Самая заметная чужому глазу поверхность. Отдав её даром, мы превращаем каждого пользователя в постоянную рекламу — это и есть плата за пониженную конверсию.</li>
+          <li><strong>Общий стих дня</strong> как повод поделиться: не картинка, а «сегодня у всех вот это».</li>
+          <li><strong>Возврат португальского в V1.1</strong> — сильнейший рычаг роста, доступный после релиза. Бразильская культура шеринга в статусах WhatsApp не имеет аналога среди стартовых пяти языков.</li>
+        </ul>
+      </div>
+      <div>
+        <h3>Витрина</h3>
+        <ul class="dash">
+          <li>Пять локализованных комплектов метаданных; темы состояний дают готовые ключевые запросы.</li>
+          <li><strong>Кастомные страницы продукта</strong> — до 35 штук с разными скриншотами под разные кампании и сегменты.</li>
+          <li>Скриншоты решают конверсию в установку сильнее всего остального. Здесь экономить нельзя.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 11 -->
+  <section id="no">
+    <div class="eyebrow">11 · Границы</div>
+    <h2>Чего мы сознательно не делаем</h2>
+    <div class="scroller">
+      <table>
+        <thead><tr><th>Не делаем</th><th>Почему</th></tr></thead>
+        <tbody>
+          <tr><th>ИИ-подбор стиха под настроение</th><td>Делают все подряд, отличия не даёт, стоит денег на инференс, и в случае Писания ещё и богословски скользко.</td></tr>
+          <tr><th>Чат с ИИ-наставником</th><td>Другой продукт, другая экономика, другой риск. Не смешивать.</td></tr>
+          <tr><th>Аудио и озвучка</th><td>TTS на пяти языках — счёт, который вырастет раньше выручки. Вернуться после первых денег.</td></tr>
+          <tr><th>Дневник и заметки</th><td>Решение принято: записей нет. Убирает главный ретеншен-механизм, взамен работают поверхности, прогресс по корпусу и сохранённое.</td></tr>
+          <tr><th>Аккаунты и регистрация</th><td>Синхронизировать нечего, а воронка теряет 20–30%.</td></tr>
+          <tr><th>Лента, комментарии, сообщество</th><td>Модерация на пяти языках убьёт команду из одного человека.</td></tr>
+          <tr><th>Реклама</th><td>Разрушает доверие на девоционной поверхности.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- 12 -->
+  <section id="releases">
+    <div class="eyebrow">12 · Релизы</div>
+    <h2>Сначала доказать петлю, потом открывать клетки</h2>
+    <div class="col">
+      <p>V1.0 сознательно широкий: продукт продаётся охватом поверхностей, и половинчатый первый релиз не показал бы сути. Расплата — срок, поэтому порядок работ внутри V1.0 имеет значение.</p>
+    </div>
+
+    <div class="phases">
+      <div class="phase">
+        <div class="phase-num">01</div>
+        <div class="phase-body">
+          <div class="goal">Цель — подтвердить, что виджет ставят и что за оформление платят</div>
+          <h3>V1.0 — релиз</h3>
+          <p><strong>Поверхности:</strong> домашний виджет трёх размеров, локскрин с короткой формой, StandBy, интерактивный виджет, Пункт управления, шорткат «стих перед соцсетью», Focus-фильтры, Siri, генератор обоев под Photo&nbsp;Shuffle, шеринг-карточка. Mac и iPad — бесплатным приложением к виджету.</p>
+          <p><strong>Контент:</strong> шесть-восемь тем состояний, строка контекста, три бесплатных стиля и двенадцать платных.</p>
+          <p><strong>Языки:</strong> English, Español, Français, Deutsch, Русский.</p>
+          <p><strong>Порядок работ:</strong> сначала корпус с разметкой по ссылкам и короткими формами, затем движок и домашний виджет, затем фундамент App&nbsp;Intents (он раскрывает четыре поверхности сразу), в конце — онбординг и пейволл. Онбординг доводит минимум до двух поверхностей и <strong>отдельным шагом предлагает включить паузу перед лентой</strong>: это УТП, и оно не должно зависеть от того, полезет ли человек в настройки.</p>
+        </div>
+      </div>
+      <div class="phase">
+        <div class="phase-num">02</div>
+        <div class="phase-body">
+          <div class="goal">Цель — вернуть Бразилию и расширить географию</div>
+          <h3>V1.1 — языки и глубина</h3>
+          <p><strong>Португальский</strong> первым приоритетом, как только прояснится редакция Алмейды: это возврат главного канала виральности. Дальше польский, итальянский, румынский.</p>
+          <p>Плюс раздел сохранённого, последовательные планы чтения по книгам, стикеры iMessage.</p>
+        </div>
+      </div>
+      <div class="phase">
+        <div class="phase-num">03</div>
+        <div class="phase-body">
+          <div class="goal">Цель — удержание через отношения</div>
+          <h3>V2.0 — связь и вторая платформа</h3>
+          <p><strong>Виджет для двоих:</strong> один отправляет стих, он появляется на экране другого — муж и жена, мать и взрослый сын. Единственная фича, ради которой Firebase вообще нужен; по нагрузке это одна запись и одно чтение в день на пару, в Spark влезает с тысячекратным запасом.</p>
+          <p><strong>Apple Watch</strong> — перенесён сюда из V1.0: отдельный таргет со своей сборкой и профилями, который не влияет на остальные поверхности. Комплиcация на циферблате и виджет в Smart Stack, только короткая форма.</p>
+          <p><strong>Уведомление о стихе дня</strong> — перенесено сюда из V1.0. Локальные упираются в лимит iOS в 64 запланированных уведомления, а пополнять очередь у приложения, которое не открывают, нечем. Здесь задача решается заодно: раз под виджет для двоих всё равно появляется бэкенд, тихий пуш становится доступен и снимает ограничение целиком.</p>
+          <p>Дальше — приходы (пастор задаёт стих недели всей общине) и Android с его настоящими живыми обоями.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 13 -->
+  <section id="metrics">
+    <div class="eyebrow">13 · Метрики</div>
+    <h2>Считаем поверхности, а не сессии</h2>
+    <div class="metrics">
+      <div class="metric"><b>≥ 2</b><span>Поверхности активированы в первой сессии — определение активации</span></div>
+      <div class="metric"><b>N</b><span>Среднее число поверхностей на пользователя — северная звезда</span></div>
+      <div class="metric"><b>D7</b><span>Удержание <em>виджета</em>, а не открытий приложения</span></div>
+      <div class="metric"><b>%</b><span>Старт триала на онбординге, до первого ухода</span></div>
+      <div class="metric"><b>D7 → $</b><span>Доля триалов, дошедших до списания — настоящая конверсия</span></div>
+      <div class="metric"><b>%</b><span>Доля пользователей, поделившихся карточкой хотя бы раз</span></div>
+      <div class="metric"><b>StandBy</b><span>Доля активировавших платные поверхности — прокси спроса на покупку</span></div>
+      <div class="metric"><b>УТП</b><span>Доля включивших паузу перед лентой на онбординге — проверка главного отличия</span></div>
+    </div>
+    <div class="col">
+      <p>DAU и длительность сессии здесь <strong>не показатели здоровья</strong>. Хороший пользователь этого продукта почти не открывает приложение — и это ровно то, что мы спроектировали.</p>
+    </div>
+  </section>
+
+  <!-- 14 -->
+  <section id="risks">
+    <div class="eyebrow">14 · Риски и проверки</div>
+    <h2>Что проверить до первой строки кода</h2>
+
+    <div class="scroller">
+      <table>
+        <thead><tr><th>Проверка</th><th>Почему блокирует</th><th>Цена ошибки</th></tr></thead>
+        <tbody>
+          <tr><th>Автоматизация Shortcuts на открытие приложения</th><td>Основа фичи «стих перед соцсетью», которая теперь в V1.0</td><td>Теряется самая дифференцирующая поверхность релиза</td></tr>
+          <tr><th>Photo Shuffle: альбом или ручной выбор</th><td>Определяет, сможем ли подкладывать новые пачки автоматически</td><td>Фича из «самой сильной» становится разовой — а она платная</td></tr>
+          <tr><th>Бюджет обновлений WidgetKit</th><td>Определяет, какие режимы ротации можно обещать честно</td><td>Обещание в сторе, которое продукт не выполняет</td></tr>
+          <tr><th>Короткая форма на пяти языках</th><td>Локскрин и часы вмещают ~2 строки; длина стиха гуляет, немецкий длиннее английского примерно на треть</td><td>Обрезанный текст на главной поверхности — худшее, что может случиться с этим продуктом</td></tr>
+          <tr><th>Редакция Алмейды (португальский)</th><td>Нужна для V1.1, но <strong>не блокирует релиз</strong></td><td>Задержка возврата Бразилии</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="split">
+      <div>
+        <h3>Стратегические риски</h3>
+        <ul class="dash">
+          <li><strong>Объём V1.0.</strong> Главный риск теперь не продуктовый, а календарный: релиз включает почти все поверхности и пять языков. Митигация — порядок работ, где App&nbsp;Intents делаются один раз на четыре поверхности, а Watch выносится отдельным блоком, который можно снять с релиза, если поедет срок.</li>
+          <li><strong>Щедрый бесплатный тариф.</strong> Локскрин и шеринг без знака отданы даром, значит конверсия будет ниже, а платить придётся уговаривать одной эстетикой плюс StandBy. Митигация: цена и пейволл показываются на онбординге, пока внимание есть; годовая с 7-дневным триалом как дефолт — триал даёт второй шанс на седьмой день, которого у разовой покупки нет.</li>
+          <li><strong>Ноль сессий — ноль вторых шансов.</strong> Если человек не купил на онбординге, он, скорее всего, не купит никогда: приложение он больше не откроет.</li>
+          <li><strong>YouVersion бесплатен навсегда.</strong> Митигация: мы не читалка. Ниша «сделай телефон красивым и напоминающим» им не занята, их виджет слабый.</li>
+          <li><strong>Архаичность свободных переводов.</strong> В английском решено через WEB, в испанском и русском регистр привычен и воспринимается как норма, в немецком остаётся проблемой.</li>
+        </ul>
+      </div>
+      <div>
+        <h3>Открытые продуктовые вопросы</h3>
+        <ul class="dash">
+          <li>Неделя против года. PDF Scanner показал, что недельная с триалом конвертит лучше месячной; у нас триал только на годовом. Проверить, не отъедает ли дешёвая неделя у года, и не нужен ли короткий триал и на ней.</li>
+          <li>Хватит ли платного набора (StandBy, обои, стили) для приемлемой конверсии, или придётся вернуть за пейволл что-то из бесплатного.</li>
+          <li>Нужен ли выбор перевода внутри языка или хватает одного. Гипотеза: хватает, выбор усложняет онбординг.</li>
+          <li>Как быть с конфессиями. Пока считаем, что для «стиха на экране» деноминация не важна, в отличие от лекционария. Для русского это допущение самое хрупкое: аудитория преимущественно православная, и ожидания к подбору стихов могут отличаться.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="close">
+      <p>Первым делом — корпус: разметка по ссылкам, темы состояний и короткие формы на пяти языках. От него зависят все поверхности сразу, и он же единственная часть работы, которую нельзя ускорить кодом.</p>
+    </div>
+  </section>
+
+</div>

@@ -1,0 +1,959 @@
+{
+  "schema": 1,
+  "canonical": "hebrew",
+  "note": "Каноническая нумерация — еврейская. Синодальный следует греческой.",
+  "sources": {
+    "hebrew": "engwebp (WEB)",
+    "greek": "russyn (Синодальный)"
+  },
+  "table": [
+    {
+      "hebrew": 1,
+      "greek": 1,
+      "verseOffset": 0,
+      "hebrewVerses": 6
+    },
+    {
+      "hebrew": 2,
+      "greek": 2,
+      "verseOffset": 0,
+      "hebrewVerses": 12
+    },
+    {
+      "hebrew": 3,
+      "greek": 3,
+      "verseOffset": 1,
+      "hebrewVerses": 8
+    },
+    {
+      "hebrew": 4,
+      "greek": 4,
+      "verseOffset": 1,
+      "hebrewVerses": 8
+    },
+    {
+      "hebrew": 5,
+      "greek": 5,
+      "verseOffset": 1,
+      "hebrewVerses": 12
+    },
+    {
+      "hebrew": 6,
+      "greek": 6,
+      "verseOffset": 1,
+      "hebrewVerses": 10
+    },
+    {
+      "hebrew": 7,
+      "greek": 7,
+      "verseOffset": 1,
+      "hebrewVerses": 17
+    },
+    {
+      "hebrew": 8,
+      "greek": 8,
+      "verseOffset": 1,
+      "hebrewVerses": 9
+    },
+    {
+      "hebrew": 9,
+      "greek": 9,
+      "verseOffset": 0,
+      "hebrewVerses": 20
+    },
+    {
+      "hebrew": 10,
+      "greek": 9,
+      "verseOffset": 0,
+      "hebrewVerses": 18
+    },
+    {
+      "hebrew": 11,
+      "greek": 10,
+      "verseOffset": 0,
+      "hebrewVerses": 7
+    },
+    {
+      "hebrew": 12,
+      "greek": 11,
+      "verseOffset": 1,
+      "hebrewVerses": 8
+    },
+    {
+      "hebrew": 13,
+      "greek": 12,
+      "verseOffset": 0,
+      "hebrewVerses": 6,
+      "splitVerse": {
+        "1": 2,
+        "2": 3,
+        "3": 4,
+        "4": 5,
+        "5": 6,
+        "6": 6
+      }
+    },
+    {
+      "hebrew": 14,
+      "greek": 13,
+      "verseOffset": 0,
+      "hebrewVerses": 7
+    },
+    {
+      "hebrew": 15,
+      "greek": 14,
+      "verseOffset": 0,
+      "hebrewVerses": 5
+    },
+    {
+      "hebrew": 16,
+      "greek": 15,
+      "verseOffset": 0,
+      "hebrewVerses": 11
+    },
+    {
+      "hebrew": 17,
+      "greek": 16,
+      "verseOffset": 0,
+      "hebrewVerses": 15
+    },
+    {
+      "hebrew": 18,
+      "greek": 17,
+      "verseOffset": 1,
+      "hebrewVerses": 50
+    },
+    {
+      "hebrew": 19,
+      "greek": 18,
+      "verseOffset": 1,
+      "hebrewVerses": 14
+    },
+    {
+      "hebrew": 20,
+      "greek": 19,
+      "verseOffset": 1,
+      "hebrewVerses": 9
+    },
+    {
+      "hebrew": 21,
+      "greek": 20,
+      "verseOffset": 1,
+      "hebrewVerses": 13
+    },
+    {
+      "hebrew": 22,
+      "greek": 21,
+      "verseOffset": 1,
+      "hebrewVerses": 31
+    },
+    {
+      "hebrew": 23,
+      "greek": 22,
+      "verseOffset": 0,
+      "hebrewVerses": 6
+    },
+    {
+      "hebrew": 24,
+      "greek": 23,
+      "verseOffset": 0,
+      "hebrewVerses": 10
+    },
+    {
+      "hebrew": 25,
+      "greek": 24,
+      "verseOffset": 0,
+      "hebrewVerses": 22
+    },
+    {
+      "hebrew": 26,
+      "greek": 25,
+      "verseOffset": 0,
+      "hebrewVerses": 12
+    },
+    {
+      "hebrew": 27,
+      "greek": 26,
+      "verseOffset": 0,
+      "hebrewVerses": 14
+    },
+    {
+      "hebrew": 28,
+      "greek": 27,
+      "verseOffset": 0,
+      "hebrewVerses": 9
+    },
+    {
+      "hebrew": 29,
+      "greek": 28,
+      "verseOffset": 0,
+      "hebrewVerses": 11
+    },
+    {
+      "hebrew": 30,
+      "greek": 29,
+      "verseOffset": 1,
+      "hebrewVerses": 12
+    },
+    {
+      "hebrew": 31,
+      "greek": 30,
+      "verseOffset": 1,
+      "hebrewVerses": 24
+    },
+    {
+      "hebrew": 32,
+      "greek": 31,
+      "verseOffset": 0,
+      "hebrewVerses": 11
+    },
+    {
+      "hebrew": 33,
+      "greek": 32,
+      "verseOffset": 0,
+      "hebrewVerses": 22
+    },
+    {
+      "hebrew": 34,
+      "greek": 33,
+      "verseOffset": 1,
+      "hebrewVerses": 22
+    },
+    {
+      "hebrew": 35,
+      "greek": 34,
+      "verseOffset": 0,
+      "hebrewVerses": 28
+    },
+    {
+      "hebrew": 36,
+      "greek": 35,
+      "verseOffset": 1,
+      "hebrewVerses": 12
+    },
+    {
+      "hebrew": 37,
+      "greek": 36,
+      "verseOffset": 0,
+      "hebrewVerses": 40
+    },
+    {
+      "hebrew": 38,
+      "greek": 37,
+      "verseOffset": 1,
+      "hebrewVerses": 22
+    },
+    {
+      "hebrew": 39,
+      "greek": 38,
+      "verseOffset": 1,
+      "hebrewVerses": 13
+    },
+    {
+      "hebrew": 40,
+      "greek": 39,
+      "verseOffset": 1,
+      "hebrewVerses": 17
+    },
+    {
+      "hebrew": 41,
+      "greek": 40,
+      "verseOffset": 1,
+      "hebrewVerses": 13
+    },
+    {
+      "hebrew": 42,
+      "greek": 41,
+      "verseOffset": 1,
+      "hebrewVerses": 11
+    },
+    {
+      "hebrew": 43,
+      "greek": 42,
+      "verseOffset": 0,
+      "hebrewVerses": 5
+    },
+    {
+      "hebrew": 44,
+      "greek": 43,
+      "verseOffset": 1,
+      "hebrewVerses": 26
+    },
+    {
+      "hebrew": 45,
+      "greek": 44,
+      "verseOffset": 1,
+      "hebrewVerses": 17
+    },
+    {
+      "hebrew": 46,
+      "greek": 45,
+      "verseOffset": 1,
+      "hebrewVerses": 11
+    },
+    {
+      "hebrew": 47,
+      "greek": 46,
+      "verseOffset": 1,
+      "hebrewVerses": 9
+    },
+    {
+      "hebrew": 48,
+      "greek": 47,
+      "verseOffset": 1,
+      "hebrewVerses": 14
+    },
+    {
+      "hebrew": 49,
+      "greek": 48,
+      "verseOffset": 1,
+      "hebrewVerses": 20
+    },
+    {
+      "hebrew": 50,
+      "greek": 49,
+      "verseOffset": 0,
+      "hebrewVerses": 23
+    },
+    {
+      "hebrew": 51,
+      "greek": 50,
+      "verseOffset": 2,
+      "hebrewVerses": 19
+    },
+    {
+      "hebrew": 52,
+      "greek": 51,
+      "verseOffset": 2,
+      "hebrewVerses": 9
+    },
+    {
+      "hebrew": 53,
+      "greek": 52,
+      "verseOffset": 1,
+      "hebrewVerses": 6
+    },
+    {
+      "hebrew": 54,
+      "greek": 53,
+      "verseOffset": 2,
+      "hebrewVerses": 7
+    },
+    {
+      "hebrew": 55,
+      "greek": 54,
+      "verseOffset": 1,
+      "hebrewVerses": 23
+    },
+    {
+      "hebrew": 56,
+      "greek": 55,
+      "verseOffset": 1,
+      "hebrewVerses": 13
+    },
+    {
+      "hebrew": 57,
+      "greek": 56,
+      "verseOffset": 1,
+      "hebrewVerses": 11
+    },
+    {
+      "hebrew": 58,
+      "greek": 57,
+      "verseOffset": 1,
+      "hebrewVerses": 11
+    },
+    {
+      "hebrew": 59,
+      "greek": 58,
+      "verseOffset": 1,
+      "hebrewVerses": 17
+    },
+    {
+      "hebrew": 60,
+      "greek": 59,
+      "verseOffset": 2,
+      "hebrewVerses": 12
+    },
+    {
+      "hebrew": 61,
+      "greek": 60,
+      "verseOffset": 1,
+      "hebrewVerses": 8
+    },
+    {
+      "hebrew": 62,
+      "greek": 61,
+      "verseOffset": 1,
+      "hebrewVerses": 12
+    },
+    {
+      "hebrew": 63,
+      "greek": 62,
+      "verseOffset": 1,
+      "hebrewVerses": 11
+    },
+    {
+      "hebrew": 64,
+      "greek": 63,
+      "verseOffset": 1,
+      "hebrewVerses": 10
+    },
+    {
+      "hebrew": 65,
+      "greek": 64,
+      "verseOffset": 1,
+      "hebrewVerses": 13
+    },
+    {
+      "hebrew": 66,
+      "greek": 65,
+      "verseOffset": 0,
+      "hebrewVerses": 20
+    },
+    {
+      "hebrew": 67,
+      "greek": 66,
+      "verseOffset": 1,
+      "hebrewVerses": 7
+    },
+    {
+      "hebrew": 68,
+      "greek": 67,
+      "verseOffset": 1,
+      "hebrewVerses": 35
+    },
+    {
+      "hebrew": 69,
+      "greek": 68,
+      "verseOffset": 1,
+      "hebrewVerses": 36
+    },
+    {
+      "hebrew": 70,
+      "greek": 69,
+      "verseOffset": 1,
+      "hebrewVerses": 5
+    },
+    {
+      "hebrew": 71,
+      "greek": 70,
+      "verseOffset": 0,
+      "hebrewVerses": 24
+    },
+    {
+      "hebrew": 72,
+      "greek": 71,
+      "verseOffset": 0,
+      "hebrewVerses": 20
+    },
+    {
+      "hebrew": 73,
+      "greek": 72,
+      "verseOffset": 0,
+      "hebrewVerses": 28
+    },
+    {
+      "hebrew": 74,
+      "greek": 73,
+      "verseOffset": 0,
+      "hebrewVerses": 23
+    },
+    {
+      "hebrew": 75,
+      "greek": 74,
+      "verseOffset": 1,
+      "hebrewVerses": 10
+    },
+    {
+      "hebrew": 76,
+      "greek": 75,
+      "verseOffset": 1,
+      "hebrewVerses": 12
+    },
+    {
+      "hebrew": 77,
+      "greek": 76,
+      "verseOffset": 1,
+      "hebrewVerses": 20
+    },
+    {
+      "hebrew": 78,
+      "greek": 77,
+      "verseOffset": 0,
+      "hebrewVerses": 72
+    },
+    {
+      "hebrew": 79,
+      "greek": 78,
+      "verseOffset": 0,
+      "hebrewVerses": 13
+    },
+    {
+      "hebrew": 80,
+      "greek": 79,
+      "verseOffset": 1,
+      "hebrewVerses": 19
+    },
+    {
+      "hebrew": 81,
+      "greek": 80,
+      "verseOffset": 1,
+      "hebrewVerses": 16
+    },
+    {
+      "hebrew": 82,
+      "greek": 81,
+      "verseOffset": 0,
+      "hebrewVerses": 8
+    },
+    {
+      "hebrew": 83,
+      "greek": 82,
+      "verseOffset": 1,
+      "hebrewVerses": 18
+    },
+    {
+      "hebrew": 84,
+      "greek": 83,
+      "verseOffset": 1,
+      "hebrewVerses": 12
+    },
+    {
+      "hebrew": 85,
+      "greek": 84,
+      "verseOffset": 1,
+      "hebrewVerses": 13
+    },
+    {
+      "hebrew": 86,
+      "greek": 85,
+      "verseOffset": 0,
+      "hebrewVerses": 17
+    },
+    {
+      "hebrew": 87,
+      "greek": 86,
+      "verseOffset": 0,
+      "hebrewVerses": 7
+    },
+    {
+      "hebrew": 88,
+      "greek": 87,
+      "verseOffset": 1,
+      "hebrewVerses": 18
+    },
+    {
+      "hebrew": 89,
+      "greek": 88,
+      "verseOffset": 1,
+      "hebrewVerses": 52
+    },
+    {
+      "hebrew": 90,
+      "greek": 89,
+      "verseOffset": 0,
+      "hebrewVerses": 17,
+      "splitVerse": {
+        "1": 2,
+        "2": 3,
+        "3": 4,
+        "4": 5,
+        "5": 6,
+        "6": 6
+      }
+    },
+    {
+      "hebrew": 91,
+      "greek": 90,
+      "verseOffset": 0,
+      "hebrewVerses": 16
+    },
+    {
+      "hebrew": 92,
+      "greek": 91,
+      "verseOffset": 1,
+      "hebrewVerses": 15
+    },
+    {
+      "hebrew": 93,
+      "greek": 92,
+      "verseOffset": 0,
+      "hebrewVerses": 5
+    },
+    {
+      "hebrew": 94,
+      "greek": 93,
+      "verseOffset": 0,
+      "hebrewVerses": 23
+    },
+    {
+      "hebrew": 95,
+      "greek": 94,
+      "verseOffset": 0,
+      "hebrewVerses": 11
+    },
+    {
+      "hebrew": 96,
+      "greek": 95,
+      "verseOffset": 0,
+      "hebrewVerses": 13
+    },
+    {
+      "hebrew": 97,
+      "greek": 96,
+      "verseOffset": 0,
+      "hebrewVerses": 12
+    },
+    {
+      "hebrew": 98,
+      "greek": 97,
+      "verseOffset": 0,
+      "hebrewVerses": 9
+    },
+    {
+      "hebrew": 99,
+      "greek": 98,
+      "verseOffset": 0,
+      "hebrewVerses": 9
+    },
+    {
+      "hebrew": 100,
+      "greek": 99,
+      "verseOffset": 0,
+      "hebrewVerses": 5
+    },
+    {
+      "hebrew": 101,
+      "greek": 100,
+      "verseOffset": 0,
+      "hebrewVerses": 8
+    },
+    {
+      "hebrew": 102,
+      "greek": 101,
+      "verseOffset": 1,
+      "hebrewVerses": 28
+    },
+    {
+      "hebrew": 103,
+      "greek": 102,
+      "verseOffset": 0,
+      "hebrewVerses": 22
+    },
+    {
+      "hebrew": 104,
+      "greek": 103,
+      "verseOffset": 0,
+      "hebrewVerses": 35
+    },
+    {
+      "hebrew": 105,
+      "greek": 104,
+      "verseOffset": 0,
+      "hebrewVerses": 45
+    },
+    {
+      "hebrew": 106,
+      "greek": 105,
+      "verseOffset": 0,
+      "hebrewVerses": 48
+    },
+    {
+      "hebrew": 107,
+      "greek": 106,
+      "verseOffset": 0,
+      "hebrewVerses": 43
+    },
+    {
+      "hebrew": 108,
+      "greek": 107,
+      "verseOffset": 1,
+      "hebrewVerses": 13
+    },
+    {
+      "hebrew": 109,
+      "greek": 108,
+      "verseOffset": 0,
+      "hebrewVerses": 31
+    },
+    {
+      "hebrew": 110,
+      "greek": 109,
+      "verseOffset": 0,
+      "hebrewVerses": 7
+    },
+    {
+      "hebrew": 111,
+      "greek": 110,
+      "verseOffset": 0,
+      "hebrewVerses": 10
+    },
+    {
+      "hebrew": 112,
+      "greek": 111,
+      "verseOffset": 0,
+      "hebrewVerses": 10
+    },
+    {
+      "hebrew": 113,
+      "greek": 112,
+      "verseOffset": 0,
+      "hebrewVerses": 9
+    },
+    {
+      "hebrew": 114,
+      "greek": 113,
+      "verseOffset": 0,
+      "hebrewVerses": 8
+    },
+    {
+      "hebrew": 115,
+      "greek": 113,
+      "verseOffset": 0,
+      "hebrewVerses": 18
+    },
+    {
+      "hebrew": 116,
+      "greek": [
+        114,
+        115
+      ],
+      "verseOffset": 0,
+      "hebrewVerses": 19,
+      "split": true,
+      "ranges": [
+        {
+          "hebrewVerses": [
+            1,
+            10
+          ],
+          "greek": 114
+        },
+        {
+          "greek": 115
+        }
+      ]
+    },
+    {
+      "hebrew": 117,
+      "greek": 116,
+      "verseOffset": 0,
+      "hebrewVerses": 2
+    },
+    {
+      "hebrew": 118,
+      "greek": 117,
+      "verseOffset": 0,
+      "hebrewVerses": 29
+    },
+    {
+      "hebrew": 119,
+      "greek": 118,
+      "verseOffset": 0,
+      "hebrewVerses": 176
+    },
+    {
+      "hebrew": 120,
+      "greek": 119,
+      "verseOffset": 0,
+      "hebrewVerses": 7
+    },
+    {
+      "hebrew": 121,
+      "greek": 120,
+      "verseOffset": 0,
+      "hebrewVerses": 8
+    },
+    {
+      "hebrew": 122,
+      "greek": 121,
+      "verseOffset": 0,
+      "hebrewVerses": 9
+    },
+    {
+      "hebrew": 123,
+      "greek": 122,
+      "verseOffset": 0,
+      "hebrewVerses": 4
+    },
+    {
+      "hebrew": 124,
+      "greek": 123,
+      "verseOffset": 0,
+      "hebrewVerses": 8
+    },
+    {
+      "hebrew": 125,
+      "greek": 124,
+      "verseOffset": 0,
+      "hebrewVerses": 5
+    },
+    {
+      "hebrew": 126,
+      "greek": 125,
+      "verseOffset": 0,
+      "hebrewVerses": 6
+    },
+    {
+      "hebrew": 127,
+      "greek": 126,
+      "verseOffset": 0,
+      "hebrewVerses": 5
+    },
+    {
+      "hebrew": 128,
+      "greek": 127,
+      "verseOffset": 0,
+      "hebrewVerses": 6
+    },
+    {
+      "hebrew": 129,
+      "greek": 128,
+      "verseOffset": 0,
+      "hebrewVerses": 8
+    },
+    {
+      "hebrew": 130,
+      "greek": 129,
+      "verseOffset": 0,
+      "hebrewVerses": 8
+    },
+    {
+      "hebrew": 131,
+      "greek": 130,
+      "verseOffset": 0,
+      "hebrewVerses": 3
+    },
+    {
+      "hebrew": 132,
+      "greek": 131,
+      "verseOffset": 0,
+      "hebrewVerses": 18
+    },
+    {
+      "hebrew": 133,
+      "greek": 132,
+      "verseOffset": 0,
+      "hebrewVerses": 3
+    },
+    {
+      "hebrew": 134,
+      "greek": 133,
+      "verseOffset": 0,
+      "hebrewVerses": 3
+    },
+    {
+      "hebrew": 135,
+      "greek": 134,
+      "verseOffset": 0,
+      "hebrewVerses": 21
+    },
+    {
+      "hebrew": 136,
+      "greek": 135,
+      "verseOffset": 0,
+      "hebrewVerses": 26
+    },
+    {
+      "hebrew": 137,
+      "greek": 136,
+      "verseOffset": 0,
+      "hebrewVerses": 9
+    },
+    {
+      "hebrew": 138,
+      "greek": 137,
+      "verseOffset": 0,
+      "hebrewVerses": 8
+    },
+    {
+      "hebrew": 139,
+      "greek": 138,
+      "verseOffset": 0,
+      "hebrewVerses": 24
+    },
+    {
+      "hebrew": 140,
+      "greek": 139,
+      "verseOffset": 1,
+      "hebrewVerses": 13
+    },
+    {
+      "hebrew": 141,
+      "greek": 140,
+      "verseOffset": 0,
+      "hebrewVerses": 10
+    },
+    {
+      "hebrew": 142,
+      "greek": 141,
+      "verseOffset": 0,
+      "hebrewVerses": 7
+    },
+    {
+      "hebrew": 143,
+      "greek": 142,
+      "verseOffset": 0,
+      "hebrewVerses": 12
+    },
+    {
+      "hebrew": 144,
+      "greek": 143,
+      "verseOffset": 0,
+      "hebrewVerses": 15
+    },
+    {
+      "hebrew": 145,
+      "greek": 144,
+      "verseOffset": 0,
+      "hebrewVerses": 21
+    },
+    {
+      "hebrew": 146,
+      "greek": 145,
+      "verseOffset": 0,
+      "hebrewVerses": 10
+    },
+    {
+      "hebrew": 147,
+      "greek": [
+        146,
+        147
+      ],
+      "verseOffset": 0,
+      "hebrewVerses": 20,
+      "split": true,
+      "ranges": [
+        {
+          "hebrewVerses": [
+            1,
+            12
+          ],
+          "greek": 146
+        },
+        {
+          "greek": 147
+        }
+      ]
+    },
+    {
+      "hebrew": 148,
+      "greek": 148,
+      "verseOffset": 0,
+      "hebrewVerses": 14
+    },
+    {
+      "hebrew": 149,
+      "greek": 149,
+      "verseOffset": 0,
+      "hebrewVerses": 9
+    },
+    {
+      "hebrew": 150,
+      "greek": 150,
+      "verseOffset": 0,
+      "hebrewVerses": 6
+    }
+  ]
+}

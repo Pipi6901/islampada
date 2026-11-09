@@ -1,0 +1,150 @@
+==============================================================================
+LAMPADA — метаданные App Store · локаль pt-PT
+Português (Portugal)
+==============================================================================
+
+ПОЗИЦИОНИРОВАНИЕ
+  База : виджет со стихом на всех поверхностях телефона.
+  УТП  : «пауза перед лентой» — стих встречает при открытии соцсети.
+         Опционально, включается одним тапом на онбординге.
+
+BUNDLE ID       com.astonio.lampada
+SKU             LAMPADA-IOS-001
+КАТЕГОРИИ       Reference (основная) / Lifestyle (вторая)
+ВОЗРАСТ         4+
+МИН. iOS        17.0
+COPYRIGHT       2026 Lampada
+URL ПОДДЕРЖКИ   https://pmoffice.space/lampada-support.html
+URL МАРКЕТИНГ   https://pmoffice.space/lampada-support.html
+URL ПРИВАТНОСТЬ https://pmoffice.space/lampada-privacy.html
+
+------------------------------------------------------------------------------
+НАЗВАНИЕ (App Name)  [30/30]
+------------------------------------------------------------------------------
+Versículo do Dia: Bíblia Livre
+
+------------------------------------------------------------------------------
+ПОДЗАГОЛОВОК (Subtitle)  [24/30]
+------------------------------------------------------------------------------
+Widget da Bíblia Sagrada
+
+------------------------------------------------------------------------------
+КЛЮЧЕВЫЕ СЛОВА (Keywords)  [91/100]
+------------------------------------------------------------------------------
+devocional,ansiedade,papel,parede,ecrã,bloqueio,frases,bíblicas,salmos,palavra,deus,lampada
+
+------------------------------------------------------------------------------
+ПРОМО-ТЕКСТ (Promotional Text)  [154/170]
+------------------------------------------------------------------------------
+O versículo do dia no ecrã bloqueado, no ecrã principal e no StandBy, e como notificação à hora que escolheres. Sem conta, sem anúncios, funciona offline.
+
+------------------------------------------------------------------------------
+ОПИСАНИЕ (Description)  [3474/4000]
+------------------------------------------------------------------------------
+O telemóvel é aquilo para onde mais olhas. Lampada põe lá a Palavra: nos ecrãs para onde já olhas e, se quiseres, naquele único momento em que preferias não estar a percorrer o feed.
+
+Não é mais uma app para abrir. Um versículo no ecrã bloqueado, no ecrã principal e na mesa de cabeceira enquanto o telemóvel carrega. Nada para te lembrares. Está simplesmente lá, sempre que baixas os olhos.
+
+A PAUSA ANTES DO FEED
+Ativa-a em “Lugares”, com poucos toques. A partir daí, no momento em que abres uma rede social, é um versículo que te recebe primeiro. Não é outro feed para percorrer: é uma pausa a sério, exatamente no instante em que ias começar a deslizar o ecrã. Totalmente opcional e desativada, a não ser que a peças.
+
+ONDE A PALAVRA APARECE
+- Ecrã bloqueado: um versículo curto junto ao relógio, em três formatos de widget
+- Ecrã principal: três tamanhos de widget, do pequeno ao grande
+- StandBy: o telemóvel transforma-se num ecrã de cabeceira enquanto carrega
+- Centro de controlo: um botão que abre o versículo de hoje (iOS 18)
+- Fundo de ecrã: guarda uma imagem com o versículo e define-a como fundo
+
+MIL VERSÍCULOS, OITO TRADUÇÕES
+Bíblia Livre, World English Bible, Lutherbibel 1912, Louis Segond 1910, Reina-Valera, Riveduta 1927, 개역한글 (coreana) e a tradução sinodal russa. Tudo dentro da app, tudo offline.
+
+ESCOLHE AQUILO DE QUE PRECISAS HOJE
+Ansiedade. Perda. Gratidão. Perdão. Dúvida. Começar algo difícil. Noites em branco. Dezasseis estados de espírito ao todo: escolhe os que importam agora e os versículos acompanham.
+
+CONTEXTO, NÃO APENAS UMA FRASE
+Centenas de passagens trazem uma linha que diz quem está a falar e quando. Não é um comentário. Apenas o suficiente para que as palavras não fiquem soltas no ar.
+
+FEITO PARA SER VISTO
+Tipografia e cor, nunca fotografias de banco de imagens. Oito conjuntos de cores, doze imagens, nove tipos de letra. Configura-os separadamente para a app, para os widgets e para o ecrã bloqueado.
+
+SILENCIOSO DE PROPÓSITO
+Sem conta. Sem registo. Sem anúncios, nunca. Funciona totalmente offline. O widget nunca fica a carregar, nunca falha, nunca te pede nada.
+
+GRATUITO
+O widget do ecrã bloqueado, o widget do ecrã principal, o botão do Centro de controlo, os versículos diários, a pausa antes do feed, partilhar sem marca de água, quatro conjuntos de cores e uma imagem.
+
+LAMPADA PRO
+StandBy, todas as imagens, os oito conjuntos de cores, todos os tipos de letra e ícones da app à escolha.
+
+Lampada Pro é uma subscrição com renovação automática e está disponível em três durações: uma semana, um mês e um ano com os primeiros 7 dias grátis. O preço para o teu país ou região é apresentado na app antes de confirmares. O pagamento é cobrado na tua Conta Apple e a subscrição renova-se automaticamente, a menos que desatives a renovação automática pelo menos 24 horas antes do fim do período em curso. Podes geri-la ou cancelá-la a qualquer momento nas definições da tua Conta Apple.
+
+Termos de Utilização (EULA): https://www.apple.com/legal/internet-services/itunes/dev/stdeula/
+Política de Privacidade: https://pmoffice.space/lampada-privacy.html
+
+“Tua palavra é lâmpada para meus pés e luz para meu caminho.” Salmo 119:105
+
+Textos bíblicos: World English Bible, Lutherbibel 1912, Louis Segond 1910, Reina-Valera, Riveduta 1927, 개역한글 e a tradução sinodal russa, todos em domínio público. Bíblia Livre © Diego Santos, Mario Sérgio, Marco Teles, CC BY 4.0 (creativecommons.org/licenses/by/4.0); pontuação final ajustada.
+
+------------------------------------------------------------------------------
+ЧТО НОВОГО (What's New)  [341/4000]
+------------------------------------------------------------------------------
+Agora em português: a app inteira e mil versículos da Bíblia Livre, também nos widgets e no ecrã bloqueado.
+
+Cinco ícones novos: Vitral, Cruz, Natal, Páscoa e Pomba. A Pomba é gratuita para todos.
+
+Quatro imagens novas para o teu versículo: Galileia, Estrela, Getsêmani e Cruz.
+
+Chegaram também o italiano e o coreano.
+
+E pequenas correções.
+
+------------------------------------------------------------------------------
+ПОДПИСКА — группа  [11/30]
+------------------------------------------------------------------------------
+Lampada Pro
+
+------------------------------------------------------------------------------
+ПОДПИСКА — неделя  [21/30]
+------------------------------------------------------------------------------
+Lampada Pro · Semanal
+
+------------------------------------------------------------------------------
+ПОДПИСКА — месяц  [20/30]
+------------------------------------------------------------------------------
+Lampada Pro · Mensal
+
+------------------------------------------------------------------------------
+ПОДПИСКА — год  [19/30]
+------------------------------------------------------------------------------
+Lampada Pro · Anual
+
+------------------------------------------------------------------------------
+ПОДПИСКИ (группа «Lampada Pro»)
+------------------------------------------------------------------------------
+Пробный период 7 дней — только на годовой: триал на всех тарифах
+сразу уводит на недельный, и годовой перестаёт продаваться.
+
+Недельная: Lampada Pro · Semanal   com.astonio.lampada.weekly   $2.99
+Месячная:  Lampada Pro · Mensal   com.astonio.lampada.monthly  $5.99
+Годовая:   Lampada Pro · Anual   com.astonio.lampada.yearly   $24.99 + 7 дней
+
+Пожизненная покупка com.astonio.lampada.lifetime остаётся в каталоге,
+но на пейволле не показывается и в описании не упоминается.
+
+------------------------------------------------------------------------------
+ПОДПИСИ К СКРИНШОТАМ (7 экранов; первые два видны без листания)
+------------------------------------------------------------------------------
+1. A Palavra no teu ecrã bloqueado
+2. A pausa antes do feed
+3. Todos os tamanhos, todos os ecrãs
+4. A tua mesa de cabeceira, em repouso
+5. Ao teu estilo
+6. Escolhe aquilo de que precisas hoje
+7. Um fundo de ecrã que muda sozinho
+
+------------------------------------------------------------------------------
+GOOGLE PLAY (для второй платформы)
+------------------------------------------------------------------------------
+Заголовок [30/30]: Versículo do Dia: Bíblia Livre
+Краткое описание [24/80]: Widget da Bíblia Sagrada
+Полное описание: то же, что Description выше.

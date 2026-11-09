@@ -1,0 +1,409 @@
+<title>Lampada Handoff</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300..700;1,6..72,300..600&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap">
+
+<style>
+:root {
+  --ground:#EEF0F6; --surface:#FFFFFF; --surface2:#E6E9F2;
+  --ink:#141829; --ink2:#333A52; --muted:#5B6379; --faint:#868DA3;
+  --line:#D6DAE7; --line2:#C3C9DA;
+  --accent:#9C6B18; --accent-soft:#F3E7D0;
+  --ok:#2E7A57; --ok-soft:#DCEDE4;
+  --stop:#A03A31; --stop-soft:#F4E0DE;
+  --f-display:"Newsreader","Iowan Old Style",Georgia,serif;
+  --f-body:"IBM Plex Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,"SF Mono",Menlo,monospace;
+  --measure:36rem; --wide:64rem;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --ground:#0E1120; --surface:#161A2B; --surface2:#1D2235;
+    --ink:#E5E8F1; --ink2:#C4CAD9; --muted:#949CB4; --faint:#737B94;
+    --line:#262C43; --line2:#333A55;
+    --accent:#DFA850; --accent-soft:#2C2617;
+    --ok:#5BBE8F; --ok-soft:#172C23;
+    --stop:#E07C72; --stop-soft:#2E1B1A;
+  }
+}
+:root[data-theme="dark"] {
+  --ground:#0E1120; --surface:#161A2B; --surface2:#1D2235;
+  --ink:#E5E8F1; --ink2:#C4CAD9; --muted:#949CB4; --faint:#737B94;
+  --line:#262C43; --line2:#333A55;
+  --accent:#DFA850; --accent-soft:#2C2617;
+  --ok:#5BBE8F; --ok-soft:#172C23;
+  --stop:#E07C72; --stop-soft:#2E1B1A;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased}
+.page{max-width:var(--wide);margin:0 auto;padding:clamp(2rem,6vw,4.5rem) clamp(1.1rem,4vw,3rem) 6rem;display:flex;flex-direction:column;gap:clamp(2.6rem,5vw,4rem)}
+.col{max-width:var(--measure);display:flex;flex-direction:column;gap:1rem}
+.col>*{margin:0}
+.mast{display:flex;flex-direction:column;gap:1.3rem}
+.mast-rule{height:1px;background:linear-gradient(90deg,var(--accent),var(--line2) 45%,transparent)}
+.wordmark{font-family:var(--f-display);font-optical-sizing:auto;font-weight:400;font-size:clamp(2.6rem,8vw,4.6rem);line-height:0.95;letter-spacing:-0.025em;margin:0;text-wrap:balance}
+.wordmark em{font-style:italic;color:var(--accent)}
+.tagline{font-family:var(--f-display);font-size:clamp(1.1rem,2.4vw,1.4rem);font-weight:300;line-height:1.4;color:var(--ink2);max-width:34rem;margin:0;text-wrap:balance}
+.meta{display:flex;flex-wrap:wrap;gap:0.5rem 2rem;font-family:var(--f-mono);font-size:0.72rem;letter-spacing:0.07em;text-transform:uppercase;color:var(--faint)}
+.meta b{color:var(--ink2);font-weight:500}
+.toc{display:grid;grid-template-columns:repeat(auto-fill,minmax(13rem,1fr));border-top:1px solid var(--line)}
+.toc a{display:flex;align-items:baseline;gap:0.6rem;padding:0.65rem 0.9rem 0.65rem 0;border-bottom:1px solid var(--line);color:var(--ink2);text-decoration:none;font-size:0.9rem}
+.toc a:hover{color:var(--accent)}
+.toc a:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.toc i{font-family:var(--f-mono);font-style:normal;font-size:0.68rem;color:var(--faint)}
+section{display:flex;flex-direction:column;gap:1.3rem;scroll-margin-top:1.5rem}
+.eyebrow{font-family:var(--f-mono);font-size:0.68rem;letter-spacing:0.16em;text-transform:uppercase;color:var(--accent);display:flex;align-items:center;gap:0.7rem}
+.eyebrow::after{content:"";flex:1;height:1px;background:var(--line)}
+h2{font-family:var(--f-display);font-optical-sizing:auto;font-size:clamp(1.6rem,3.6vw,2.2rem);font-weight:400;line-height:1.12;letter-spacing:-0.018em;margin:0;max-width:30rem;text-wrap:balance}
+h3{font-family:var(--f-body);font-size:0.95rem;font-weight:600;margin:0;color:var(--ink)}
+p{margin:0;color:var(--ink2)}
+p.lead{font-size:1.05rem;color:var(--ink)}
+strong{font-weight:600;color:var(--ink)}
+code{font-family:var(--f-mono);font-size:0.84em;background:var(--surface2);padding:0.08em 0.35em;color:var(--ink);border-radius:2px}
+pre{font-family:var(--f-mono);font-size:0.82rem;line-height:1.5;background:var(--surface);border:1px solid var(--line);padding:0.9rem 1rem;margin:0;overflow-x:auto;color:var(--ink);max-width:var(--measure);white-space:pre-wrap}
+a.ref{color:var(--accent);text-decoration:none;border-bottom:1px solid var(--accent-soft);word-break:break-all}
+ul.dash,ol.num{padding:0;margin:0;display:flex;flex-direction:column;gap:0.55rem;max-width:var(--measure)}
+ul.dash{list-style:none}
+ul.dash li{padding-left:1.1rem;position:relative;color:var(--ink2)}
+ul.dash li::before{content:"";position:absolute;left:0;top:0.72em;width:0.5rem;height:1px;background:var(--line2)}
+ol.num{list-style:decimal;padding-left:1.4rem}
+ol.num li{color:var(--ink2);padding-left:0.2rem}
+.note{background:var(--surface);border:1px solid var(--line);border-left:2px solid var(--accent);padding:1rem 1.2rem;display:flex;flex-direction:column;gap:0.5rem;max-width:var(--measure)}
+.note.warn{border-left-color:var(--stop)}
+.note.warn .eyebrow{color:var(--stop)}
+.note .eyebrow::after{display:none}
+.note p{font-size:0.95rem}
+.scroller{overflow-x:auto;border:1px solid var(--line);background:var(--surface)}
+table{border-collapse:collapse;width:100%;min-width:44rem;font-size:0.86rem}
+thead th{text-align:left;font-family:var(--f-mono);font-size:0.65rem;letter-spacing:0.12em;text-transform:uppercase;font-weight:500;color:var(--faint);padding:0.7rem 0.9rem;border-bottom:1px solid var(--line2);white-space:nowrap;background:var(--surface2)}
+tbody td{padding:0.7rem 0.9rem;border-bottom:1px solid var(--line);vertical-align:top;color:var(--ink2)}
+tbody tr:last-child td{border-bottom:none}
+tbody th{text-align:left;padding:0.7rem 0.9rem;border-bottom:1px solid var(--line);vertical-align:top;font-weight:600;color:var(--ink);white-space:nowrap}
+tbody tr:last-child th{border-bottom:none}
+td.num{font-variant-numeric:tabular-nums;font-family:var(--f-mono);font-size:0.8rem;white-space:nowrap}
+.pill{display:inline-block;font-family:var(--f-mono);font-size:0.62rem;letter-spacing:0.09em;text-transform:uppercase;padding:0.18em 0.5em;border:1px solid var(--line2);color:var(--muted);white-space:nowrap}
+.pill.ok{border-color:var(--ok);color:var(--ok);background:var(--ok-soft)}
+.pill.todo{border-color:var(--stop);color:var(--stop);background:var(--stop-soft)}
+.split{display:grid;grid-template-columns:repeat(auto-fit,minmax(17rem,1fr));gap:1.6rem 2.4rem}
+.split>div{display:flex;flex-direction:column;gap:0.6rem}
+.check{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:0.5rem;max-width:var(--measure)}
+.check li{display:flex;gap:0.7rem;align-items:flex-start;color:var(--ink2)}
+.check li::before{content:"";flex:none;width:0.95rem;height:0.95rem;margin-top:0.25rem;border:1px solid var(--line2);background:var(--surface)}
+.close{border-top:1px solid var(--line2);padding-top:1.5rem}
+.close p{font-family:var(--f-display);font-size:1.12rem;font-style:italic;color:var(--muted);max-width:32rem}
+</style>
+
+<div class="page">
+
+  <header class="mast">
+    <div class="mast-rule"></div>
+    <h1 class="wordmark">Передача <em>работ</em></h1>
+    <p class="tagline">Lampada: что изменилось с версии 0.4, где это уже отражено и что доделать — дизайн, спека, метаданные.</p>
+    <div class="meta">
+      <span>Документ <b>Handoff</b></span>
+      <span>Дата <b>02.09.2026</b></span>
+      <span>База <b>спека v0.5</b></span>
+      <span>Адресат <b>следующий агент</b></span>
+    </div>
+  </header>
+
+  <div class="note">
+    <div class="eyebrow">Как читать</div>
+    <p>Это дельта, а не спека. Каждое решение здесь помечено: <span class="pill ok">отражено</span> — уже внесено в файл; <span class="pill todo">не отражено</span> — задача для тебя. Источник истины по продукту остаётся <code>01-product-spec.html</code>; по текстам стора — <code>build-metadata.py</code>; по экранам — <code>lampada-app-design.pen</code>. Markdown-версия этого документа для работы агента: <code>03-handoff.md</code>.</p>
+  </div>
+
+  <nav class="toc" aria-label="Содержание">
+    <a href="#files"><i>00</i> Файлы и правила</a>
+    <a href="#log"><i>01</i> Лог решений</a>
+    <a href="#onb"><i>02</i> Онбординг v2</a>
+    <a href="#design"><i>03</i> Дизайн — доделать</a>
+    <a href="#spec"><i>04</i> Спека</a>
+    <a href="#meta"><i>05</i> Метаданные</a>
+    <a href="#open"><i>06</i> Открытые вопросы</a>
+    <a href="#accept"><i>07</i> Приёмка</a>
+  </nav>
+
+  <!-- 00 -->
+  <section id="files">
+    <div class="eyebrow">00 · Файлы и правила</div>
+    <h2>Где что лежит и как это менять</h2>
+    <div class="scroller">
+      <table>
+        <thead><tr><th>Файл</th><th>Роль</th><th>Как менять</th></tr></thead>
+        <tbody>
+          <tr><th>01-product-spec.html</th><td>Спецификация, <strong>v0.5</strong> — источник истины по продукту</td><td>Прямо в HTML. Артефакт: <a class="ref" href="https://claude.ai/code/artifact/402a8eef-f751-4b67-a259-b31c295d71b5">claude.ai/code/artifact/402a8eef…</a></td></tr>
+          <tr><th>02-aso-metadata.html</th><td>ASO: конкуренты, ключи, скриншоты</td><td>Прямо в HTML. Артефакт: <a class="ref" href="https://claude.ai/code/artifact/b9b62fe6-f9a7-46b1-9aee-1f3444a5f00e">claude.ai/code/artifact/b9b62fe6…</a></td></tr>
+          <tr><th>build-metadata.py</th><td><strong>Единственный источник текстов для App Store</strong>, пять локалей</td><td>Править только скрипт, затем <code>python3 build-metadata.py</code> — перегенерирует <code>metadata/*.txt</code> и проверит лимиты</td></tr>
+          <tr><th>metadata/*.txt</th><td>Сгенерированные поля</td><td>Руками не править</td></tr>
+          <tr><th>lampada-app-design.pen</th><td>Дизайн (Pencil)</td><td>Только через Pencil MCP; файл зашифрован, <code>Read</code>/<code>Grep</code> не работают</td></tr>
+          <tr><th>art/</th><td>3D-постер (<code>hero-poster.png</code>, <code>hero-loop.mp4</code>), фоны, референсы иконок</td><td>—</td></tr>
+          <tr><th>README.md</th><td>Сводка проекта</td><td>Держать в синхроне со спекой</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="split">
+      <div>
+        <h3>Копирайт (по пометкам Александра)</h3>
+        <ul class="dash">
+          <li>Без точки в конце подзаголовков и коротких подписей</li>
+          <li>Заголовки экранов — вопросы во втором лице</li>
+          <li>Вторичное действие — текстовая ссылка, не вторая кнопка</li>
+          <li>Выход с экрана — крестик, не текст «необязательно»</li>
+        </ul>
+      </div>
+      <div>
+        <h3>Визуал</h3>
+        <ul class="dash">
+          <li>Near-black <code>#1E181C</code>, лаванда <code>#9179C4</code>, фиолет <code>#563189</code>; «свет» = <code>#DEDEE0</code> — включённое горит, выключенное тонет</li>
+          <li>Newsreader для стиха и заголовков, Outfit для интерфейса</li>
+          <li>Никаких фото — градиенты и типографика</li>
+        </ul>
+      </div>
+    </div>
+    <div class="note warn">
+      <div class="eyebrow">Как Александр даёт правки</div>
+      <p>Красным текстом (Inter, <code>#ff0000</code>) прямо на канвасе рядом с экраном. Перед работой — <code>batch_get(["document"])</code> и прочитать все красные узлы. Выполненную пометку удалять.</p>
+    </div>
+  </section>
+
+  <!-- 01 -->
+  <section id="log">
+    <div class="eyebrow">01 · Лог решений</div>
+    <h2>Что изменилось с v0.4</h2>
+    <div class="scroller">
+      <table>
+        <thead><tr><th>#</th><th>Решение</th><th>Отражено</th><th>Не отражено</th></tr></thead>
+        <tbody>
+          <tr><th>1</th><td><strong>Lifetime отменён.</strong> Одна подписка: неделя $2.99, месяц $5.99, <strong>год $24.99 с 7 днями бесплатно — дефолт</strong>. Триал только на годовом, разовых паков нет</td><td>Спека §09, §13, §14; README; ASO §«Встроенные покупки»; дизайн ОБ2·06–08</td><td><span class="pill todo">build-metadata.py</span> все пять локалей — §05</td></tr>
+          <tr><th>2</th><td><strong>Напоминаний в V1.0 нет.</strong> Ежедневное уведомление ушло в V2.0 (лимит 64 локальных, приложение не открывают). Никаких «напомнить позже»</td><td>Спека §04, §09, §12; дизайн: экран времени удалён, «Не сейчас» вместо «Напомнить позже», настройки без уведомлений, поп-ап триала — письмо от Apple</td><td><span class="pill todo">build-metadata.py</span> «A quiet daily notification…», «notifications» в бесплатном тарифе</td></tr>
+          <tr><th>3</th><td><strong>Apple Watch → V2.0</strong> (решение v0.4, дочищены хвосты)</td><td>Спека §04, §07, §09, §12, §14; пейволл без Watch</td><td><span class="pill todo">build-metadata.py</span> описание, whatsnew, кадр «On your wrist»; <span class="pill todo">ASO</span> кадр №5, ключ <code>watch</code>; <span class="pill todo">дизайн</span> карточка Watch на «Местах»</td></tr>
+          <tr><th>4</th><td><strong>Онбординг v2 (ряд «ОБ2»)</strong> по шести A/B-тестам: без экрана языка, мультивыбор намерений, награда перед просьбой, крестик вместо «необязательно»</td><td>Дизайн, ряд <code>y=2160</code></td><td><span class="pill todo">спека</span> описывает поток фрагментами — §02 этого документа считать источником; старый ряд онбординга удалить после приёмки</td></tr>
+          <tr><th>5</th><td><strong>Пейволл</strong> по восьми A/B-тестам: экран-«почему», эмоциональный заголовок, сетка иконок с персонализацией, поп-ап триала, payramp в настройках</td><td>Спека §09; дизайн ОБ2·05–08</td><td>—</td></tr>
+          <tr><th>6</th><td><strong>Поп-ап настроек</strong> с payramp-карточкой и строкой «Иконка приложения»</td><td>Дизайн ОБ2·08</td><td><span class="pill todo">спека</span> раздела про настройки нет; <span class="pill todo">дизайн</span> сам экран выбора иконки не нарисован</td></tr>
+          <tr><th>7</th><td>Правки Александра к онбордингу: фейд под постером, без точек, «Поставлю позже», прогресс слева, крестик на паузе, после паузы — пейволл</td><td>Всё в ОБ2</td><td><span class="pill todo">канвас</span> снять красные пометки под старым рядом</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- 02 -->
+  <section id="onb">
+    <div class="eyebrow">02 · Онбординг v2</div>
+    <h2>Поток и поведение экранов</h2>
+    <div class="col">
+      <p>Все экраны 393×852, ряд <code>ОБ2</code> в файле дизайна. Прогресс-бар — четыре шага (01–04). Кнопки — компонент <code>htSPs</code>.</p>
+    </div>
+    <div class="scroller">
+      <table>
+        <thead><tr><th>#</th><th>Frame</th><th>Экран</th><th>Что делает</th><th>Поведение</th></tr></thead>
+        <tbody>
+          <tr><th>00</th><td class="num">P8uIz</td><td><strong>Стих дня</strong></td><td>Ценность до вопросов (Pinterest). 3D-постер с фейдом, под ним настоящий стих на сегодня</td><td>Язык — из системной локали; чип «Русский ▾» открывает поп-ап смены языка (<strong>не нарисован</strong>). Стих детерминирован от даты. CTA «Хочу видеть его чаще»</td></tr>
+          <tr><th>01</th><td class="num">lM9JC</td><td><strong>Намерение</strong></td><td>«Что для тебя важно? Я хочу, чтобы Слово…» — пять строк, мультивыбор (Headspace)</td><td>Ответы кормят пейволл (§2.1). Выбор не обязателен: при нуле — пейволл без персонализации</td></tr>
+          <tr><th>02</th><td class="num">EKh6a</td><td><strong>Темы</strong></td><td>«Что тебе сейчас нужно?» — одиннадцать чипов, мультивыбор</td><td>Фильтр корпуса; при нуле — все темы. Счётчик «Выбрано N»</td></tr>
+          <tr><th>03</th><td class="num">Ksoax</td><td><strong>Виджет</strong></td><td>Награда перед просьбой (Houzz): «Нашли N стихов под твои темы. Первый — на экран блокировки?»</td><td>N — число стихов под выбранные темы. Превью показывает первый подобранный. «Показать как» → инструкция (та же, что поп-ап 10). «Поставлю позже» → дальше</td></tr>
+          <tr><th>04</th><td class="num">OIeRG</td><td><strong>Пауза перед лентой</strong></td><td>УТП. «Встретить тебя перед лентой?» — иконки приложений с мультивыбором, карточка перехвата</td><td>Кнопка считает «Включить для N». Крестик → пейволл. «Включить» → системный поток установки команды → пейволл. Список приложений — уточнить у разработчика</td></tr>
+          <tr><th>05</th><td class="num">l9qP7D</td><td><strong>Почему</strong></td><td>Цифра-шок (Opal, +143%): «В этом году ты возьмёшь телефон 35 000 раз — сколько из них начнутся со Слова?»</td><td>Статика: 96 разблокировок в день × 365. CTA «Пусть каждый»</td></tr>
+          <tr><th>06</th><td class="num">cAmiT</td><td><strong>Пейволл</strong></td><td>«Пусть светильник не гаснет»; чипы ответов; сетка из шести иконок; три плана; «Начать 7 дней бесплатно»</td><td>См. §2.1–2.2</td></tr>
+          <tr><th>07</th><td class="num">R8Lico</td><td>Поп-ап «Пробный период»</td><td>Таймлайн Сегодня → Накануне (письмо от Apple) → День 7; блок «Как отменить»</td><td>Открывается ссылкой с пейволла</td></tr>
+          <tr><th>08</th><td class="num">Yhbrf</td><td>Поп-ап «Настройки» (payramp)</td><td>Карточка «Неделя бесплатно → Забрать бесплатную неделю»; строки Язык · Перевод · Иконка приложения</td><td>С шестерёнки на «Сегодня». Карточка — только неподписанным, не использовавшим триал (<strong>вариант после триала не нарисован</strong>)</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="col">
+      <p>После пейволла — покупка или «Не сейчас» — экран «Сегодня» (<code>FJTYY</code> «ни одной поверхности», <code>M75mIq</code>, <code>kQCZC</code>).</p>
+    </div>
+
+    <div class="split">
+      <div>
+        <h3>2.1 Персонализация пейволла</h3>
+        <div class="scroller">
+          <table style="min-width:0">
+            <thead><tr><th>Ответ на 01</th><th>Чип</th><th>Горит в сетке</th></tr></thead>
+            <tbody>
+              <tr><td>напоминало о вере в течение дня</td><td>На виду</td><td>— (виджеты бесплатны)</td></tr>
+              <tr><td>утешало, когда тяжело</td><td>Утешение</td><td>Все темы</td></tr>
+              <tr><td>останавливало меня перед лентой</td><td>Пауза</td><td>— (бесплатно)</td></tr>
+              <tr><td>встречало утром и провожало ночью</td><td>Утро и ночь</td><td>StandBy</td></tr>
+              <tr><td>красиво смотрелось на телефоне</td><td>Красота</td><td>Стили, Палитры, Шрифты, Обои</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p>Сетка: StandBy · Все темы · Обои · Все стили · Палитры · Шрифты. При нуле ответов: чипов нет, заголовок общий («Зажечь весь телефон»), горит только StandBy.</p>
+      </div>
+      <div>
+        <h3>2.2 Планы и кнопка</h3>
+        <div class="scroller">
+          <table style="min-width:0">
+            <thead><tr><th>План</th><th>Цена</th><th>Подпись</th><th>Состояние</th></tr></thead>
+            <tbody>
+              <tr><th>Неделя</th><td class="num">$2.99</td><td>в неделю</td><td>—</td></tr>
+              <tr><th>Месяц</th><td class="num">$5.99</td><td>в месяц</td><td>—</td></tr>
+              <tr><th>Год</th><td class="num">$24.99</td><td>7 дней бесплатно</td><td>выбран, бейдж <strong>−65%</strong></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p>Кнопка зависит от плана: год → «Начать 7 дней бесплатно» (под ней «Потом $24.99 в год · отменить можно в любой момент»); месяц → «Подписаться за $5.99 в месяц»; неделя → «Подписаться за $2.99 в неделю». Ссылки: «Как работает пробный период», «Не сейчас» (= крестик), «Восстановить покупки · Условия».</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 03 -->
+  <section id="design">
+    <div class="eyebrow">03 · Дизайн</div>
+    <h2>Что доделать в файле</h2>
+    <div class="col">
+      <p>Раскладка: <code>y=0</code> компоненты (<code>EHRs2</code> статус-бар, <code>htSPs</code> кнопка, <code>F5a0Zg</code> призрачная кнопка, <code>W0c4b</code> таб-бар); <code>y=182</code> старый онбординг 01–05 — удалить; <code>y=1154</code> экраны приложения (07 + 07a/07b, 08, 09, 10, 11, 11a, 11b, 12); <code>y=2160</code> ОБ2 00–08.</p>
+    </div>
+    <ol class="num">
+      <li><strong>09 Места</strong> (<code>rW4gi</code>): убрать карточку «Apple Watch» из сетки «На экранах», измеритель «Светятся 3 из 7» → «3 из 6». Поп-ап 10 (<code>xUsn8</code>) — копия, повторить. Экран переделан в сетку другой сессией, ID вложенных узлов брать через Pencil.</li>
+      <li><strong>Поп-ап смены языка</strong> с экрана 00: пять языков с названием перевода; за основу — старый <code>Y1AO8</code>, без «Почему эти переводы».</li>
+      <li><strong>Выбор иконки приложения</strong> из настроек: экран или поп-ап с 4–6 иконками; референсы в <code>art/иконы-до-после.png</code>. Решить, сколько вариантов и все ли бесплатны.</li>
+      <li><strong>Payramp после триала</strong>: карточка для тех, кто триал уже использовал («Lampada Plus — $24.99 в год», без слова «бесплатно»).</li>
+      <li><strong>Пейволл при нуле намерений</strong> и <strong>варианты кнопки</strong> для месяца и недели — состояния того же экрана.</li>
+      <li><strong>11b Вид · Экран блокировки</strong> (<code>a0Um1F</code>): Александру не нравится блок «Цвет на локскрине задаёт iOS…». Нужен его ответ, чем заменить.</li>
+      <li><strong>Реальные иконки соцсетей</strong> на 04 вместо lucide. На скриншотах для стора чужие логотипы лучше не показывать — согласовать с ASO.</li>
+      <li><strong>Локализация макетов</strong> минимум на EN — для скриншотов стора.</li>
+      <li><strong>Уборка</strong>: удалить старый ряд (<code>tvomA</code>, <code>Y1AO8</code>, <code>NRVFl</code>, <code>o8coGa</code>, <code>EZ6Jy</code>); удалить переменные <code>l-*</code>; снять выполненные пометки <code>Jf08t</code>, <code>V2ws7h</code>, <code>H0wvY</code>, <code>JC3ZM</code>, <code>e5ZDRc</code>; <code>WTiXC</code> — после задачи 3, <code>mSo9R</code> — после задачи 6.</li>
+    </ol>
+  </section>
+
+  <!-- 04 -->
+  <section id="spec">
+    <div class="eyebrow">04 · Спека</div>
+    <h2>Что обновлено и что осталось</h2>
+    <div class="split">
+      <div>
+        <h3>Обновлено в v0.5</h3>
+        <ul class="dash">
+          <li>§09 Монетизация: таблица неделя/месяц/год, блок «Как устроен пейволл», «Напоминаний в V1.0 нет»</li>
+          <li>§12: порядок работ без Watch</li>
+          <li>§13: метрики «Старт триала», «D7 → $»</li>
+          <li>§14: риски и открытые вопросы без lifetime и Watch</li>
+        </ul>
+      </div>
+      <div>
+        <h3>Осталось</h3>
+        <ul class="dash">
+          <li><strong>Раздел «Онбординг»</strong> — перенести §02 этого документа</li>
+          <li><strong>Раздел «Настройки»</strong> — поп-ап, payramp, иконка, смена языка и перевода</li>
+          <li>Состояния «Сегодня» (<code>FJTYY</code>, <code>M75mIq</code>, <code>kQCZC</code>) нарисованы, но не описаны</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 05 -->
+  <section id="meta">
+    <div class="eyebrow">05 · Метаданные</div>
+    <h2>Точные правки в build-metadata.py</h2>
+    <div class="col">
+      <p>Тексты лежат в словаре <code>L[...]</code> по локалям <code>en-US</code>, <code>es-ES</code>, <code>fr-FR</code>, <code>de-DE</code>, <code>ru</code>. Ниже английский как эталон; остальные локали зеркалить по указанным строкам.</p>
+    </div>
+
+    <h3>5.1 Поля покупок</h3>
+    <div class="col">
+      <p>Удалить <code>iap_name</code> и <code>iap_desc</code> вместе со строками в <code>checks</code> и выводе. Добавить группу подписок и три названия (лимит 30 символов), в <code>LIMITS</code> — <code>"sub_name": 30</code>, <code>"sub_group": 30</code>; блок вывода «ПОДПИСКИ (группа Lampada Plus)» с тремя строками.</p>
+    </div>
+    <div class="scroller">
+      <table>
+        <thead><tr><th>Локаль</th><th>Группа</th><th>Неделя</th><th>Месяц</th><th>Год</th></tr></thead>
+        <tbody>
+          <tr><th>en-US</th><td>Lampada Plus</td><td>Lampada Plus · Weekly</td><td>Lampada Plus · Monthly</td><td>Lampada Plus · Yearly</td></tr>
+          <tr><th>es-ES</th><td>Lampada Plus</td><td>Lampada Plus · Semanal</td><td>Lampada Plus · Mensual</td><td>Lampada Plus · Anual</td></tr>
+          <tr><th>fr-FR</th><td>Lampada Plus</td><td>Lampada Plus · Hebdo</td><td>Lampada Plus · Mensuel</td><td>Lampada Plus · Annuel</td></tr>
+          <tr><th>de-DE</th><td>Lampada Plus</td><td>Lampada Plus · Wöchentlich</td><td>Lampada Plus · Monatlich</td><td>Lampada Plus · Jährlich</td></tr>
+          <tr><th>ru</th><td>Lampada Plus</td><td>Lampada Plus · Неделя</td><td>Lampada Plus · Месяц</td><td>Lampada Plus · Год</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>5.2 Описание, эталон en-US</h3>
+    <ul class="dash">
+      <li>Абзац 2: убрать «, on your Apple Watch»</li>
+      <li>Блок <code>WHERE THE WORD APPEARS</code>: удалить строки про Apple Watch и «A quiet daily notification, at the hour you choose»</li>
+      <li>Блок <code>FREE, AND STAYING FREE</code>: убрать «notifications, »</li>
+      <li>Блок <code>LAMPADA FOREVER</code> заменить целиком:</li>
+    </ul>
+<pre>LAMPADA PLUS
+StandBy, the wallpaper sets that rotate on their own, every style, palette and typeface, and all themes. A yearly plan with the first 7 days free, plus monthly and weekly options. Cancel anytime in Settings.</pre>
+    <div class="note">
+      <div class="eyebrow">Без цен в описании</div>
+      <p>В разных территориях цены разные, и текст быстро разойдётся с реальностью. Цифры живут только на пейволле.</p>
+    </div>
+    <div class="col">
+      <p>Те же фрагменты в других локалях, искать по строкам: <strong>es</strong> — «en tu Apple Watch», «Apple Watch: una complicación», «Una notificación diaria», «las notificaciones,», блок «LAMPADA PARA SIEMPRE»; <strong>fr</strong> — «sur votre Apple Watch», «Apple Watch : une complication», «Une notification quotidienne», «les notifications,», блок «LAMPADA POUR TOUJOURS»; <strong>de</strong> — «auf der Apple Watch», «Apple Watch: eine Komplikation», «Eine ruhige tägliche Mitteilung», «Mitteilungen,», блок «LAMPADA FÜR IMMER»; <strong>ru</strong> — «на Apple Watch», «Apple Watch: усложнение», «Тихое ежедневное уведомление», «уведомления,», блок «LAMPADA НАВСЕГДА».</p>
+    </div>
+
+    <div class="split">
+      <div>
+        <h3>5.3 «Что нового»</h3>
+        <p>Во всех локалях убрать «Apple Watch» из перечисления поверхностей.</p>
+        <h3>5.4 Подписи к скриншотам</h3>
+        <p>Кадр «On your wrist, all day long» (es «En tu muñeca…», fr «À votre poignet…», de «Am Handgelenk…», ru «На запястье…») → кадр про оформление: en «Make it look like yours», es «Que se vea como tú», fr «À votre image», de «Ganz nach deinem Geschmack», ru «Чтобы выглядело по-твоему».</p>
+      </div>
+      <div>
+        <h3>5.5 Ключевые слова</h3>
+        <div class="scroller">
+          <table style="min-width:0">
+            <thead><tr><th>Локаль</th><th>Было</th><th>Стало</th><th>Длина</th></tr></thead>
+            <tbody>
+              <tr><th>en-US</th><td>watch</td><td>anxiety</td><td class="num">100/100</td></tr>
+              <tr><th>es-ES</th><td>reloj</td><td>ansiedad</td><td class="num">98/100</td></tr>
+              <tr><th>fr-FR</th><td>montre</td><td>anxiété</td><td class="num">98/100</td></tr>
+              <tr><th>de-DE</th><td>uhr</td><td>angst</td><td class="num">99/100</td></tr>
+              <tr><th>ru</th><td>часы</td><td>тревога</td><td class="num">97/100</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p>После правок: <code>python3 build-metadata.py</code> → «ВСЁ В ЛИМИТАХ».</p>
+      </div>
+    </div>
+
+    <div class="split">
+      <div>
+        <h3>5.6 ASO-документ</h3>
+        <ul class="dash">
+          <li>Кадр №5 «Apple Watch крупно» → «Стили и палитры»; в кадре №1 не показывать уведомления</li>
+          <li>Правило «<code>standby</code> и <code>watch</code> латиницей» → оставить только <code>standby</code></li>
+          <li>Чек-лист: скриншот пейволла для ревью — для трёх подписок; «intro offer 7 дней только на годовой»</li>
+        </ul>
+      </div>
+      <div>
+        <h3>5.7 App Store Connect</h3>
+        <p>Группа «Lampada Plus», три авто-возобновляемые: <code>lampada.plus.weekly</code> / <code>.monthly</code> / <code>.yearly</code>; intro offer «7 days free» только на yearly; уровни $2.99 / $5.99 / $24.99 для США, остальные территории — по автоуровням Apple; review screenshot — пейволл ОБ2·06.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 06 -->
+  <section id="open">
+    <div class="eyebrow">06 · Открытые вопросы</div>
+    <h2>Нужен ответ Александра</h2>
+    <ol class="num">
+      <li><strong>Иконка приложения</strong>: сколько вариантов, все ли бесплатные, где живёт выбор (предложено — настройки).</li>
+      <li><strong>Приложения для паузы перед лентой</strong>: какие реально перехватываются автоматизацией Shortcuts на iOS 17 — уточнить у разработчика до финального списка.</li>
+      <li><strong>11b</strong>: чем заменить блок «Цвет на локскрине задаёт iOS…».</li>
+      <li><strong>Хватит ли платного набора</strong> без Watch и уведомлений для конверсии — риск в спеке §14; возможно, вернуть Watch в V1.1.</li>
+      <li><strong>Триал на неделе</strong>: PDF Scanner показал, что неделя с триалом конвертит лучше всего; у нас триал только на годовом — тестировать после релиза.</li>
+      <li><strong>Переносить ли §02</strong> в спеку отдельным разделом «Онбординг» — рекомендую да.</li>
+    </ol>
+  </section>
+
+  <!-- 07 -->
+  <section id="accept">
+    <div class="eyebrow">07 · Приёмка</div>
+    <h2>Чек-лист</h2>
+    <ul class="check">
+      <li><code>build-metadata.py</code> обновлён по §5.1–5.5, скрипт выводит «ВСЁ В ЛИМИТАХ», <code>metadata/*.txt</code> перегенерированы</li>
+      <li><code>02-aso-metadata.html</code> обновлён по §5.6</li>
+      <li>Спека: добавлены разделы «Онбординг» и «Настройки», описаны состояния «Сегодня»</li>
+      <li>Дизайн: задачи §03 (1–9) закрыты, красные пометки сняты</li>
+      <li>README синхронизирован</li>
+      <li>Артефакты спеки и ASO переопубликованы по тем же ссылкам</li>
+    </ul>
+    <div class="close">
+      <p>Самое ценное здесь — §02: поток онбординга и правила персонализации живут пока только в дизайне и в этом документе. Перенеси их в спеку первым делом, остальное можно делать в любом порядке.</p>
+    </div>
+  </section>
+
+</div>
