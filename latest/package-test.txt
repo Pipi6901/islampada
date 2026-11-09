@@ -1,0 +1,288 @@
+== test: ошибки и итог ==
+1030:	 Executed 0 tests, with 0 failures (0 unexpected) in 0.000 (0.003) seconds
+1031:◇ Test run started.
+1309:✔ Test "накрывает всю область ровно один раз" with 9 test cases passed after 0.253 seconds.
+1310:✔ Test "отрицательные позиции продолжают тот же круг" passed after 0.253 seconds.
+1327:✔ Test "ранняя точка не обрывает стих" passed after 0.265 seconds.
+1328:✔ Test "предпочитает конец предложения" passed after 0.265 seconds.
+1329:✔ Test "длинный обрывается по границе слова" passed after 0.265 seconds.
+1330:✔ Test "шаг между соседями не постоянен" passed after 0.265 seconds.
+1331:✔ Test "короткий текст остаётся как есть" passed after 0.265 seconds.
+1332:✔ Test "разные зёрна дают разный порядок" passed after 0.265 seconds.
+1333:✔ Test "вариант пейволла" passed after 0.265 seconds.
+1334:✔ Test "одно зерно — одна и та же последовательность" passed after 0.265 seconds.
+1335:✔ Test "имена годятся для GA4" passed after 0.265 seconds.
+1336:✔ Test "первая перепись только запоминает" passed after 0.265 seconds.
+1337:✔ Test "поставленный и снятый виджет" passed after 0.265 seconds.
+1338:✔ Test "покупка несёт сумму числом" passed after 0.265 seconds.
+1339:✔ Test "экземпляры считаются поштучно" passed after 0.266 seconds.
+1340:✔ Test "сняли всё" passed after 0.266 seconds.
+1341:✔ Test "виджет на экране блокировки отмечается сам" passed after 0.266 seconds.
+1342:✔ Test "настройки уведомлений и статистики переживают перезапуск" passed after 0.266 seconds.
+1343:✔ Test "открытия в один день считаются одним" passed after 0.266 seconds.
+1344:✔ Test "стих дня выключен, статистика включена по умолчанию" passed after 0.266 seconds.
+1345:✔ Test "без виджета не спрашиваем" passed after 0.266 seconds.
+1346:✔ Test "новая версия ждёт 90 дней" passed after 0.266 seconds.
+1347:✔ Test "третий день с виджетом — пора" passed after 0.266 seconds.
+1348:✔ Test "убранный виджет снимает отметку, ручные остаются" passed after 0.266 seconds.
+1349:✔ Test "в той же версии второй раз не спрашиваем" passed after 0.266 seconds.
+1350:✔ Test "нулевое смещение — это стих дня" with 6 test cases passed after 0.266 seconds.
+1351:✔ Test "свайп вперёд и назад возвращает туда же" passed after 0.266 seconds.
+1352:✔ Test "стих дня разный в соседние дни" passed after 0.266 seconds.
+1353:✔ Test "индекс всегда внутри пула" with 4 test cases passed after 0.266 seconds.
+1354:✔ Test "номер дня растёт на единицу в сутки" passed after 0.266 seconds.
+1355:✔ Test "счёт сохраняется в настройках" passed after 0.266 seconds.
+1356:✔ Test "стих дня детерминирован и не зависит от объекта" passed after 0.266 seconds.
+1357:✔ Test "после полного круга последовательность повторяется" passed after 0.266 seconds.
+1358:✔ Test "свайп вперёд не показывает завтрашний стих дня" passed after 0.266 seconds.
+1359:✔ Test "порядок листания меняется каждый день" passed after 0.266 seconds.
+1360:✔ Test "у каждой поверхности три шага с подсказками" passed after 0.266 seconds.
+1361:✔ Test "полный круг проходит пул без повторов" passed after 0.266 seconds.
+1362:✔ Test "подписка открывает всё" passed after 0.266 seconds.
+1363:✔ Test "у каждой альтернативной иконки есть имя набора" passed after 0.266 seconds.
+1364:✔ Test "отметку можно снять" passed after 0.266 seconds.
+1365:✔ Test "у картиночных иконок есть имя изображения" passed after 0.266 seconds.
+1366:✔ Test "основная иконка не имеет альтернативного имени" passed after 0.266 seconds.
+1367:✔ Test "голубь бесплатный" passed after 0.266 seconds.
+1368:✔ Test "настройки оформления переживают перезапуск" passed after 0.266 seconds.
+1369:✔ Test "следующая поверхность идёт по порядку сложности" passed after 0.266 seconds.
+1370:✔ Test "часы не попадают на экран" passed after 0.266 seconds.
+1371:✔ Test "экран блокировки не применяет цвет набора" passed after 0.266 seconds.
+1372:✔ Test "пауза перед лентой бесплатна" passed after 0.266 seconds.
+1373:✔ Test "когда всё поставлено, предлагать нечего" passed after 0.266 seconds.
+1374:✔ Test "на чистой установке ни одной поверхности" passed after 0.266 seconds.
+1375:✔ Test "первый ряд наборов доступен без подписки" passed after 0.266 seconds.
+1376:✔ Test "разделы покрывают все поверхности версии" passed after 0.266 seconds.
+1377:✔ Test "настройки переживают перезапуск" passed after 0.266 seconds.
+1378:✔ Test "стиль задаётся для каждой области отдельно" passed after 0.266 seconds.
+1379:✔ Test "бандл каждого языка читается" with 8 test cases passed after 0.266 seconds.
+1380:✔ Test "язык устройства определяется по списку предпочтений" passed after 0.266 seconds.
+1381:✔ Test "несколько тем складываются" passed after 0.265 seconds.
+1382:✔ Test "состав карточек одинаков во всех языках" passed after 0.266 seconds.
+1383:✔ Test "у каждой карточки есть контекст" with 8 test cases passed after 0.266 seconds.
+1384:✔ Test "у карточек есть текст и подпись" with 8 test cases passed after 0.266 seconds.
+1385:✔ Test "надписания псалмов не попали в карточки" passed after 0.266 seconds.
+1386:✔ Test "пустой набор тем не сужает пул" passed after 0.266 seconds.
+1387:✔ Test "карточка не обрывается на запятой" with 8 test cases passed after 0.266 seconds.
+1388:✔ Test "фильтр по темам сужает пул, не ломая его" passed after 0.266 seconds.
+1389:✔ Test "нумерация подписей отличается там, где отличаются издания" passed after 0.266 seconds.
+1390:✔ Test "виджет пропал — через четыре дня" passed after 0.266 seconds.
+1391:✔ Test "ночь сдвигается на утро, день не трогается" passed after 0.266 seconds.
+1392:✔ Test "стих дня на месяц вперёд в выбранное время" passed after 0.266 seconds.
+1393:✔ Test "вторую поверхность предлагаем, только когда стоит одна" passed after 0.266 seconds.
+1394:✔ Test "прошедшее время сегодня переносится на завтра" passed after 0.266 seconds.
+1395:✔ Test "текст стиха совпадает со стихом дня" passed after 0.266 seconds.
+1396:✔ Test "вид узнаётся по идентификатору" passed after 0.266 seconds.
+1397:✔ Test "возврат только без виджета и стиха дня" passed after 0.266 seconds.
+1398:✔ Test "события экрана и согласия" passed after 0.266 seconds.
+1399:✔ Test "отметка и согласие сохраняются" passed after 0.266 seconds.
+1400:✔ Test "ветка показывает все шесть плиток" with 4 test cases passed after 0.266 seconds.
+1401:✔ Test "каждая плитка набора закрыта без подписки" passed after 0.266 seconds.
+1402:✔ Test "у каждой плитки набора есть подпись" with 8 test cases passed after 0.266 seconds.
+1403:✔ Test "возврат через три и семь дней в дневное время" passed after 0.266 seconds.
+1404:✔ Test "у каждой цели есть обе подписи" with 8 test cases passed after 0.266 seconds.
+1405:✔ Test "экран ждёт тех, кто обновился" passed after 0.266 seconds.
+1406:✔ Test "вторая поверхность — в срок и с инструкцией" passed after 0.266 seconds.
+1407:✔ Test "дни в году по часам в ленте" passed after 0.266 seconds.
+1408:✔ Test "цель сохраняется" passed after 0.266 seconds.
+1409:✔ Test "неизвестный статус не отнимает платное" passed after 0.266 seconds.
+1410:✔ Test "отменённый триал узнаётся" passed after 0.266 seconds.
+1411:✔ Test "без права ничего не действует" passed after 0.266 seconds.
+1412:✔ Test "бесплатное оформление виджету не мешает" passed after 0.266 seconds.
+1413:✔ Test "замена платного набора всегда бесплатна" passed after 0.266 seconds.
+1414:✔ Test "отменённый триал действует до конца недели" passed after 0.266 seconds.
+1415:✔ Test "старый снимок без признака триала читается" passed after 0.266 seconds.
+1416:✔ Test "продлевающаяся подписка не гаснет по старой дате" passed after 0.266 seconds.
+1417:✔ Test "без платного откат ничего не меняет" passed after 0.266 seconds.
+1418:✔ Test "виджет отпускает платное в момент конца подписки" passed after 0.266 seconds.
+1419:✔ Test "откат и снимок переживают перезапуск" passed after 0.266 seconds.
+1420:✔ Test "откат снимает только платное" passed after 0.266 seconds.
+1421:✔ Test "подстановки совпадают с английскими" with 3 test cases passed after 0.266 seconds.
+1422:✔ Test "у каждой строки ровно пять переводов" passed after 0.266 seconds.
+1423:✔ Test "число со словом в нужной форме" passed after 0.266 seconds.
+1424:✔ Test "ссылки на условия и политику ведут наружу" passed after 0.266 seconds.
+1425:✔ Test "дата в макете переводится" passed after 0.266 seconds.
+1426:✔ Test "у новых языков переведён каждый ключ" passed after 0.265 seconds.
+1427:✔ Test "ни один ключ не остался без строки" with 8 test cases passed after 0.265 seconds.
+1428:✔ Test "рассылка с вкладкой и пейволлом" passed after 0.030 seconds.
+1429:✔ Test "пустые и выключенные значения пропускаются" passed after 0.030 seconds.
+1430:✔ Test "предложение открывает пейволл" passed after 0.028 seconds.
+1431:✔ Test "своё напоминание не считается рассылкой" passed after 0.025 seconds.
+1432:✔ Suite "Текст для экрана блокировки" passed after 0.270 seconds.
+1433:✔ Suite "Перестановка индексов" passed after 0.270 seconds.
+1434:✔ Suite "Отметки поверхностей по факту" passed after 0.270 seconds.
+1435:✔ Suite "События аналитики" passed after 0.270 seconds.
+1436:✔ Suite "Просьба об оценке" passed after 0.270 seconds.
+1437:✔ Suite "Движок выдачи" passed after 0.270 seconds.
+1438:✔ Suite "Корпус" passed after 0.270 seconds.
+1439:✔ Suite "Уведомления: что и когда" passed after 0.270 seconds.
+1440:✔ Suite "Настройки и поверхности" passed after 0.270 seconds.
+1441:✔ Suite "«Что нового» и согласие на новости" passed after 0.270 seconds.
+1442:✔ Suite "Намерения и подсветка платного" passed after 0.270 seconds.
+1443:✔ Suite "Действия рассылки" passed after 0.271 seconds.
+1444:✔ Suite "Подписка там, куда RevenueCat не дотягивается" passed after 0.270 seconds.
+1445:✔ Test "у каждого состояния из корпуса есть перевод" with 8 test cases passed after 0.271 seconds.
+1446:✔ Suite "Строки интерфейса" passed after 0.276 seconds.
+1447:✔ Test "показ не задерживает действие" passed after 0.608 seconds.
+1448:✔ Test "по истечении окна пауза показывается снова" passed after 0.608 seconds.
+1449:✔ Test "без адреса пауза всё равно показывается" passed after 0.608 seconds.
+1450:✔ Test "в окне тишины пауза не показывается, а отскакивает в соцсеть" passed after 0.608 seconds.
+1451:✔ Test "уход мимо кнопки засчитывается" passed after 0.608 seconds.
+1452:✔ Test "сразу после паузы она не показывается снова" passed after 0.608 seconds.
+1453:✔ Test "окно тишины видно из другого процесса" passed after 0.608 seconds.
+1454:✔ Test "адрес возврата доживает до кнопки" passed after 0.608 seconds.
+1455:✔ Test "высота строки одна для всех начертаний" with 9 test cases passed after 0.608 seconds.
+1456:✔ Test "шрифт создаётся из своего семейства" with 8 test cases passed after 0.608 seconds.
+1457:✔ Test "поправка выравнивает видимый размер" with 9 test cases passed after 0.608 seconds.
+1458:✔ Test "тот же день ничего не сбрасывает" passed after 0.608 seconds.
+1459:✔ Test "смена языка сохраняет отрывок" passed after 0.608 seconds.
+1460:✔ Test "ось веса двигает начертание" with 8 test cases passed after 0.608 seconds.
+1461:✔ Test "снятие фильтра возвращает полный пул" passed after 0.608 seconds.
+1462:✔ Test "свайп вверх и вниз двигают смещение в разные стороны" passed after 0.608 seconds.
+1463:✔ Test "на старте показан стих дня" passed after 0.608 seconds.
+1464:✔ Test "у каждой карточки при листании есть контекст" passed after 0.607 seconds.
+1465:✔ Test "полный круг по пулу не повторяется" passed after 0.608 seconds.
+1466:✔ Test "тап по дате возвращает к стиху дня с любой глубины" passed after 0.608 seconds.
+1467:✔ Test "фильтр по темам сужает пул и сбрасывает смещение" passed after 0.608 seconds.
+1468:✔ Test "листание назад тоже считается листанием" passed after 0.607 seconds.
+1469:✔ Test "новый день сбрасывает смещение и меняет стих" passed after 0.608 seconds.
+1470:✔ Test "на обычном iPhone картинка почти не режется" passed after 0.607 seconds.
+1471:✔ Test "вариант выбирается по пропорциям" passed after 0.607 seconds.
+1472:✔ Test "картинка закрывает весь экран" with 5 test cases passed after 0.607 seconds.
+1473:✔ Test "лик остаётся в кадре" passed after 0.607 seconds.
+1474:✔ Test "чужое действие шаг не закрывает" passed after 0.607 seconds.
+1475:✔ Test "пейзаж держит низ картинки" passed after 0.607 seconds.
+1476:✔ Test "повторный запуск не сбрасывает идущий тур" passed after 0.607 seconds.
+1477:✔ Test "пройденный тур не запускается снова" passed after 0.607 seconds.
+1478:✔ Test "тур начинается со свайпа" passed after 0.607 seconds.
+1479:✔ Test "шаги идут по порядку и заканчиваются" passed after 0.607 seconds.
+1480:✔ Test "каждый шаг знает свою вкладку" passed after 0.607 seconds.
+1481:✔ Test "оформление виджетов идёт через отдельный шаг переключения" passed after 0.607 seconds.
+1482:✔ Suite "Пауза перед лентой" passed after 0.611 seconds.
+1483:✔ Suite "Фон под пропорции экрана" passed after 0.611 seconds.
+1484:✔ Suite "Экран «Сегодня»" passed after 0.611 seconds.
+1485:✔ Suite "Шрифты" passed after 0.611 seconds.
+1486:✔ Suite "Обучающий тур" passed after 0.611 seconds.
+1487:✔ Test run with 143 tests in 19 suites passed after 0.611 seconds.
+
+== test: хвост ==
+✔ Test "настройки оформления переживают перезапуск" passed after 0.266 seconds.
+✔ Test "следующая поверхность идёт по порядку сложности" passed after 0.266 seconds.
+✔ Test "часы не попадают на экран" passed after 0.266 seconds.
+✔ Test "экран блокировки не применяет цвет набора" passed after 0.266 seconds.
+✔ Test "пауза перед лентой бесплатна" passed after 0.266 seconds.
+✔ Test "когда всё поставлено, предлагать нечего" passed after 0.266 seconds.
+✔ Test "на чистой установке ни одной поверхности" passed after 0.266 seconds.
+✔ Test "первый ряд наборов доступен без подписки" passed after 0.266 seconds.
+✔ Test "разделы покрывают все поверхности версии" passed after 0.266 seconds.
+✔ Test "настройки переживают перезапуск" passed after 0.266 seconds.
+✔ Test "стиль задаётся для каждой области отдельно" passed after 0.266 seconds.
+✔ Test "бандл каждого языка читается" with 8 test cases passed after 0.266 seconds.
+✔ Test "язык устройства определяется по списку предпочтений" passed after 0.266 seconds.
+✔ Test "несколько тем складываются" passed after 0.265 seconds.
+✔ Test "состав карточек одинаков во всех языках" passed after 0.266 seconds.
+✔ Test "у каждой карточки есть контекст" with 8 test cases passed after 0.266 seconds.
+✔ Test "у карточек есть текст и подпись" with 8 test cases passed after 0.266 seconds.
+✔ Test "надписания псалмов не попали в карточки" passed after 0.266 seconds.
+✔ Test "пустой набор тем не сужает пул" passed after 0.266 seconds.
+✔ Test "карточка не обрывается на запятой" with 8 test cases passed after 0.266 seconds.
+✔ Test "фильтр по темам сужает пул, не ломая его" passed after 0.266 seconds.
+✔ Test "нумерация подписей отличается там, где отличаются издания" passed after 0.266 seconds.
+✔ Test "виджет пропал — через четыре дня" passed after 0.266 seconds.
+✔ Test "ночь сдвигается на утро, день не трогается" passed after 0.266 seconds.
+✔ Test "стих дня на месяц вперёд в выбранное время" passed after 0.266 seconds.
+✔ Test "вторую поверхность предлагаем, только когда стоит одна" passed after 0.266 seconds.
+✔ Test "прошедшее время сегодня переносится на завтра" passed after 0.266 seconds.
+✔ Test "текст стиха совпадает со стихом дня" passed after 0.266 seconds.
+✔ Test "вид узнаётся по идентификатору" passed after 0.266 seconds.
+✔ Test "возврат только без виджета и стиха дня" passed after 0.266 seconds.
+✔ Test "события экрана и согласия" passed after 0.266 seconds.
+✔ Test "отметка и согласие сохраняются" passed after 0.266 seconds.
+✔ Test "ветка показывает все шесть плиток" with 4 test cases passed after 0.266 seconds.
+✔ Test "каждая плитка набора закрыта без подписки" passed after 0.266 seconds.
+✔ Test "у каждой плитки набора есть подпись" with 8 test cases passed after 0.266 seconds.
+✔ Test "возврат через три и семь дней в дневное время" passed after 0.266 seconds.
+✔ Test "у каждой цели есть обе подписи" with 8 test cases passed after 0.266 seconds.
+✔ Test "экран ждёт тех, кто обновился" passed after 0.266 seconds.
+✔ Test "вторая поверхность — в срок и с инструкцией" passed after 0.266 seconds.
+✔ Test "дни в году по часам в ленте" passed after 0.266 seconds.
+✔ Test "цель сохраняется" passed after 0.266 seconds.
+✔ Test "неизвестный статус не отнимает платное" passed after 0.266 seconds.
+✔ Test "отменённый триал узнаётся" passed after 0.266 seconds.
+✔ Test "без права ничего не действует" passed after 0.266 seconds.
+✔ Test "бесплатное оформление виджету не мешает" passed after 0.266 seconds.
+✔ Test "замена платного набора всегда бесплатна" passed after 0.266 seconds.
+✔ Test "отменённый триал действует до конца недели" passed after 0.266 seconds.
+✔ Test "старый снимок без признака триала читается" passed after 0.266 seconds.
+✔ Test "продлевающаяся подписка не гаснет по старой дате" passed after 0.266 seconds.
+✔ Test "без платного откат ничего не меняет" passed after 0.266 seconds.
+✔ Test "виджет отпускает платное в момент конца подписки" passed after 0.266 seconds.
+✔ Test "откат и снимок переживают перезапуск" passed after 0.266 seconds.
+✔ Test "откат снимает только платное" passed after 0.266 seconds.
+✔ Test "подстановки совпадают с английскими" with 3 test cases passed after 0.266 seconds.
+✔ Test "у каждой строки ровно пять переводов" passed after 0.266 seconds.
+✔ Test "число со словом в нужной форме" passed after 0.266 seconds.
+✔ Test "ссылки на условия и политику ведут наружу" passed after 0.266 seconds.
+✔ Test "дата в макете переводится" passed after 0.266 seconds.
+✔ Test "у новых языков переведён каждый ключ" passed after 0.265 seconds.
+✔ Test "ни один ключ не остался без строки" with 8 test cases passed after 0.265 seconds.
+✔ Test "рассылка с вкладкой и пейволлом" passed after 0.030 seconds.
+✔ Test "пустые и выключенные значения пропускаются" passed after 0.030 seconds.
+✔ Test "предложение открывает пейволл" passed after 0.028 seconds.
+✔ Test "своё напоминание не считается рассылкой" passed after 0.025 seconds.
+✔ Suite "Текст для экрана блокировки" passed after 0.270 seconds.
+✔ Suite "Перестановка индексов" passed after 0.270 seconds.
+✔ Suite "Отметки поверхностей по факту" passed after 0.270 seconds.
+✔ Suite "События аналитики" passed after 0.270 seconds.
+✔ Suite "Просьба об оценке" passed after 0.270 seconds.
+✔ Suite "Движок выдачи" passed after 0.270 seconds.
+✔ Suite "Корпус" passed after 0.270 seconds.
+✔ Suite "Уведомления: что и когда" passed after 0.270 seconds.
+✔ Suite "Настройки и поверхности" passed after 0.270 seconds.
+✔ Suite "«Что нового» и согласие на новости" passed after 0.270 seconds.
+✔ Suite "Намерения и подсветка платного" passed after 0.270 seconds.
+✔ Suite "Действия рассылки" passed after 0.271 seconds.
+✔ Suite "Подписка там, куда RevenueCat не дотягивается" passed after 0.270 seconds.
+✔ Test "у каждого состояния из корпуса есть перевод" with 8 test cases passed after 0.271 seconds.
+✔ Suite "Строки интерфейса" passed after 0.276 seconds.
+✔ Test "показ не задерживает действие" passed after 0.608 seconds.
+✔ Test "по истечении окна пауза показывается снова" passed after 0.608 seconds.
+✔ Test "без адреса пауза всё равно показывается" passed after 0.608 seconds.
+✔ Test "в окне тишины пауза не показывается, а отскакивает в соцсеть" passed after 0.608 seconds.
+✔ Test "уход мимо кнопки засчитывается" passed after 0.608 seconds.
+✔ Test "сразу после паузы она не показывается снова" passed after 0.608 seconds.
+✔ Test "окно тишины видно из другого процесса" passed after 0.608 seconds.
+✔ Test "адрес возврата доживает до кнопки" passed after 0.608 seconds.
+✔ Test "высота строки одна для всех начертаний" with 9 test cases passed after 0.608 seconds.
+✔ Test "шрифт создаётся из своего семейства" with 8 test cases passed after 0.608 seconds.
+✔ Test "поправка выравнивает видимый размер" with 9 test cases passed after 0.608 seconds.
+✔ Test "тот же день ничего не сбрасывает" passed after 0.608 seconds.
+✔ Test "смена языка сохраняет отрывок" passed after 0.608 seconds.
+✔ Test "ось веса двигает начертание" with 8 test cases passed after 0.608 seconds.
+✔ Test "снятие фильтра возвращает полный пул" passed after 0.608 seconds.
+✔ Test "свайп вверх и вниз двигают смещение в разные стороны" passed after 0.608 seconds.
+✔ Test "на старте показан стих дня" passed after 0.608 seconds.
+✔ Test "у каждой карточки при листании есть контекст" passed after 0.607 seconds.
+✔ Test "полный круг по пулу не повторяется" passed after 0.608 seconds.
+✔ Test "тап по дате возвращает к стиху дня с любой глубины" passed after 0.608 seconds.
+✔ Test "фильтр по темам сужает пул и сбрасывает смещение" passed after 0.608 seconds.
+✔ Test "листание назад тоже считается листанием" passed after 0.607 seconds.
+✔ Test "новый день сбрасывает смещение и меняет стих" passed after 0.608 seconds.
+✔ Test "на обычном iPhone картинка почти не режется" passed after 0.607 seconds.
+✔ Test "вариант выбирается по пропорциям" passed after 0.607 seconds.
+✔ Test "картинка закрывает весь экран" with 5 test cases passed after 0.607 seconds.
+✔ Test "лик остаётся в кадре" passed after 0.607 seconds.
+✔ Test "чужое действие шаг не закрывает" passed after 0.607 seconds.
+✔ Test "пейзаж держит низ картинки" passed after 0.607 seconds.
+✔ Test "повторный запуск не сбрасывает идущий тур" passed after 0.607 seconds.
+✔ Test "пройденный тур не запускается снова" passed after 0.607 seconds.
+✔ Test "тур начинается со свайпа" passed after 0.607 seconds.
+✔ Test "шаги идут по порядку и заканчиваются" passed after 0.607 seconds.
+✔ Test "каждый шаг знает свою вкладку" passed after 0.607 seconds.
+✔ Test "оформление виджетов идёт через отдельный шаг переключения" passed after 0.607 seconds.
+✔ Suite "Пауза перед лентой" passed after 0.611 seconds.
+✔ Suite "Фон под пропорции экрана" passed after 0.611 seconds.
+✔ Suite "Экран «Сегодня»" passed after 0.611 seconds.
+✔ Suite "Шрифты" passed after 0.611 seconds.
+✔ Suite "Обучающий тур" passed after 0.611 seconds.
+✔ Test run with 143 tests in 19 suites passed after 0.611 seconds.
