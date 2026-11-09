@@ -7,7 +7,9 @@
     corpus-ar.json  — карточки, где основной текст — сам арабский оригинал
 
 ТЕКСТЫ НЕ ПРАВЯТСЯ. Каждая карточка — это стихи из исходных файлов Tanzil, склеенные
-через пробел. Сборка проверяет это обратной сверкой: текст карточки должен совпасть с
+через пробел. Две оговорки: басмала, приклеенная в файле Tanzil к первому аяту суры, отрезается
+(см. `strip_basmala`); и у переводов запятая, точка с запятой или двоеточие в самом конце карточки
+меняются на точку (см. `finish`). Арабский текст больше не меняется никак. Сборка проверяет это обратной сверкой: текст карточки должен совпасть с
 исходником посимвольно (кроме склейки диапазона), иначе сборка падает.
 
 Исходники (corpus-src/, скачаны с tanzil.net скриптом fetch_sources.py):
@@ -44,6 +46,14 @@ EDITIONS = {
                license="CC BY 3.0 — Tanzil Project, tanzil.net", source="tanzil.net"),
 }
 ARABIC_CREDIT = "CC BY 3.0 — Tanzil Project, tanzil.net"
+# Лицензия Tanzil требует воспроизвести уведомление во всех файлах, которые
+# содержат существенную часть текста, поэтому оно едет в каждом бандле.
+ARABIC_NOTICE = (
+    "Quran text: Tanzil Project (https://tanzil.net), Creative Commons Attribution 3.0. "
+    "Permission is granted to copy and distribute verbatim copies of this text, but "
+    "changing it is not allowed. This copy of the Quran text is carefully produced, "
+    "highly verified and continuously monitored by a group of specialists at Tanzil Project."
+)
 
 
 def load_verses(path):
@@ -55,6 +65,35 @@ def load_verses(path):
         s, a, t = line.split("|", 2)
         verses[(int(s), int(a))] = t.strip()
     return verses
+
+
+def basmala_forms(ar):
+    """Басмала в файле Tanzil пишется одинаково везде, кроме сур 95 и 97: там на «ба» стоит
+    лишняя шадда (U+0651). Это особенность самого файла; обе записи отрезаются как префикс,
+    а карточки текст из него не берут (в подборке этих аятов нет), но сборка должна
+    справляться с любым первым аятом."""
+    plain = ar[(1, 1)]
+    with_shadda = plain.replace("بِ", "بِّ", 1)
+    return plain, {plain, with_shadda}
+
+
+def strip_basmala(ar):
+    """В файле Tanzil басмала приклеена к первому аяту каждой суры (кроме 1-й, где она сама
+    первый аят, и 9-й, где её нет). В мушафе это отдельная строка перед сурой, а не часть
+    аята, и перевод её не содержит — на карточке «94:1–4» арабский с басмалой и перевод без неё
+    расходились бы. Отрезается ровно приклеенный префикс, буква в букву; остальное не
+    трогается. Всё, что отрезано, сверяется в `verify` с исходным файлом."""
+    _, forms = basmala_forms(ar)
+    out = dict(ar)
+    for (sura, ayah), text in ar.items():
+        if ayah == 1 and sura not in (1, 9):
+            for form in forms:
+                if text.startswith(form + " "):
+                    out[(sura, ayah)] = text[len(form) + 1:]
+                    break
+            else:
+                raise AssertionError(f"{sura}:1 не начинается с басмалы")
+    return out
 
 
 def load_meta():
@@ -94,7 +133,7 @@ def finish(text, lang):
 
 
 def build():
-    ar = load_verses(os.path.join(SRC, "quran-uthmani.txt"))
+    ar = strip_basmala(load_verses(os.path.join(SRC, "quran-uthmani.txt")))
     en = load_verses(os.path.join(SRC, "en.pickthall.txt"))
     ru = load_verses(os.path.join(SRC, "ru.sablukov.txt"))
     meta = load_meta()
@@ -128,6 +167,7 @@ def build():
             "edition": {"id": ed["id"], "name": ed["name"], "license": ed["license"],
                         "source": ed["source"]},
             "arabicCredit": ARABIC_CREDIT,
+            "arabicNotice": ARABIC_NOTICE,
             "counts": {"cards": len(cards[lang]), "passages": len(contexts)},
             "cards": cards[lang],
             "contexts": contexts,
@@ -138,8 +178,17 @@ def build():
 def verify(bundles, sources):
     """Обратная сверка: карточка == исходник, во всех языках один состав."""
     ar, en, ru = sources
+    raw = load_verses(os.path.join(SRC, "quran-uthmani.txt"))
+    basmala, forms = basmala_forms(raw)
     base = [c["id"] for c in bundles["en"]["cards"]]
     problems = []
+    # Отрезана только басмала в начале первых аятов, и ничего больше.
+    for (sura, ayah), text in raw.items():
+        if ayah == 1 and sura not in (1, 9) and not any(
+                text == form + " " + ar[(sura, ayah)] for form in forms):
+            problems.append(f"{sura}:1 — отрезано не только басмалу")
+        elif not (ayah == 1 and sura not in (1, 9)) and text != ar[(sura, ayah)]:
+            problems.append(f"{sura}:{ayah} — текст изменён")
     for lang, b in bundles.items():
         if [c["id"] for c in b["cards"]] != base:
             problems.append(f"{lang}: состав карточек расходится")
@@ -160,6 +209,10 @@ def verify(bundles, sources):
                 problems.append(f"{lang} {c['id']}: оборван на «{c['t'][-1]}»")
             if "|" in c["t"] or "<" in c["t"]:
                 problems.append(f"{lang} {c['id']}: служебные символы")
+            if basmala in c["t"] and c["id"] != "1-1-7":
+                problems.append(f"{lang} {c['id']}: в карточке осталась басмала")
+            if c.get("a") and basmala in c["a"] and c["id"] != "1-1-7":
+                problems.append(f"{lang} {c['id']}: в оригинале осталась басмала")
             if c["id"] not in {x["id"] for x in b["cards"]}:
                 problems.append("?")
         for c in b["cards"]:

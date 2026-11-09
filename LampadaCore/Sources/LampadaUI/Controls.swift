@@ -124,6 +124,17 @@ struct LanguageSheet: View {
                 }
             }
 
+            // Лицензия арабского текста требует воспроизводить это уведомление
+            // и давать ссылку на сайт проекта.
+            VStack(alignment: .leading, spacing: 6) {
+                Text(Legal.tanzilNotice)
+                    .font(theme.ui(10))
+                    .foregroundStyle(theme.textFaint)
+                    .fixedSize(horizontal: false, vertical: true)
+                Link("tanzil.net", destination: Legal.tanzil)
+                    .font(theme.ui(10, weight: 600))
+                    .foregroundStyle(theme.accent)
+            }
         }
         .padding(26)
         .frame(maxWidth: .infinity, alignment: .leading)

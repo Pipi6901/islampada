@@ -1,137 +1,121 @@
-# Первая сборка: от нуля до TestFlight
+# Первая сборка Misbah: от репозитория до TestFlight
 
-Порядок важен: каждый шаг даёт то, что нужно следующему. Компилировать Swift на
-Windows нельзя, поэтому сборка идёт в облаке (Codemagic). Всё, что в `<угловых скобках>`, —
-твои значения.
+Код, тексты, картинки и тесты готовы (см. `README.md`). Компилировать Swift на Windows нельзя, поэтому
+каждый коммит проверяет GitHub Actions на macOS (`.github/workflows/ci.yml`: тесты пакета, сборка пакета под
+iOS, сборка приложения вместе с виджетом), а настоящая сборка для TestFlight идёт в Codemagic.
 
-**Важно:** пока в коде тексты, аяты и картинки от Библии. Первая сборка по этой инструкции проверяет
-инфраструктуру (подпись, App Store Connect, Codemagic, подписки), а не готовый продукт. В стор такую сборку
-отправлять нельзя.
+Идентификаторы в коде уже стоят свои:
 
-Отмечай `[x]`, когда шаг сделан.
+| Что | Значение |
+|---|---|
+| Bundle ID приложения | `com.astonio.misbah` |
+| Bundle ID виджета | `com.astonio.misbah.widgets` |
+| App Group | `group.com.astonio.misbah` |
+| Team ID | `VG9U7V4AAL` |
+| Apple ID приложения в App Store Connect | `6832716134` |
+| Entitlement в RevenueCat | `misbah_pro` |
 
-## 0. Решить заранее
+Отмечай `[x]`, когда шаг сделан. Порядок важен: каждый шаг даёт то, что нужно следующему.
 
-- [ ] **Чей Apple Developer-аккаунт.** Оригинал живёт на аккаунте команды Astonio (куратора).
-  Приложение публикуется под тем аккаунтом, где куплена программа ($99/год). Если под
-  куратором — нужна роль **Admin** или **App Manager** в App Store Connect и доступ к
-  Certificates, Identifiers & Profiles (роль Admin). Если под своим — купи Apple Developer Program.
-- [ ] **Рабочее имя приложения** (в макетах «Nur», позже поменяем).
-- [ ] **Bundle ID**, обратная запись домена: `com.<команда>.<имя>`, например `com.astonio.nur`.
-  Дальше: виджет `<bundle>.widgets`, App Group `group.<bundle>`, подписки `<bundle>.weekly|monthly|yearly`.
-  Менять после первой сборки больно, выбирай сразу.
+## 1. Apple Developer — проверить, что заведено
 
-## 1. Apple Developer: идентификаторы
 developer.apple.com → Account → Certificates, Identifiers & Profiles → Identifiers.
 
-- [ ] **App Group:** `+` → App Groups → `group.<bundle>`.
-- [ ] **App ID приложения:** `+` → App IDs → App → Bundle ID `<bundle>` (Explicit).
-  Включи capabilities: **App Groups** (выбери группу) и **Push Notifications**.
-- [ ] **App ID виджета:** `<bundle>.widgets` (Explicit), capability **App Groups** (та же группа).
-- [ ] Запиши **Team ID** (Account → Membership details), 10 символов.
+- [ ] App Group `group.com.astonio.misbah`.
+- [ ] App ID `com.astonio.misbah` — capabilities **App Groups** (эта группа) и **Push Notifications**.
+- [ ] App ID `com.astonio.misbah.widgets` — capability **App Groups** (та же группа).
 
 Без группы в обоих App ID сборка пройдёт, но виджет молча покажет настройки по умолчанию.
 
-## 2. App Store Connect: создать приложение
-appstoreconnect.apple.com → Apps → `+` → New App.
+## 2. App Store Connect
 
-- [ ] Platform iOS, Name (уникальное в сторе; пока рабочее), Primary Language, Bundle ID = `<bundle>`, SKU любой (`nur-001`).
-- [ ] После создания: App Information → скопируй **Apple ID** (число, ~10 цифр). Это `APP_STORE_APPLE_ID`.
-- [ ] Agreements, Tax, and Banking: должен быть принят **Paid Apps Agreement**, заполнены банк и налоги.
-  Без этого подписки не заработают. Принять соглашение может только владелец аккаунта (Account Holder).
-  Если Apple просит принять обновлённое Program License Agreement — тоже он: пока не принято, сборки не загружаются.
+- [ ] Приложение создано (имя **Misbah**, bundle `com.astonio.misbah`).
+- [ ] Agreements, Tax, and Banking: принят **Paid Apps Agreement**, заполнены банк и налоги. Принять его может только
+  владелец аккаунта (Account Holder). Пока не принято Program License Agreement (если Apple просит), сборки не загружаются.
+- [ ] Users and Access → Integrations → App Store Connect API → ключ `Codemagic`, роль **App Manager**; `.p8` скачивается один раз —
+  в менеджер паролей, не в репозиторий и не в чаты.
 
-## 3. App Store Connect: API-ключ для Codemagic
-Users and Access → Integrations → App Store Connect API → Team Keys → `+`.
+## 3. Codemagic
 
-- [ ] Имя `Codemagic`, роль **App Manager**. Скачай `.p8` (скачивается один раз!), запиши **Key ID** и **Issuer ID**.
-- [ ] Файл `.p8` не клади в репозиторий и не присылай в чаты. Храни в менеджере паролей.
+codemagic.io → Add application → GitHub → `Pipi6901/islampada` → «Other / codemagic.yaml».
 
-## 4. Сертификат подписи
-Нужен distribution-сертификат и его приватный ключ. У аккаунта лимит **3 distribution-сертификата**,
-не выпускай новые без нужды.
+- [ ] Teams → Integrations → App Store Connect: ключ из шага 2. Имя интеграции должно совпадать с `app_store_connect:` в
+  `codemagic.yaml` посимвольно (сейчас `Astonio`).
+- [ ] Environment variables → группа **`app_store_vars`** у ЭТОГО приложения (группы в Codemagic по-апповые):
+  `CERTIFICATE_PRIVATE_KEY` (приватный ключ distribution-сертификата команды; у аккаунта лимит 3 сертификатов,
+  новых не выпускать) и `GA_MP_SECRET` (можно пустым: пульс виджета молчит, сборка проходит).
+- [ ] Версия Xcode: в `codemagic.yaml` стоит `xcode: 27.1`. Если Codemagic её не знает, сборка не стартует — поставь
+  доступную из их списка (например `26.0`). Для iPhone Duo нужна 27.1, для первой сборки не критично.
 
-- Если сертификат команды уже есть (его ключ у куратора) — попроси у куратора значение `CERTIFICATE_PRIVATE_KEY`.
-- Если нет — сгенерируй ключ и положи его в Codemagic (шаг 5):
-  ```bash
-  ssh-keygen -t rsa -b 2048 -m PEM -f nur_cert_key -q -N ""
-  ```
-  Содержимое файла `nur_cert_key` целиком (с `-----BEGIN` и `-----END`) — это `CERTIFICATE_PRIVATE_KEY`.
-  Сборка сама выпустит сертификат с этим ключом (`--create` в `codemagic.yaml`).
+## 4. Firebase (аналитика и рассылки; для первой сборки не блокирует)
 
-## 5. Codemagic
-codemagic.io → Add application → GitHub → `Pipi6901/islampada` → тип проекта «Other / codemagic.yaml».
+Без `GoogleService-Info.plist` приложение запускается, а Firebase просто не поднимается (аналитики и рассылок нет).
+Когда понадобятся:
 
-- [ ] Teams → Integrations → **App Store Connect** → Add key: Issuer ID, Key ID, `.p8`.
-  Имя интеграции должно совпадать с `app_store_connect:` в `codemagic.yaml` посимвольно (сейчас `Astonio`).
-  Поменяй имя в yaml или назови интеграцию так же.
-- [ ] Applications → твоё приложение → Environment variables → группа **`app_store_vars`** (секретные):
-  - `CERTIFICATE_PRIVATE_KEY` — из шага 4;
-  - `GA_MP_SECRET` — секрет Measurement Protocol из GA4 (можно пока пустым: пульс виджета молчит, сборка проходит).
-  Группа создаётся именно у этого приложения (группы в Codemagic по-апповые).
-- [ ] Проверь версию Xcode: в `codemagic.yaml` стоит `xcode: 27.1`. Если Codemagic её не знает, сборка не стартует.
-  Тогда поставь доступную из списка Codemagic (например `26.0`). Для iPhone Duo нужна 27.1, для первой сборки не критично.
+- [ ] console.firebase.google.com → новый проект (Analytics включить) → Add app → iOS → `com.astonio.misbah`.
+- [ ] Скачай `GoogleService-Info.plist`, положи в `App/Misbah/`, закоммить и запушь.
+- [ ] Рассылки: Project settings → Cloud Messaging → загрузи APNs-ключ (Apple Developer → Keys → APNs, `.p8`).
+- [ ] Hosting для политики конфиденциальности: `docs/legal/misbah/*.html` залить в Firebase Hosting и поправить адрес в
+  `LampadaCore/Sources/LampadaCore/Legal.swift` (сейчас `https://misbah-app.web.app/privacy.html` — подставить настоящий).
+  В файлах `docs/legal/misbah/*.html` заменить `{{EMAIL}}` на почту поддержки.
 
-## 6. Подставить свои идентификаторы в код
-В папке репозитория:
+## 5. RevenueCat
 
-```bash
-python tools/set-ids.py --bundle <bundle> --team <TEAMID> --apple-id <число>
-python tools/set-ids.py --bundle <bundle> --team <TEAMID> --apple-id <число> --apply
-```
-
-Первая команда только показывает, что поменяет. Вторая применяет. Заменятся bundle ID, App Group, Team ID и
-Apple ID в `codemagic.yaml`, `make_project.py`, entitlements и Swift-коде. Если Apple ID ещё не известен, запусти без `--apple-id`.
-
-## 7. Firebase (обязательно: без него приложение упадёт на запуске)
-В проекте оригинала файл `GoogleService-Info.plist` удалён.
-
-- [ ] console.firebase.google.com → новый проект (Analytics включить) → Add app → iOS → Bundle ID `<bundle>`.
-- [ ] Скачай `GoogleService-Info.plist`, положи в `App/Lampada/`, закоммить.
-- [ ] Для уведомлений: Project settings → Cloud Messaging → загрузи APNs-ключ (Apple Developer → Keys → APNs, `.p8`).
-  Можно отложить: на первую сборку и TestFlight не блокирует.
-
-## 8. RevenueCat (покупки)
 app.revenuecat.com → новый проект → Add app → App Store.
 
-- [ ] Bundle ID `<bundle>`; загрузи **In-App Purchase key** (App Store Connect → Users and Access → Integrations →
-  In-App Purchase → `+`, `.p8`) и App Store Connect API key из шага 3.
-- [ ] Entitlement с идентификатором **`lampada_pro`** (так названо в коде, `Purchases+Lampada.swift`).
-  Позже можно переименовать в коде и панели одновременно.
-- [ ] Продукты: `<bundle>.weekly`, `.monthly`, `.yearly` и `.yearly.welcome` (после шага 9). Привяжи к entitlement.
+- [ ] Bundle ID `com.astonio.misbah`; загрузи **In-App Purchase key** (ASC → Users and Access → Integrations → In-App Purchase)
+  и API-ключ из шага 2.
+- [ ] Entitlement **`misbah_pro`** (так названо в коде, `Purchases+Misbah.swift`).
+- [ ] Продукты `com.astonio.misbah.weekly`, `.monthly`, `.yearly`, а для скидки после пейволла `.yearly.welcome`;
+  привязать к entitlement.
 - [ ] Offering `default` с пакетами Weekly, Monthly, Annual и пакетом `welcome`.
-- [ ] API Keys → скопируй **Public app-specific key** (`appl_...`) и вставь в `App/Lampada/LampadaApp.swift`
-  вместо пустой строки `revenueCatKey`. Ключ публичный, в git его класть можно. Ключ с префиксом `test_` в Release роняет приложение.
+- [ ] API Keys → **Public app-specific key** (`appl_…`) вставить в `App/Misbah/MisbahApp.swift` вместо пустой строки
+  `revenueCatKey`. Ключ публичный, в git его класть можно. Ключ с префиксом `test_` в Release роняет приложение.
+  Пока ключ пустой, платный экран остаётся витриной: показывает состав Pro, но продать ничего не может.
 
-## 9. Подписки в App Store Connect
+## 6. Подписки в App Store Connect
+
 Приложение → Monetization → Subscriptions.
 
-- [ ] Группа подписок. Три авто-возобновляемых: `<bundle>.weekly`, `.monthly`, `.yearly`; цены $2.99 / $5.99 / $24.99 (как в оригинале).
-- [ ] Intro offer «7 days free» только на годовой.
-- [ ] Локализация названий, скриншот пейволла для ревью.
-- [ ] Статус «Ready to Submit» нужен до того, как их увидит RevenueCat в тесте.
+- [ ] Группа подписок; три авто-возобновляемых — `weekly`, `monthly`, `yearly` (идентификаторы как в шаге 5).
+- [ ] Цены и пробный период — по принятому решению (бесплатный пробный период только на годовой). В коде цены не зашиты:
+  показывается то, что отдаёт RevenueCat.
+- [ ] Локализации названий (en, ru, ar), скриншот пейволла для ревью. Статус «Ready to Submit».
 
-## 10. Запуск сборки
-- [ ] Закоммить и запушь изменения (шаги 6–8).
-- [ ] Codemagic → Start new build → workflow `ios-testflight`, ветка `main`.
-  Шаги по `codemagic.yaml`: генерация проекта, тесты пакета, подпись, номер сборки, SPM, `.ipa`, публикация в TestFlight.
-  Первая сборка идёт 30–60 минут (скачиваются Firebase и RevenueCat).
-- [ ] App Store Connect → TestFlight: через 10–30 минут после публикации сборка обрабатывается. Добавь себя во внутренние тестеры
-  (Users and Access → у тебя должна быть роль, TestFlight → Internal Testing → `+`).
-- [ ] На iPhone: приложение TestFlight → установить.
+## 7. Запуск сборки
+
+- [ ] Codemagic → Start new build → workflow `ios-testflight`, ветка `main`. Шаги: генерация проекта, тесты пакета, подпись,
+  номер сборки, пакеты SPM, `.ipa`, публикация в TestFlight. Первая сборка идёт 30–60 минут (скачиваются Firebase и RevenueCat).
+- [ ] ASC → TestFlight: через 10–30 минут сборка обработается. Добавь себя во внутренние тестеры.
+
+## 8. Что проверить на iPhone в первой сборке
+
+1. Онбординг на русском, английском и арабском (Настройки iPhone → Основные → Язык и регион, потом открыть приложение
+   или сменить язык кнопкой на первом экране). Арабский интерфейс должен зеркалиться целиком.
+2. Экран «Сегодня»: арабский над переводом, огласовки и знаки чтения не пропадают, длинный аят уменьшается ступенями,
+   листание вверх меняет аят.
+3. «Вид» → «Показывать арабский текст» выключается и включается; выбор фона-картинки и набора цвета; смена иконки.
+4. Виджеты: экран блокировки (прямоугольный: перевод, у арабского — оригинал), рабочий стол (малый — перевод, средний и
+   большой — оригинал и перевод), StandBy, кнопка в Пункте управления.
+5. Первое уведомление в онбординге: арабская строка выше перевода.
+6. Поделиться: три формата (сторис, квадрат, обои) с арабским и без.
+7. Экран «Язык и перевод»: видно уведомление Tanzil и ссылку `tanzil.net`.
 
 ## Типичные отказы
+
 | Что видишь | Причина |
 |---|---|
-| Сборка не стартует, «xcode 27.1 not found» | Версии нет в Codemagic — шаг 5, поправь `xcode:` |
-| «No matching profiles found» | Нет интеграции ASC, имя не совпало, или App ID не создан (шаги 1, 5) |
-| Падает на упаковке `.ipa` | Нет профиля виджета: нужен App ID `<bundle>.widgets` с группой |
-| Загрузка сборки отклонена из-за соглашения | Не принят Program License Agreement / Paid Apps Agreement (шаг 2, делает владелец аккаунта) |
-| Приложение падает на запуске | Нет `GoogleService-Info.plist` (шаг 7) или ключ RevenueCat `test_` в Release |
+| Сборка не стартует, «xcode 27.1 not found» | Версии нет в Codemagic — шаг 3 |
+| «No matching profiles found» | Нет интеграции ASC, имя не совпало или App ID не создан (шаги 1, 3) |
+| Падает на упаковке `.ipa` | Нет профиля виджета: нужен App ID `com.astonio.misbah.widgets` с группой |
+| Загрузка отклонена из-за соглашения | Не принят Program License Agreement / Paid Apps Agreement (шаг 2) |
+| Приложение падает на запуске | Ключ RevenueCat с префиксом `test_` в Release (шаг 5) |
 | Виджет показывает настройки по умолчанию | App Group не прописан в обоих App ID |
-| «Maximum number of certificates reached» | Уже 3 distribution-сертификата — используй существующий ключ (шаг 4) |
+| «Maximum number of certificates reached» | Уже 3 distribution-сертификата — используй существующий ключ |
 | Покупки пустые | Подписки не Ready to Submit, нет Paid Apps Agreement, продукты не привязаны в RevenueCat |
+| Нет аналитики и рассылок | Нет `GoogleService-Info.plist` (шаг 4) |
 
-## Что делать после первой сборки
-Метаданные для стора (`build-metadata.py` под Коран), App Privacy, политика конфиденциальности и поддержка,
-скриншоты из `design/`, ASO в Astro. Отдельный план: `docs/RESKIN-PLAN.md`.
+## Перед публикацией в стор
+
+Метаданные App Store (en-US, ru, ar-SA), App Privacy, политика конфиденциальности и поддержка, скриншоты из `design/`,
+вычитка отбора аятов и строк контекста мусульманином (см. `docs/TRANSLATIONS.md`, раздел «Состояние»). Отдельный план — `docs/RESKIN-PLAN.md`.

@@ -20,6 +20,8 @@ struct CorpusTests {
         let credit = try #require(corpus.arabicCredit)
         #expect(credit.contains("Tanzil"))
         #expect(credit.contains("tanzil.net"))
+        // Уведомление в бандле и на экране выбора языка — одни и те же слова.
+        #expect(corpus.arabicNotice == Legal.tanzilNotice)
     }
 
     /// Ни одна карточка не должна приехать пустой или обрубленной. Порог низкий
@@ -111,6 +113,19 @@ struct CorpusTests {
             #expect(!card.text.hasPrefix(" ") && !card.text.hasSuffix(" "), "\(card.id): пробел по краю")
             #expect(!card.text.contains("  "), "\(card.id): двойной пробел")
         }
+    }
+
+    /// В файле Tanzil басмала приклеена к первому аяту каждой суры. В аяте её нет
+    /// (в Аль-Фатихе она сама первый аят), и перевод её не содержит, поэтому на
+    /// карточках она стоять не должна нигде, кроме первой суры.
+    @Test
+    func `басмала стоит только в начале Фатихи`() throws {
+        let basmala = "بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ"
+        for card in try Corpus.load(.ar).cards where card.id != "1-1-7" {
+            #expect(!card.text.contains(basmala), "\(card.id): басмала внутри аята")
+        }
+        let fatiha = try #require(Corpus.load(.ar).cards.first { $0.id == "1-1-7" })
+        #expect(fatiha.text.hasPrefix(basmala))
     }
 
     @Test

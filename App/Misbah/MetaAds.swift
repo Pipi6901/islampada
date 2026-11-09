@@ -18,12 +18,12 @@ import UIKit
 /// идентификатора. Флаг «отслеживание разрешено» SDK 17+ читает из системы
 /// сам — ставить его руками не нужно.
 ///
-/// Автологирование SDK выключено (`LampadaInfo.plist`): иначе он сам пишет
+/// Автологирование SDK выключено (`MisbahInfo.plist`): иначе он сам пишет
 /// покупки из StoreKit, а их же шлёт RevenueCat, и Meta считает оплату
 /// дважды — общего идентификатора события у них нет. Поэтому активацию
 /// приложения засчитываем сами, при каждом выходе на передний план.
 ///
-/// App ID и токен клиента — в `LampadaInfo.plist`. Пусто — Meta в этой
+/// App ID и токен клиента — в `MisbahInfo.plist`. Пусто — Meta в этой
 /// сборке нет совсем, и шага ATT в онбординге тоже.
 @MainActor
 enum MetaAds {
@@ -123,7 +123,7 @@ private final class MetaEventSink: EventSink {
 
     func setUserProperty(_ value: String?, forName name: String) {}
 
-    /// «Помогать улучшать Lampada» выключает и это: один переключатель на
+    /// «Помогать улучшать Misbah» выключает и это: один переключатель на
     /// всё, что уходит из приложения ради статистики и рекламы.
     func setCollectionEnabled(_ enabled: Bool) {
         self.enabled = enabled

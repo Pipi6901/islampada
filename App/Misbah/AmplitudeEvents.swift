@@ -9,7 +9,7 @@ import LampadaCore
 /// сам пишет сессии и установки/открытия — по ним и считается удержание.
 ///
 /// Без IDFA (его SDK и не берёт), без города и оператора: для решений
-/// хватает страны. Ключ проекта — в `LampadaInfo.plist`; пусто — Amplitude
+/// хватает страны. Ключ проекта — в `MisbahInfo.plist`; пусто — Amplitude
 /// в этой сборке нет.
 @MainActor
 final class AmplitudeEventSink: EventSink {

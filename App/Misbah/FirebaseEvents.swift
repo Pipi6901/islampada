@@ -18,34 +18,45 @@ import UserNotifications
 final class AppDelegate: NSObject, UIApplicationDelegate {
     func application(_ application: UIApplication,
                      didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil) -> Bool {
-        FirebaseApp.configure()
-        // Рекламы в приложении нет и не будет, а своя реклама приложения идёт
-        // через Meta (`MetaAds`). Согласие на рекламные цели Google снято явно,
-        // чтобы он не хранил под них данные и не подмешивал наши события в
-        // подбор рекламы. Само SDK взято в варианте без рекламного
-        // идентификатора (`FirebaseAnalyticsCore`), так что IDFA оно не читает.
-        Analytics.setConsent([
-            .analyticsStorage: .granted,
-            .adStorage: .denied,
-            .adUserData: .denied,
-            .adPersonalization: .denied,
-        ])
-        // Выключил «Помогать улучшать Lampada» — сбор выключается до первого
-        // события, а не после него.
+        // Без GoogleService-Info.plist Firebase не поднимается вообще: его вызовы
+        // до настройки не выдают ошибки, а роняют приложение. Сборка до заведения
+        // проекта Firebase должна запускаться, поэтому аналитика и рассылки в ней
+        // просто молчат; всё остальное приложение работает как обычно.
+        let hasFirebase = Bundle.main.path(forResource: "GoogleService-Info", ofType: "plist") != nil
         let settings = AppSettings()
-        Analytics.setAnalyticsCollectionEnabled(settings.analyticsEnabled)
-        EventLog.sinks = [FirebaseEventSink()]
+        if hasFirebase {
+            FirebaseApp.configure()
+            // Рекламы в приложении нет и не будет, а своя реклама приложения идёт
+            // через Meta (`MetaAds`). Согласие на рекламные цели Google снято явно,
+            // чтобы он не хранил под них данные и не подмешивал наши события в
+            // подбор рекламы. Само SDK взято в варианте без рекламного
+            // идентификатора (`FirebaseAnalyticsCore`), так что IDFA оно не читает.
+            Analytics.setConsent([
+                .analyticsStorage: .granted,
+                .adStorage: .denied,
+                .adUserData: .denied,
+                .adPersonalization: .denied,
+            ])
+            // Выключил «Помогать улучшать Misbah» — сбор выключается до первого
+            // события, а не после него.
+            Analytics.setAnalyticsCollectionEnabled(settings.analyticsEnabled)
+            EventLog.sinks = [FirebaseEventSink()]
+        }
         if let amplitude = AmplitudeEventSink(enabled: settings.analyticsEnabled) {
             EventLog.sinks.append(amplitude)
         }
         MetaAds.prepare(application, launchOptions: launchOptions, settings: settings)
+        // Делегат — до конца запуска: если приложение подняли тапом по
+        // уведомлению, ответ придёт сразу после этого метода.
+        UNUserNotificationCenter.current().delegate = self
+        guard hasFirebase else {
+            PushToken.fetch = { .failure(PushTokenError("Firebase не настроен: нет GoogleService-Info.plist")) }
+            return true
+        }
         // Виджету — идентификатор установки для его ежесуточного «пульса».
         // На самом первом запуске SDK может ещё не знать его — тогда
         // запишется на следующем.
         if let id = Analytics.appInstanceID() { settings.analyticsInstanceID = id }
-        // Делегат — до конца запуска: если приложение подняли тапом по
-        // уведомлению, ответ придёт сразу после этого метода.
-        UNUserNotificationCenter.current().delegate = self
         // Кампании Firebase Messaging. Токен APNs Firebase перехватывает сам
         // (подмена методов делегата включена по умолчанию), регистрация нужна
         // одна. Показывать уведомления она не разрешает — это делает запрос
