@@ -57,6 +57,7 @@ final class AppDelegate: NSObject, UIApplicationDelegate {
         // На самом первом запуске SDK может ещё не знать его — тогда
         // запишется на следующем.
         if let id = Analytics.appInstanceID() { settings.analyticsInstanceID = id }
+        settings.analyticsAppID = FirebaseApp.app()?.options.googleAppID
         // Кампании Firebase Messaging. Токен APNs Firebase перехватывает сам
         // (подмена методов делегата включена по умолчанию), регистрация нужна
         // одна. Показывать уведомления она не разрешает — это делает запрос

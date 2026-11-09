@@ -172,22 +172,80 @@ public struct VerseWidgetView: View {
     /// Текст и ссылка без подложки. Отдельно от `home`, потому что ими же
     /// рисуется размытый стих под замком в StandBy, а подложку виджет
     /// объявляет один раз, у корня.
+    ///
+    /// Кегль подбирается ступенями, как на экране «Сегодня»: берётся первая
+    /// ступень, при которой аят помещается. Аяты разной длины (от пяти слов до
+    /// абзаца), а виджет маленький, и один кегль на всё то обрезал бы длинные,
+    /// то терялся бы на коротких. Ступени подобраны расчётом по всему корпусу с
+    /// настоящими метриками шрифтов.
     private var homeContent: some View {
-        VStack(alignment: homeAlignment, spacing: 8) {
+        ViewThatFits(in: .vertical) {
+            column(0)
+            column(1)
+            column(2)
+            column(3)
+            column(4)
+            column(5)
+            column(6)
+            column(7)
+        }
+    }
+
+    /// Одна ступень: оригинал (если он есть) и основной текст заданного кегля.
+    private struct Step {
+        /// Кегль оригинала над переводом; `nil` — оригинала в этой ступени нет.
+        let original: CGFloat?
+        /// Кегль основного текста: перевода или, у арабского интерфейса, оригинала.
+        let text: CGFloat
+    }
+
+    /// Ступени от крупной к мелкой. Сначала оригинал с переводом (если он
+    /// включён и размер позволяет), потом один перевод — он читается лучше, чем
+    /// два текста по девять точек.
+    private var steps: [Step] {
+        let small = family == .systemSmall
+        let large = family == .systemLarge
+        if entry.text.isArabicScript {
+            let sizes: [CGFloat] = small ? [18, 15, 13, 11, 9.5]
+                : large ? [30, 26, 22, 19, 16, 13]
+                : [20, 17, 15, 13, 11, 9.5]
+            return sizes.map { Step(original: nil, text: $0) }
+        }
+        var out: [Step] = []
+        if shownOriginal != nil {
+            let pairs: [(CGFloat, CGFloat)] = large ? [(24, 17), (21, 15), (18, 13), (15, 11)]
+                : [(16, 12), (14, 11), (12, 10)]
+            out += pairs.map { Step(original: $0.0, text: $0.1) }
+        }
+        let sizes: [CGFloat] = small ? [14, 12.5, 11, 10, 9]
+            : large ? [19, 16, 13, 11]
+            : [14, 12, 10.5, 9]
+        out += sizes.map { Step(original: nil, text: $0) }
+        return out
+    }
+
+    private func column(_ index: Int) -> some View {
+        let all = steps
+        let step = all[min(index, all.count - 1)]
+        // Предел строк и сжатие — только у самой мелкой ступени. Если поставить
+        // их всем, любая ступень «влезала» бы за счёт обрезки, и подбор терял бы
+        // смысл.
+        let isLast = index >= all.count - 1
+        return VStack(alignment: homeAlignment, spacing: 8) {
             Spacer(minLength: 0)
-            if let original = shownOriginal {
-                arabicBlock(original, size: originalSize, limit: originalLineLimit)
+            if let size = step.original, let original = shownOriginal {
+                arabicBlock(original, size: size, limit: isLast ? 3 : nil, shrinks: isLast)
             }
             if entry.text.isArabicScript {
                 // Арабский интерфейс: оригинал единственный и занимает всё.
-                arabicBlock(entry.text, size: arabicOnlySize, limit: lineLimit)
+                arabicBlock(entry.text, size: step.text, limit: isLast ? lineLimit : nil, shrinks: isLast)
             } else {
                 Text(entry.text)
-                    .font(homeVerse(size))
+                    .font(homeVerse(step.text))
                     .foregroundStyle(verseColor)
-                    .lineSpacing(size * 0.3)
-                    .minimumScaleFactor(0.6)
-                    .lineLimit(shownOriginal == nil ? lineLimit : translationLineLimit)
+                    .lineSpacing(step.text * 0.3)
+                    .minimumScaleFactor(isLast ? 0.6 : 1)
+                    .lineLimit(isLast ? lineLimit : nil)
             }
 
             Text(entry.reference)
@@ -203,11 +261,11 @@ public struct VerseWidgetView: View {
 
     /// Арабский блок: всегда справа налево, шрифтом Корана. Направление задано
     /// явно — у расширения оно следует за языком устройства, а не приложения.
-    private func arabicBlock(_ text: String, size: CGFloat, limit: Int) -> some View {
+    private func arabicBlock(_ text: String, size: CGFloat, limit: Int?, shrinks: Bool) -> some View {
         Text(text)
             .font(Fonts.arabic(size: size))
             .foregroundStyle(verseColor)
-            .minimumScaleFactor(0.6)
+            .minimumScaleFactor(shrinks ? 0.6 : 1)
             .lineLimit(limit)
             .multilineTextAlignment(entry.widgetAlignment == .center ? .center : .leading)
             .frame(maxWidth: .infinity,
@@ -219,26 +277,6 @@ public struct VerseWidgetView: View {
     /// ему негде развернуться, а смысл даёт перевод.
     private var shownOriginal: String? {
         family == .systemSmall ? nil : entry.original
-    }
-
-    private var originalSize: CGFloat {
-        family == .systemLarge ? 22 : 16
-    }
-
-    private var originalLineLimit: Int {
-        family == .systemLarge ? 5 : 3
-    }
-
-    private var arabicOnlySize: CGFloat {
-        switch family {
-        case .systemSmall: entry.text.count > 70 ? 12 : 15
-        case .systemLarge: entry.text.count > 150 ? 20 : 26
-        default: entry.text.count > 90 ? 15 : 19
-        }
-    }
-
-    private var translationLineLimit: Int {
-        family == .systemLarge ? 8 : 3
     }
 
     /// Цвета набора годятся, только пока под текстом лежит его подложка.
@@ -269,19 +307,8 @@ public struct VerseWidgetView: View {
         }
     }
 
-    /// Маленький виджет — это примерно две строки текста, большой — десять.
-    /// Кегль и лимит подобраны так, чтобы длинный стих ужимался, а короткий
-    /// не тонул в пустоте.
-    private var size: CGFloat {
-        let base: CGFloat = switch family {
-        case .systemSmall: entry.text.count > 90 ? 11 : 14
-        case .systemLarge: entry.text.count > 300 ? 15 : 19
-        default: entry.text.count > 160 ? 12 : 15
-        }
-        // Над переводом стоит оригинал — перевод на ступень мельче.
-        return shownOriginal == nil ? base : base * 0.82
-    }
-
+    /// Предел строк самой мелкой ступени: дальше аят обрезается, а не вылезает
+    /// за виджет.
     private var lineLimit: Int {
         switch family {
         case .systemSmall: 6

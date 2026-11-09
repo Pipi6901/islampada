@@ -46,6 +46,7 @@ public final class AppSettings {
         self.welcomeOfferShown = self.store.bool(forKey: Key.welcomeOfferShown.rawValue)
         self.secondSurfaceDue = self.store.object(forKey: Key.secondSurfaceDue.rawValue) as? Date
         self.analyticsInstanceID = self.store.string(forKey: Key.analyticsInstanceID.rawValue)
+        self.analyticsAppID = self.store.string(forKey: Key.analyticsAppID.rawValue)
         self.lastPulseDay = self.store.object(forKey: Key.lastPulseDay.rawValue) as? Int
         self.review = Self.readReview(self.store)
         self.whatsNewSeen = self.store.string(forKey: Key.whatsNewSeen.rawValue)
@@ -154,6 +155,13 @@ public final class AppSettings {
     /// виджет: свой «пульс» он шлёт в GA4 от имени той же установки.
     public var analyticsInstanceID: String? {
         didSet { write(.analyticsInstanceID, analyticsInstanceID) }
+    }
+
+    /// Идентификатор приложения в Firebase (`GOOGLE_APP_ID`). Его тоже пишет
+    /// приложение, а читает виджет: у расширения нет `GoogleService-Info.plist`,
+    /// и зашитое в код значение принадлежало бы чужому проекту.
+    public var analyticsAppID: String? {
+        didSet { write(.analyticsAppID, analyticsAppID) }
     }
 
     /// День последнего «пульса» виджета — не чаще раза в сутки.
@@ -418,7 +426,7 @@ public final class AppSettings {
         case fonts, widgetSize, lockLength, alignments, goal, proStatus
         case dailyVerse, dailyVerseMinutes, analyticsOff
         case cancelReasonAsked, welcomeOfferShown, secondSurfaceDue
-        case analyticsInstanceID, lastPulseDay, review
+        case analyticsInstanceID, analyticsAppID, lastPulseDay, review
         case whatsNewSeen, promoOptIn, showsArabic
     }
 

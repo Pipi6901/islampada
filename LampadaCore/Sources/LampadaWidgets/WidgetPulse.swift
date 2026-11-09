@@ -3,7 +3,7 @@ import LampadaCore
 
 /// «Пульс» виджета: раз в сутки виджет сам сообщает в GA4, что он стоит.
 ///
-/// Без этого удержание видно только по открытиям приложения, а у Lampada
+/// Без этого удержание видно только по открытиям приложения, а у Misbah
 /// продукт — виджет: кто читает стих на экране блокировки и приложение не
 /// открывает, во всех отчётах выглядел бы ушедшим. Firebase в расширение не
 /// тянется (память виджета ограничена), поэтому событие уходит одним
@@ -28,20 +28,22 @@ enum WidgetPulse {
         return value.hasPrefix("$(") ? "" : value
     }
 
-    /// GOOGLE_APP_ID из GoogleService-Info.plist.
-    static let firebaseAppID = "1:767827591742:ios:007943945879f9b995c76f"
-
     static func beat(family: String, now: Date = .now) {
         guard !apiSecret.isEmpty else { return }
         let settings = AppSettings()
-        guard settings.analyticsEnabled, let instance = settings.analyticsInstanceID else { return }
+        // Идентификаторы установки и приложения записывает приложение, когда
+        // Firebase поднят (нужен `GoogleService-Info.plist`). Нет их — пульсу
+        // слать некуда.
+        guard settings.analyticsEnabled,
+              let instance = settings.analyticsInstanceID,
+              let appID = settings.analyticsAppID else { return }
         let day = VerseEngine.dayIndex(for: now)
         guard settings.lastPulseDay != day else { return }
         settings.lastPulseDay = day
 
         var components = URLComponents(string: "https://www.google-analytics.com/mp/collect")
         components?.queryItems = [
-            URLQueryItem(name: "firebase_app_id", value: firebaseAppID),
+            URLQueryItem(name: "firebase_app_id", value: appID),
             URLQueryItem(name: "api_secret", value: apiSecret),
         ]
         guard let url = components?.url else { return }
