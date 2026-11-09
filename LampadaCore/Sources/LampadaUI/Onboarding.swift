@@ -350,11 +350,12 @@ public struct OnboardingFlow: View {
     }
 
     /// Каждый вариант — отдельным событием. Ничего не выбрали — тоже ответ.
-    private func logAnswers(_ question: String, _ answers: [String]) {
-        for answer in answers.isEmpty ? ["none"] : answers.sorted() {
-            EventLog.log(.onboardingAnswer(question: question, answer: answer))
-        }
-    }
+    ///
+    /// В Misbah ответы онбординга (цель, состояния) в аналитику НЕ уходят: по
+    /// ним можно судить о вере человека, а это особая категория данных
+    /// (GDPR, ст. 9). Функция оставлена пустой, чтобы не трогать вызовы; в
+    /// политике конфиденциальности сказано, что ответы остаются на телефоне.
+    private func logAnswers(_ question: String, _ answers: [String]) {}
 
     /// Имя шага для отчётов. Номера сдвигались уже дважды — в 1.0.2 с шагом
     /// ATT и с онбордингом v3, — поэтому отчёты строятся по имени.
