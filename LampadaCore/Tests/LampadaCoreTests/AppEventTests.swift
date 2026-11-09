@@ -62,7 +62,7 @@ struct AppEventTests {
     /// о доходе не появится.
     @Test
     func `покупка несёт сумму числом`() {
-        let event = AppEvent.purchase(.year, productID: "com.astonio.lampada.yearly",
+        let event = AppEvent.purchase(.year, productID: "com.astonio.misbah.yearly",
                                       price: Decimal(string: "24.99")!, currency: "USD")
         #expect(event.name == "purchase")
         // Decimal в Double переводится не бит в бит, поэтому сравнение с допуском.

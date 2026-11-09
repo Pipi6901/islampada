@@ -27,7 +27,7 @@ import urllib.error
 import urllib.request
 
 API = "https://api.appstoreconnect.apple.com/v1"
-APP_ID = "6807549676"
+APP_ID = "6832716134"
 
 KEY_ID = os.environ.get("ASC_KEY_ID", "JSXJ364L48")
 ISSUER_ID = os.environ.get("ASC_ISSUER_ID", "57034376-aee7-484e-86f5-3d9d56417d6a")

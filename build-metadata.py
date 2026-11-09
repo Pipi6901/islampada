@@ -33,7 +33,7 @@ LIMITS = {
 }
 
 COMMON = {
-    "bundle_id": "com.astonio.lampada",
+    "bundle_id": "com.astonio.misbah",
     "sku": "LAMPADA-IOS-001",
     "primary_category": "Reference",
     "secondary_category": "Lifestyle",
@@ -920,11 +920,11 @@ def main():
         w("Пробный период 7 дней — только на годовой: триал на всех тарифах")
         w("сразу уводит на недельный, и годовой перестаёт продаваться.")
         w("")
-        w(f"Недельная: {d['sub_week']}   com.astonio.lampada.weekly   $2.99")
-        w(f"Месячная:  {d['sub_month']}   com.astonio.lampada.monthly  $5.99")
-        w(f"Годовая:   {d['sub_year']}   com.astonio.lampada.yearly   $24.99 + 7 дней")
+        w(f"Недельная: {d['sub_week']}   com.astonio.misbah.weekly   $2.99")
+        w(f"Месячная:  {d['sub_month']}   com.astonio.misbah.monthly  $5.99")
+        w(f"Годовая:   {d['sub_year']}   com.astonio.misbah.yearly   $24.99 + 7 дней")
         w("")
-        w("Пожизненная покупка com.astonio.lampada.lifetime остаётся в каталоге,")
+        w("Пожизненная покупка com.astonio.misbah.lifetime остаётся в каталоге,")
         w("но на пейволле не показывается и в описании не упоминается.")
         w("")
         w("-" * 78)

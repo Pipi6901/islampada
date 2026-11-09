@@ -21,7 +21,7 @@ import plistlib
 import subprocess
 import uuid
 
-BUNDLE_ID = "com.astonio.lampada"
+BUNDLE_ID = "com.astonio.misbah"
 INTENT = "ShowPauseIntent"
 APP_NAME = "Lampada"
 

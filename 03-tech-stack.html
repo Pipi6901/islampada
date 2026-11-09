@@ -151,7 +151,7 @@ pre code{background:none;padding:0;font-size:1em}
         <h3>Что берём</h3>
         <ul class="dash">
           <li><strong>iOS:</strong> Swift 6, SwiftUI, минимум iOS 17. Пункт управления гейтится на 18.</li>
-          <li><strong>Bundle ID:</strong> <code>com.astonio.lampada</code>, App Group <code>group.com.astonio.lampada</code>.</li>
+          <li><strong>Bundle ID:</strong> <code>com.astonio.misbah</code>, App Group <code>group.com.astonio.misbah</code>.</li>
           <li><strong>Android (позже):</strong> Kotlin, Compose, Glance для виджетов.</li>
           <li><strong>Сборка — Codemagic.</strong> <code>ios/</code> в репозитории, workflow на TestFlight и на релиз.</li>
           <li>Тесты — Swift Testing, и в первую очередь на движке выдачи.</li>
@@ -612,7 +612,7 @@ func verse(offset k: Int, on day: Int, pool: [VerseRef]) -&gt; VerseRef {
       <div>
         <h3>Что где лежит</h3>
         <ul class="dash">
-          <li><strong>App Group</strong> <code>group.com.astonio.lampada</code> — общий <code>UserDefaults</code> для приложения и всех расширений. Настройки: язык корпуса, язык интерфейса, тема, шрифт, темы состояний, длина короткой формы.</li>
+          <li><strong>App Group</strong> <code>group.com.astonio.misbah</code> — общий <code>UserDefaults</code> для приложения и всех расширений. Настройки: язык корпуса, язык интерфейса, тема, шрифт, темы состояний, длина короткой формы.</li>
           <li><strong>Бандл пакета</strong> — корпус. Только чтение, версионируется вместе с релизом.</li>
           <li><strong>Keychain</strong> — ничего. Секретов нет.</li>
           <li><strong>Сохранённые стихи</strong> — файл в контейнере App Group, чтобы виджет мог показывать сохранённое.</li>
@@ -688,7 +688,7 @@ func verse(offset k: Int, on day: Int, pool: [VerseRef]) -&gt; VerseRef {
           <tr><th>Строки контекста</th><td>Пишутся здесь, материал берётся из справочных изданий public domain. Ключ по отрывку, не по стиху.</td></tr>
           <tr><th>Тексты переводов</th><td>eBible.org, USFM. Пять изданий найдены, права проверены, архивы скачиваются.</td></tr>
           <tr><th>Apple Watch</th><td>Перенесён в <strong>V2.0</strong>. Отдельный таргет, снимается без переделки остального.</td></tr>
-          <tr><th>Bundle ID</th><td><code>com.astonio.lampada</code>, App Group <code>group.com.astonio.lampada</code>.</td></tr>
+          <tr><th>Bundle ID</th><td><code>com.astonio.misbah</code>, App Group <code>group.com.astonio.misbah</code>.</td></tr>
           <tr><th>Сборка</th><td><strong>Codemagic.</strong> Workflow на TestFlight и на релиз.</td></tr>
         </tbody>
       </table>

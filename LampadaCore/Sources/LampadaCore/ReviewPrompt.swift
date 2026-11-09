@@ -21,7 +21,7 @@ public struct ReviewPrompt: Codable, Equatable, Sendable {
     /// Страница отзыва — для строки «Оценить Lampada» на «Виде». Она
     /// открывается всегда, в отличие от системного окна.
     public static let writeReviewURL = URL(
-        string: "https://apps.apple.com/app/id6807549676?action=write-review")!
+        string: "https://apps.apple.com/app/id6832716134?action=write-review")!
 
     /// Сколько разных дней приложение открывали.
     public private(set) var openDays = 0

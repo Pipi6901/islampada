@@ -12,7 +12,7 @@
 #  2. Подписывать надо ДВА идентификатора — приложение и расширение виджета.
 #     Профиль только для приложения даёт сборку, которая падает на упаковке
 #     .ipa: расширению нужен свой.
-#  3. Обоим нужна группа `group.com.astonio.lampada` в App ID на портале. Без
+#  3. Обоим нужна группа `group.com.astonio.misbah` в App ID на портале. Без
 #     неё сборка пройдёт, а виджет молча покажет настройки по умолчанию — он не
 #     увидит того, что человек выбрал в приложении.
 
@@ -49,9 +49,9 @@ workflows:
       # ещё не существует, падает с «No matching profiles found» раньше, чем наш
       # шаг подписи успел бы его создать.
       vars:
-        BUNDLE_ID: "com.astonio.lampada"
-        WIDGET_BUNDLE_ID: "com.astonio.lampada.widgets"
-        APP_STORE_APPLE_ID: 6807549676
+        BUNDLE_ID: "com.astonio.misbah"
+        WIDGET_BUNDLE_ID: "com.astonio.misbah.widgets"
+        APP_STORE_APPLE_ID: 6832716134
         XCODE_SCHEME: "Lampada"
       # 27.1 — не ниже: только с SDK iOS 27.1 приложение на iPhone Duo идёт
       # край в край на обоих экранах. На SDK 26 оно там открывается окном

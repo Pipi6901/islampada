@@ -11,7 +11,7 @@ import Observation
 @Observable
 public final class AppSettings {
     /// Идентификатор группы. Расширения объявляют его же в своих правах.
-    public static let appGroup = "group.com.astonio.lampada"
+    public static let appGroup = "group.com.astonio.misbah"
 
     private let store: UserDefaults
 
