@@ -44,8 +44,8 @@ codemagic.io → Add application → GitHub → `Pipi6901/islampada` → «Other
 - [ ] Environment variables → группа **`app_store_vars`** у ЭТОГО приложения (группы в Codemagic по-апповые):
   `CERTIFICATE_PRIVATE_KEY` (приватный ключ distribution-сертификата команды; у аккаунта лимит 3 сертификатов,
   новых не выпускать) и `GA_MP_SECRET` (можно пустым: пульс виджета молчит, сборка проходит).
-- [ ] Версия Xcode: в `codemagic.yaml` стоит `xcode: 27.1`. Если Codemagic её не знает, сборка не стартует — поставь
-  доступную из их списка (например `26.0`). Для iPhone Duo нужна 27.1, для первой сборки не критично.
+- [ ] Версия Xcode: в `codemagic.yaml` стоит `xcode: latest` — первая сборка не споткнётся о версию, которой нет у Codemagic.
+  Когда сборка пройдёт, можно прибить номер (например `27.1`: только с SDK iOS 27.1 приложение на iPhone Duo идёт край в край).
 
 ## 4. Firebase (аналитика и рассылки; для первой сборки не блокирует)
 
@@ -105,7 +105,7 @@ app.revenuecat.com → новый проект → Add app → App Store.
 
 | Что видишь | Причина |
 |---|---|
-| Сборка не стартует, «xcode 27.1 not found» | Версии нет в Codemagic — шаг 3 |
+| Сборка не стартует, «xcode … not found» | Прибитой версии нет в Codemagic — верни `xcode: latest` (шаг 3) |
 | «No matching profiles found» | Нет интеграции ASC, имя не совпало или App ID не создан (шаги 1, 3) |
 | Падает на упаковке `.ipa` | Нет профиля виджета: нужен App ID `com.astonio.misbah.widgets` с группой |
 | Загрузка отклонена из-за соглашения | Не принят Program License Agreement / Paid Apps Agreement (шаг 2) |

@@ -121,6 +121,12 @@ def en_fix(s):
     for old, new in (("verses", "ayat"), ("Verses", "Ayat"), ("VERSES", "AYAT"),
                      ("verse", "ayah"), ("Verse", "Ayah"), ("VERSE", "AYAH")):
         s = re.sub(rf"\b{old}\b", new, s)
+    # Основной рынок английского — США: пишем по-американски.
+    for old, new in (("colour", "color"), ("Colour", "Color"), ("Centre", "Center"),
+                     ("centre", "center"), ("Centred", "Centered"), ("centred", "centered")):
+        s = re.sub(rf"\b{old}", new, s)
+    # Название действия в «Командах» — как в App Intents (PauseIntent.swift).
+    s = s.replace("Pause with an ayah", "Ayah pause")
     return s
 
 
