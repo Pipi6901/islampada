@@ -42,16 +42,26 @@ public struct TodayScreen: View {
     }
 
     public var body: some View {
-        // Прокрутки здесь быть не может: вертикальный свайп листает стихи. Если
-        // колонка не влезает в высоту — длинный стих на внешнем экране iPhone
+        // Прокрутки здесь быть не может: вертикальный свайп листает аяты. Если
+        // колонка не влезает в высоту — длинный аят на внешнем экране iPhone
         // Duo, где под неё с таб-баром остаётся около 540 точек, или на iPhone
-        // SE, — стих ступенькой мельче. Берётся первый кегль, при котором
-        // колонка помещается; на обычных iPhone это почти всегда исходный.
+        // SE, — аят ступенькой мельче. Берётся первая ступень, при которой
+        // колонка помещается; на обычных iPhone это почти всегда исходный кегль
+        // (проверено расчётом по всему корпусу: на iPhone 15 из 288 аятов 239
+        // идут целиком, остальные — на ступень или две мельче).
+        //
+        // Если оригинал с переводом не влезают даже мелко (самые длинные аяты на
+        // маленьком экране), оригинал на «Сегодня» уступает место: перевод
+        // читается лучше, чем два текста по девять точек. В виджетах, на
+        // карточке для шеринга и в уведомлении он остаётся.
         ViewThatFits(in: .vertical) {
             column(scale: 1)
             column(scale: 0.86)
             column(scale: 0.74)
-            column(scale: 0.64)
+            column(scale: 1, dropsOriginal: true)
+            column(scale: 0.86, dropsOriginal: true)
+            column(scale: 0.74, dropsOriginal: true)
+            column(scale: 0.64, dropsOriginal: true)
         }
         .padding(.horizontal, 26)
         .padding(.top, 8)
@@ -76,11 +86,11 @@ public struct TodayScreen: View {
     }
 
     /// Колонка экрана: дата вверху, стих в середине, кнопки внизу.
-    private func column(scale: CGFloat) -> some View {
+    private func column(scale: CGFloat, dropsOriginal: Bool = false) -> some View {
         VStack(alignment: .leading, spacing: 0) {
             dateLine
             Spacer(minLength: 12)
-            verse(scale: scale)
+            verse(scale: scale, dropsOriginal: dropsOriginal)
             Spacer(minLength: 12)
             actions
         }
@@ -122,7 +132,7 @@ public struct TodayScreen: View {
 
     // MARK: - Стих
 
-    private func verse(scale: CGFloat) -> some View {
+    private func verse(scale: CGFloat, dropsOriginal: Bool) -> some View {
         VStack(alignment: .leading, spacing: 0) {
             ReferenceLabel(reference: model.card.reference,
                            edition: language.editionShort)
@@ -130,7 +140,7 @@ public struct TodayScreen: View {
 
             // Арабский оригинал над переводом; у арабского интерфейса —
             // один оригинал. Кегли подбираются по длине аята.
-            VerseText(parts: parts, scale: scale)
+            VerseText(parts: dropsOriginal ? withoutOriginal : parts, scale: scale)
                 .id(model.card.id)
                 .transition(
                     reduceMotion
@@ -159,6 +169,12 @@ public struct TodayScreen: View {
     /// сам `VerseText`: пул неоднородный, от пяти слов до абзаца.
     private var parts: VerseParts {
         model.card.parts(locale: language, showsArabic: settings.showsArabic)
+    }
+
+    /// Один перевод — запасная ступень для длинных аятов. У арабского
+    /// интерфейса перевода нет, и оригинал убирать не из чего: остаётся как есть.
+    private var withoutOriginal: VerseParts {
+        parts.translation == nil ? parts : VerseParts(original: nil, translation: parts.translation)
     }
 
     // MARK: - Кнопки

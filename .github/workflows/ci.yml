@@ -13,6 +13,12 @@ on:
 permissions:
   contents: write
 
+# Прогоны идут по очереди: оба задания пишут логи в одну ветку, и два прогона
+# одновременно разошлись бы на пуше. Лишние ждущие прогоны GitHub отбрасывает сам.
+concurrency:
+  group: ci
+  cancel-in-progress: false
+
 jobs:
   package:
     name: Пакет (тесты + сборка под iOS)
