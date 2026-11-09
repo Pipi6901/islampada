@@ -305,7 +305,7 @@ pbxproj = f"""// !$*UTF8*$!
 				}};
 			}};
 			buildConfigurationList = {ids['buildConfigListProject']};
-			developmentRegion = ru;
+			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,

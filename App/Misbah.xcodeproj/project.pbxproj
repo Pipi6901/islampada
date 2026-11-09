@@ -179,7 +179,7 @@
 				};
 			};
 			buildConfigurationList = 011BA6E610F8D3ADDC48D997;
-			developmentRegion = ru;
+			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
