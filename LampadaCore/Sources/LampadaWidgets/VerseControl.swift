@@ -28,7 +28,7 @@ public struct VerseControl: ControlWidget {
         StaticControlConfiguration(kind: "LampadaVerseControl",
                                    provider: VerseControlProvider()) { reference in
             ControlWidgetButton(action: OpenVerseIntent()) {
-                Label(reference, systemImage: "flame")
+                Label(reference, systemImage: "moon.stars.fill")
             }
         }
         .displayName(LocalizedStringResource(stringLiteral: l10n[.controlDisplayName]))
@@ -52,7 +52,7 @@ struct VerseControlProvider: ControlValueProvider {
     }
 }
 
-/// Действие кнопки: открыть Lampada.
+/// Действие кнопки: открыть Misbah.
 ///
 /// Тело пустое намеренно — вся работа в `openAppWhenRun`. Показывать стих
 /// изнутри Пункта управления некуда, а приложение и так открывается на

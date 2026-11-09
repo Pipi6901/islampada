@@ -41,39 +41,51 @@ struct ShareCardView: View {
     /// и картинка ушла бы со шрифтом по умолчанию вместо выбранного.
     @Environment(\.theme) private var theme
     let card: Card
+    /// Оригинал и перевод, как их видит человек на экране «Сегодня».
+    let parts: VerseParts
     let style: VerseStyle
     var format: ShareFormat = .story
-    /// Подпись «LAMPADA» внизу. Убирается бесплатно — так решено в спеке.
+    /// Подпись «MISBAH» внизу. Убирается бесплатно — так решено в спеке.
     var showsWordmark: Bool = true
     /// Ширина, от которой считается всё остальное.
     let width: CGFloat
 
     var body: some View {
+        // Колонка не лезет в картинку целиком, когда к переводу добавлен
+        // оригинал, — особенно в квадрате. Берётся первая ступенька, при которой
+        // она помещается; для коротких аятов это всегда первая.
+        ViewThatFits(in: .vertical) {
+            column(scale: 1)
+            column(scale: 0.86)
+            column(scale: 0.74)
+            column(scale: 0.62)
+            column(scale: 0.52)
+        }
+        .padding(unit * 8)
+        .frame(width: width, height: width / format.aspectRatio, alignment: .leading)
+        .background(background)
+    }
+
+    private func column(scale: CGFloat) -> some View {
         VStack(alignment: .leading, spacing: 0) {
             ReferenceLabel(reference: card.reference, tint: accentColor,
                            size: unit * 2.6, dash: unit * 3.6)
 
             Spacer(minLength: 0)
 
-            Text(card.text)
-                .font(theme.display(verseSize))
-                .foregroundStyle(verseColor)
-                .lineSpacing(theme.spacing(verseSize, lineHeight: 1.885))
-                .multilineTextAlignment(.leading)
-                .fixedSize(horizontal: false, vertical: true)
+            VerseText(parts: parts, scale: verseScale * scale,
+                      lineHeight: 1.885, color: verseColor)
 
             Spacer(minLength: 0)
 
             if showsWordmark {
-                Text("LAMPADA")
+                Text("MISBAH")
                     .font(theme.ui(unit * 2.4, weight: 600))
-                    .tracking(unit * 0.9)
+                    .kerning(unit * 0.9)
                     .foregroundStyle(verseColor.opacity(0.38))
             }
         }
-        .padding(unit * 8)
-        .frame(width: width, height: width / format.aspectRatio, alignment: .leading)
-        .background(background)
+        .frame(maxWidth: .infinity, alignment: .leading)
     }
 
     /// Фон карточки — тот же, что человек выбрал для приложения: отправленная
@@ -94,17 +106,10 @@ struct ShareCardView: View {
     /// поэтому карточка выглядит одинаково в любом размере.
     private var unit: CGFloat { width / 100 }
 
-    /// Кегль от длины стиха: пул неоднородный, один размер на всё не годится.
-    private var verseSize: CGFloat {
-        let factor: CGFloat = switch card.text.count {
-        case ..<60: 7.6
-        case ..<140: 6.2
-        case ..<260: 5.0
-        case ..<420: 4.1
-        default: 3.4
-        }
-        return unit * factor
-    }
+    /// Кегли аята заданы в точках экрана «Сегодня» (ширина около 393), а здесь
+    /// ширина — любая. Это отношение переводит одно в другое; 0,9 — запас, потому
+    /// что на картинке вокруг текста поля шире, чем на экране.
+    private var verseScale: CGFloat { unit / 3.93 * 0.9 }
 }
 
 /// Экран «Поделиться» — макет 12.
@@ -172,7 +177,7 @@ struct ShareScreen: View {
     private var preview: some View {
         GeometryReader { geometry in
             let fitted = min(geometry.size.width, geometry.size.height * format.aspectRatio)
-            ShareCardView(card: card, style: style, format: format,
+            ShareCardView(card: card, parts: parts, style: style, format: format,
                           showsWordmark: showsWordmark, width: fitted)
                 .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
                 .shadow(color: .black.opacity(theme.isLight ? 0.14 : 0.3), radius: 24, y: 8)
@@ -191,11 +196,16 @@ struct ShareScreen: View {
 
     private var style: VerseStyle { settings.style(for: .app) }
 
+    /// То же, что на «Сегодня»: арабский оригинал над переводом, если он включён.
+    private var parts: VerseParts {
+        card.parts(locale: l10n.locale, showsArabic: settings.showsArabic)
+    }
+
     /// Отрисовка в полном размере: карточка на экране и картинка на выходе —
     /// одна вьюха, отличается только ширина.
     @MainActor private var rendered: Image {
         let renderer = ImageRenderer(
-            content: ShareCardView(card: card, style: style, format: format,
+            content: ShareCardView(card: card, parts: parts, style: style, format: format,
                                    showsWordmark: showsWordmark,
                                    width: format.pixels.width)
                 .themed(theme)

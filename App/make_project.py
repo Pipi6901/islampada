@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Генерирует Lampada.xcodeproj без сторонних инструментов.
+Генерирует Misbah.xcodeproj без сторонних инструментов.
 
 Формат pbxproj — старый plist от NeXT. Пишется он руками редко, но здесь это
 дешевле, чем ставить генератор проектов на машину: нужен один таргет
@@ -13,8 +13,8 @@ objectVersion 77 — формат Xcode 16+, в нём есть синхрони
 """
 import os, hashlib
 
-ROOT = os.path.expanduser("~/Desktop/lampada/App")
-PROJ = os.path.join(ROOT, "Lampada.xcodeproj")
+ROOT = os.path.dirname(os.path.abspath(__file__))
+PROJ = os.path.join(ROOT, "Misbah.xcodeproj")
 
 
 def uid(name):
@@ -46,7 +46,7 @@ ids = {k: uid(k) for k in [
 SHARED_W = """
 				CODE_SIGNING_ALLOWED = YES;
 				CODE_SIGNING_REQUIRED = YES;
-				CODE_SIGN_ENTITLEMENTS = LampadaWidget.entitlements;
+				CODE_SIGN_ENTITLEMENTS = MisbahWidget.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "Apple Distribution";
 				"CODE_SIGN_IDENTITY[sdk=iphonesimulator*]" = "-";
 				CODE_SIGN_STYLE = Manual;
@@ -55,7 +55,7 @@ SHARED_W = """
 				VERSIONING_SYSTEM = "apple-generic";
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = WidgetInfo.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = Lampada;
+				INFOPLIST_KEY_CFBundleDisplayName = Misbah;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.astonio.misbah.widgets;
@@ -70,18 +70,18 @@ SHARED_W = """
 # LD_RUNPATH_SEARCH_PATHS обязателен с 1.0.2. До неё все зависимости были
 # статическими, и путь к Frameworks внутри бандла не требовался. Facebook SDK
 # (FBSDKCoreKit, FBAEMKit, FBSDKCoreKit_Basics) и AmplitudeCore — динамические:
-# Xcode кладёт их в Lampada.app/Frameworks, но без этого пути dyld их не ищет,
+# Xcode кладёт их в Misbah.app/Frameworks, но без этого пути dyld их не ищет,
 # и приложение падало на запуске с «Library not loaded: @rpath/FBSDKCoreKit»
 # (TestFlight, сборка 22, 05.11.2026).
 SHARED = """
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
-				ASSETCATALOG_COMPILER_ALTERNATE_APPICON_NAMES = "night flame christ paul david fresco vitrage cross christmas easter dove";
+				ASSETCATALOG_COMPILER_ALTERNATE_APPICON_NAMES = "night mosaic star dawn dome rosette light";
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				ENABLE_DEBUG_DYLIB = NO;
 				CODE_SIGNING_ALLOWED = YES;
 				CODE_SIGNING_REQUIRED = YES;
-				CODE_SIGN_ENTITLEMENTS = Lampada.entitlements;
+				CODE_SIGN_ENTITLEMENTS = Misbah.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "Apple Distribution";
 				"CODE_SIGN_IDENTITY[sdk=iphonesimulator*]" = "-";
 				CODE_SIGN_STYLE = Manual;
@@ -95,8 +95,8 @@ SHARED = """
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
-				INFOPLIST_KEY_CFBundleDisplayName = Lampada;
-				INFOPLIST_FILE = LampadaInfo.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Misbah;
+				INFOPLIST_FILE = MisbahInfo.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				MARKETING_VERSION = 1.0;
 				OTHER_LDFLAGS = "-ObjC";
@@ -116,12 +116,12 @@ SHARED = """
 # отслеживание без самого окна — частый отказ по правилу 5.1.2.
 #
 # Вернуть вместе с ключами Meta: TRACKING = True и перенести переводы окна из
-# App/tracking-1.0.3/InfoPlist.xcstrings обратно в App/Lampada/ — папка
+# InfoPlist.xcstrings (ru/en/ar) в App/Misbah/ — папка
 # подключается к таргету целиком, и всё, что в ней лежит, попадает в сборку.
 TRACKING = False
 if TRACKING:
     SHARED += ('\t\t\t\tINFOPLIST_KEY_NSUserTrackingUsageDescription = "Так мы узнаем, какая '
-               'реклама Lampada в Instagram и Facebook привела тебя. Стихи и ответы не передаются.";\n')
+               'реклама Misbah в Instagram и Facebook привела тебя. Аяты и ответы не передаются.";\n')
 
 pbxproj = f"""// !$*UTF8*$!
 {{
@@ -140,17 +140,17 @@ pbxproj = f"""// !$*UTF8*$!
 		{ids['buildFileFacebookCore']} /* FacebookCore in Frameworks */ = {{isa = PBXBuildFile; productRef = {ids['facebookCore']} /* FacebookCore */; }};
 		{ids['buildFileAmplitude']} /* AmplitudeSwift in Frameworks */ = {{isa = PBXBuildFile; productRef = {ids['amplitudeSwift']} /* AmplitudeSwift */; }};
 		{ids['wBuildFile']} /* LampadaWidgets in Frameworks */ = {{isa = PBXBuildFile; productRef = {ids['wPackageProduct']} /* LampadaWidgets */; }};
-		{ids['embedFile']} /* LampadaWidgetExtension.appex in Embed Foundation Extensions */ = {{isa = PBXBuildFile; fileRef = {ids['wProductRef']} /* LampadaWidgetExtension.appex */; settings = {{ATTRIBUTES = (RemoveHeadersOnCopy, ); }}; }};
+		{ids['embedFile']} /* MisbahWidgetExtension.appex in Embed Foundation Extensions */ = {{isa = PBXBuildFile; fileRef = {ids['wProductRef']} /* MisbahWidgetExtension.appex */; settings = {{ATTRIBUTES = (RemoveHeadersOnCopy, ); }}; }};
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		{ids['productRef']} /* Lampada.app */ = {{isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Lampada.app; sourceTree = BUILT_PRODUCTS_DIR; }};
-		{ids['wProductRef']} /* LampadaWidgetExtension.appex */ = {{isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = LampadaWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; }};
+		{ids['productRef']} /* Misbah.app */ = {{isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Misbah.app; sourceTree = BUILT_PRODUCTS_DIR; }};
+		{ids['wProductRef']} /* MisbahWidgetExtension.appex */ = {{isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = MisbahWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; }};
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		{ids['syncGroup']} /* Lampada */ = {{isa = PBXFileSystemSynchronizedRootGroup; path = Lampada; sourceTree = "<group>"; }};
-		{ids['wSyncGroup']} /* LampadaWidgetExtension */ = {{isa = PBXFileSystemSynchronizedRootGroup; path = LampadaWidgetExtension; sourceTree = "<group>"; }};
+		{ids['syncGroup']} /* Misbah */ = {{isa = PBXFileSystemSynchronizedRootGroup; path = Misbah; sourceTree = "<group>"; }};
+		{ids['wSyncGroup']} /* MisbahWidgetExtension */ = {{isa = PBXFileSystemSynchronizedRootGroup; path = MisbahWidgetExtension; sourceTree = "<group>"; }};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -186,7 +186,7 @@ pbxproj = f"""// !$*UTF8*$!
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
-				{ids['embedFile']} /* LampadaWidgetExtension.appex in Embed Foundation Extensions */,
+				{ids['embedFile']} /* MisbahWidgetExtension.appex in Embed Foundation Extensions */,
 			);
 			name = "Embed Foundation Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -197,8 +197,8 @@ pbxproj = f"""// !$*UTF8*$!
 		{ids['mainGroup']} = {{
 			isa = PBXGroup;
 			children = (
-				{ids['syncGroup']} /* Lampada */,
-				{ids['wSyncGroup']} /* LampadaWidgetExtension */,
+				{ids['syncGroup']} /* Misbah */,
+				{ids['wSyncGroup']} /* MisbahWidgetExtension */,
 				{ids['productsGroup']} /* Products */,
 			);
 			sourceTree = "<group>";
@@ -206,8 +206,8 @@ pbxproj = f"""// !$*UTF8*$!
 		{ids['productsGroup']} /* Products */ = {{
 			isa = PBXGroup;
 			children = (
-				{ids['productRef']} /* Lampada.app */,
-				{ids['wProductRef']} /* LampadaWidgetExtension.appex */,
+				{ids['productRef']} /* Misbah.app */,
+				{ids['wProductRef']} /* MisbahWidgetExtension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -215,7 +215,7 @@ pbxproj = f"""// !$*UTF8*$!
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		{ids['target']} /* Lampada */ = {{
+		{ids['target']} /* Misbah */ = {{
 			isa = PBXNativeTarget;
 			buildConfigurationList = {ids['buildConfigListTarget']};
 			buildPhases = (
@@ -229,9 +229,9 @@ pbxproj = f"""// !$*UTF8*$!
 				{ids['wDependency']} /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
-				{ids['syncGroup']} /* Lampada */,
+				{ids['syncGroup']} /* Misbah */,
 			);
-			name = Lampada;
+			name = Misbah;
 			packageProductDependencies = (
 				{ids['packageProductUI']} /* LampadaUI */,
 				{ids['packageProductWidgets']} /* LampadaWidgets */,
@@ -242,11 +242,11 @@ pbxproj = f"""// !$*UTF8*$!
 				{ids['facebookCore']} /* FacebookCore */,
 				{ids['amplitudeSwift']} /* AmplitudeSwift */,
 			);
-			productName = Lampada;
-			productReference = {ids['productRef']} /* Lampada.app */;
+			productName = Misbah;
+			productReference = {ids['productRef']} /* Misbah.app */;
 			productType = "com.apple.product-type.application";
 		}};
-		{ids['wTarget']} /* LampadaWidgetExtension */ = {{
+		{ids['wTarget']} /* MisbahWidgetExtension */ = {{
 			isa = PBXNativeTarget;
 			buildConfigurationList = {ids['wBuildConfigList']};
 			buildPhases = (
@@ -257,14 +257,14 @@ pbxproj = f"""// !$*UTF8*$!
 			buildRules = ();
 			dependencies = ();
 			fileSystemSynchronizedGroups = (
-				{ids['wSyncGroup']} /* LampadaWidgetExtension */,
+				{ids['wSyncGroup']} /* MisbahWidgetExtension */,
 			);
-			name = LampadaWidgetExtension;
+			name = MisbahWidgetExtension;
 			packageProductDependencies = (
 				{ids['wPackageProduct']} /* LampadaWidgets */,
 			);
-			productName = LampadaWidgetExtension;
-			productReference = {ids['wProductRef']} /* LampadaWidgetExtension.appex */;
+			productName = MisbahWidgetExtension;
+			productReference = {ids['wProductRef']} /* MisbahWidgetExtension.appex */;
 			productType = "com.apple.product-type.app-extension";
 		}};
 /* End PBXNativeTarget section */
@@ -272,7 +272,7 @@ pbxproj = f"""// !$*UTF8*$!
 /* Begin PBXTargetDependency section */
 		{ids['wDependency']} /* PBXTargetDependency */ = {{
 			isa = PBXTargetDependency;
-			target = {ids['wTarget']} /* LampadaWidgetExtension */;
+			target = {ids['wTarget']} /* MisbahWidgetExtension */;
 			targetProxy = {ids['wProxy']} /* PBXContainerItemProxy */;
 		}};
 /* End PBXTargetDependency section */
@@ -283,7 +283,7 @@ pbxproj = f"""// !$*UTF8*$!
 			containerPortal = {ids['project']} /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = {ids['wTarget']};
-			remoteInfo = LampadaWidgetExtension;
+			remoteInfo = MisbahWidgetExtension;
 		}};
 /* End PBXContainerItemProxy section */
 
@@ -309,12 +309,7 @@ pbxproj = f"""// !$*UTF8*$!
 			knownRegions = (
 				en,
 				ru,
-				de,
-				fr,
-				es,
-				"pt-BR",
-				it,
-				ko,
+				ar,
 				Base,
 			);
 			mainGroup = {ids['mainGroup']};
@@ -330,8 +325,8 @@ pbxproj = f"""// !$*UTF8*$!
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				{ids['target']} /* Lampada */,
-				{ids['wTarget']} /* LampadaWidgetExtension */,
+				{ids['target']} /* Misbah */,
+				{ids['wTarget']} /* MisbahWidgetExtension */,
 			);
 		}};
 /* End PBXProject section */
@@ -550,9 +545,9 @@ scheme = f"""<?xml version="1.0" encoding="UTF-8"?>
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "{ids['target']}"
-               BuildableName = "Lampada.app"
-               BlueprintName = "Lampada"
-               ReferencedContainer = "container:Lampada.xcodeproj">
+               BuildableName = "Misbah.app"
+               BlueprintName = "Misbah"
+               ReferencedContainer = "container:Misbah.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -565,9 +560,9 @@ scheme = f"""<?xml version="1.0" encoding="UTF-8"?>
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "{ids['target']}"
-            BuildableName = "Lampada.app"
-            BlueprintName = "Lampada"
-            ReferencedContainer = "container:Lampada.xcodeproj">
+            BuildableName = "Misbah.app"
+            BlueprintName = "Misbah"
+            ReferencedContainer = "container:Misbah.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <CommandLineArguments>
@@ -580,9 +575,9 @@ scheme = f"""<?xml version="1.0" encoding="UTF-8"?>
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "{ids['target']}"
-            BuildableName = "Lampada.app"
-            BlueprintName = "Lampada"
-            ReferencedContainer = "container:Lampada.xcodeproj">
+            BuildableName = "Misbah.app"
+            BlueprintName = "Misbah"
+            ReferencedContainer = "container:Misbah.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>
@@ -593,5 +588,5 @@ scheme = f"""<?xml version="1.0" encoding="UTF-8"?>
 
 os.makedirs(os.path.join(PROJ, "xcshareddata", "xcschemes"), exist_ok=True)
 open(os.path.join(PROJ, "project.pbxproj"), "w").write(pbxproj)
-open(os.path.join(PROJ, "xcshareddata", "xcschemes", "Lampada.xcscheme"), "w").write(scheme)
+open(os.path.join(PROJ, "xcshareddata", "xcschemes", "Misbah.xcscheme"), "w").write(scheme)
 print("создан", PROJ)

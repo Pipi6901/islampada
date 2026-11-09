@@ -38,16 +38,16 @@ import SwiftUI
 /// исходных не содержит кириллицы, и на русском система молча подставила бы
 /// своё. Замены подобраны по рисунку и уже лежат в пакете.
 enum OB {
-    static let ink = Color(hex: 0x1E181C)
-    static let brass = Color(hex: 0xDEDEE0)
-    static let text = Color(hex: 0xE8E8EA)
-    static let textMuted = Color(hex: 0xC5C5D2)
-    static let textFaint = Color(hex: 0x9A9193)
-    static let line = Color(hex: 0x453B48)
-    static let raised = Color(hex: 0x332B38)
-    static let violet = Color(hex: 0x9179C4)
-    static let violetDeep = Color(hex: 0x563189)
-    static let onBrass = Color(hex: 0x241D22)
+    static let ink = Color(hex: 0x141F22)
+    static let brass = Color(hex: 0xDCE1E2)
+    static let text = Color(hex: 0xE6EBEC)
+    static let textMuted = Color(hex: 0xBED4D9)
+    static let textFaint = Color(hex: 0x8FA4A8)
+    static let line = Color(hex: 0x334B50)
+    static let raised = Color(hex: 0x253A3E)
+    static let violet = Color(hex: 0x6ECFAB)
+    static let violetDeep = Color(hex: 0x358285)
+    static let onBrass = Color(hex: 0x192628)
 
     static func display(_ size: CGFloat, weight: CGFloat = 400) -> Font {
         Fonts.font(.literata, size: size, weight: weight)
@@ -105,8 +105,8 @@ struct OBBackground: View {
 /// Тёмный набор экранов онбординга и «Что нового»: один и тот же градиент,
 /// разное пятно.
 let obDeep: [Gradient.Stop] = [
-    .init(color: Color(hex: 0x302739), location: 0),
-    .init(color: Color(hex: 0x251F28), location: 0.6),
+    .init(color: Color(hex: 0x24383C), location: 0),
+    .init(color: Color(hex: 0x1A2A2D), location: 0.6),
     .init(color: OB.ink, location: 1),
 ]
 
@@ -115,12 +115,12 @@ struct OBButton: ButtonStyle {
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
             .font(OB.ui(17, weight: 600))
-            .kerning(0.1)
+            .spaced(0.1)
             .foregroundStyle(OB.onBrass)
             .frame(maxWidth: .infinity)
             .frame(height: 58)
             .background(Capsule().fill(OB.brass))
-            .shadow(color: Color(hex: 0xC5C5D2).opacity(0.18), radius: 14, y: 8)
+            .shadow(color: Color(hex: 0xBED4D9).opacity(0.18), radius: 14, y: 8)
             .contentShape(Capsule())
             .opacity(configuration.isPressed ? 0.85 : 1)
     }
@@ -171,13 +171,13 @@ struct OBHeading: View {
             if let eyebrow {
                 Text(eyebrow)
                     .font(OB.ui(10, weight: 600))
-                    .kerning(2)
+                    .spaced(2)
                     .foregroundStyle(OB.brass)
             }
 
             Text(title)
                 .font(OB.display(34))
-                .kerning(-0.7)
+                .spaced(-0.7)
                 .lineSpacing(OB.spacing(34, lineHeight: 1.1))
                 .foregroundStyle(OB.text)
                 .fixedSize(horizontal: false, vertical: true)
@@ -274,6 +274,7 @@ public struct OnboardingFlow: View {
             switch step {
             case .verse: VersePage(card: card,
                                    language: settings.language ?? .detect(),
+                                   showsArabic: settings.showsArabic,
                                    onLanguage: { showsLanguage = true },
                                    onNext: { step = .goal })
             case .goal: GoalPage(settings: settings) { step = .branch }
@@ -399,18 +400,19 @@ private struct VersePage: View {
     @Environment(\.l10n) private var l10n
     let card: Card?
     let language: AppLocale
+    let showsArabic: Bool
     let onLanguage: () -> Void
     let onNext: () -> Void
 
     var body: some View {
         ZStack(alignment: .top) {
             OBBackground(stops: [
-                .init(color: Color(hex: 0x332A3C), location: 0),
-                .init(color: Color(hex: 0x262029), location: 0.5),
+                .init(color: Color(hex: 0x263C40), location: 0),
+                .init(color: Color(hex: 0x1B2B2E), location: 0.5),
                 .init(color: OB.ink, location: 1),
             ])
 
-            OBPoster { HeroVideo() }
+            OBPoster { HeroLantern() }
 
             VStack(alignment: .leading, spacing: 0) {
                 header
@@ -431,7 +433,7 @@ private struct VersePage: View {
 
     private var header: some View {
         HStack {
-            Text("L A M P A D A")
+            Text("M I S B A H")
                 .font(OB.ui(12, weight: 600))
                 .kerning(3.4)
                 .foregroundStyle(OB.brass)
@@ -459,15 +461,15 @@ private struct VersePage: View {
             VStack(alignment: .leading, spacing: 18) {
                 Text(l10n[.obVerseEyebrow])
                     .font(OB.ui(10, weight: 600))
-                    .kerning(2)
+                    .spaced(2)
                     .foregroundStyle(OB.textFaint)
 
-                Text(card.text)
-                    .font(OB.display(verseSize))
-                    .kerning(-0.7)
-                    .lineSpacing(OB.spacing(verseSize, lineHeight: 1.15))
-                    .foregroundStyle(OB.text)
-                    .fixedSize(horizontal: false, vertical: true)
+                // Кегль по длине аята: пул неоднородный, от пяти слов до
+                // абзаца. Мельче, чем на «Сегодня», — над текстом должен
+                // дышать светильник.
+                VerseText(parts: card.parts(locale: language, showsArabic: showsArabic),
+                          scale: 0.9, lineHeight: 1.15, color: OB.text,
+                          face: .literata, tracking: -0.7)
 
                 HStack(spacing: 9) {
                     Rectangle()
@@ -475,22 +477,11 @@ private struct VersePage: View {
                         .frame(width: 22, height: 1.5)
                     Text(card.reference.uppercased())
                         .font(OB.ui(10, weight: 600))
-                        .kerning(2)
+                        .spaced(2)
                         .foregroundStyle(OB.brass)
                 }
             }
             .frame(maxWidth: .infinity, alignment: .leading)
-        }
-    }
-
-    /// В макете кегль один, но пул неоднородный: от «Иисус прослезился» до
-    /// восьми стихов подряд. Крупный кегль держит только короткие.
-    private var verseSize: CGFloat {
-        switch (card?.text.count ?? 0) {
-        case ..<70: 34
-        case ..<140: 28
-        case ..<240: 22
-        default: 19
         }
     }
 
@@ -501,7 +492,7 @@ private struct VersePage: View {
 
             Text(l10n[.obVerseTrust])
                 .font(OB.ui(11))
-                .kerning(0.2)
+                .spaced(0.2)
                 .foregroundStyle(OB.textFaint)
         }
     }
@@ -533,7 +524,7 @@ struct OBPoster<Content: View>: View {
             .overlay(
                 LinearGradient(stops: [
                     .init(color: OB.ink.opacity(0), location: 0),
-                    .init(color: Color(hex: 0x211B22).opacity(0.86), location: 0.46),
+                    .init(color: Color(hex: 0x172426).opacity(0.86), location: 0.46),
                     .init(color: OB.ink, location: 0.84),
                 ], startPoint: .top, endPoint: .bottom)
             )
@@ -615,7 +606,7 @@ private struct GoalPage: View {
 
                 Image(systemName: isOn ? "checkmark.circle" : "circle")
                     .font(.system(size: 21))
-                    .foregroundStyle(isOn ? OB.text : Color(hex: 0x56505A))
+                    .foregroundStyle(isOn ? OB.text : Color(hex: 0x485E62))
             }
             .padding(.horizontal, 12)
             .padding(.vertical, 11)
@@ -787,18 +778,15 @@ struct OBBanner: View {
 
     var body: some View {
         HStack(alignment: .top, spacing: 12) {
-            RoundedRectangle(cornerRadius: 9, style: .continuous)
-                .fill(OB.violetDeep)
+            Image("icon-default", bundle: .module)
+                .resizable()
+                .scaledToFit()
                 .frame(width: 38, height: 38)
-                .overlay(
-                    Image(systemName: "flame")
-                        .font(.system(size: 17, weight: .medium))
-                        .foregroundStyle(OB.brass)
-                )
+                .clipShape(RoundedRectangle(cornerRadius: 9, style: .continuous))
 
             VStack(alignment: .leading, spacing: 3) {
                 HStack {
-                    Text("Lampada")
+                    Text("Misbah")
                         .font(.system(size: 13, weight: .semibold))
                     Spacer()
                     Text(l10n[.notifyNow])
@@ -807,7 +795,7 @@ struct OBBanner: View {
                 }
                 Text(card?.reference ?? l10n[.demoReference])
                     .font(.system(size: 14, weight: .semibold))
-                Text(card?.text ?? l10n[.demoVerse])
+                Text(card?.notificationBody ?? l10n[.demoVerse])
                     .font(.system(size: 14))
                     .lineLimit(3)
                     .foregroundStyle(OB.textMuted)
@@ -901,7 +889,7 @@ private struct OBFeedPage: View {
                 Spacer()
                 Image(systemName: isOn ? "checkmark.circle" : "circle")
                     .font(.system(size: 20))
-                    .foregroundStyle(isOn ? OB.text : Color(hex: 0x56505A))
+                    .foregroundStyle(isOn ? OB.text : Color(hex: 0x485E62))
             }
             .padding(.horizontal, 18)
             .padding(.vertical, 14)
@@ -937,10 +925,10 @@ private struct OBLookPage: View {
     /// продают вид сильнее, а два ряда замков подряд отталкивают.
     private var styles: [VerseStyle] { VerseStyle.allCases.filter { !$0.isPremium } }
 
-    /// Бесплатный «Пастырь» первым, за ним новые картинки — ими экран и
+    /// Бесплатная «Пустыня» первой, за ней новые картинки — ими экран и
     /// продаёт.
     private var scenes: [VerseScene] {
-        let fresh: [VerseScene] = [.galilee, .star, .gethsemane, .cross]
+        let fresh: [VerseScene] = [.stars, .dome, .lantern, .garden]
         return VerseScene.allCases.filter { !$0.isPremium }
             + fresh
             + VerseScene.allCases.filter { $0.isPremium && !fresh.contains($0) }
@@ -1323,20 +1311,18 @@ struct OBLockPreview: View {
                     .foregroundStyle(OB.brass.opacity(0.67))
                 Text("9:41")
                     .font(.system(size: 62, weight: .medium))
-                    .kerning(-2)
+                    .spaced(-2)
                     .foregroundStyle(.white)
             }
 
             VStack(alignment: .leading, spacing: 5) {
-                Text(text)
-                    .font(OB.display(15))
-                    .lineSpacing(OB.spacing(15, lineHeight: 1.25))
+                PlainVerse(text: text, size: 15)
                     .foregroundStyle(OB.text)
                     .lineLimit(4)
                     .frame(maxWidth: .infinity, alignment: .leading)
                 Text(reference.uppercased())
                     .font(OB.ui(9, weight: 600))
-                    .kerning(1.1)
+                    .spaced(1.1)
                     .foregroundStyle(OB.brass)
             }
             .padding(.horizontal, 15)
@@ -1355,12 +1341,12 @@ struct OBLockPreview: View {
             RoundedRectangle(cornerRadius: 34, style: .continuous)
                 .fill(LinearGradient(stops: [
                     .init(color: OB.violetDeep, location: 0),
-                    .init(color: Color(hex: 0x7C5AA8), location: 0.5),
-                    .init(color: Color(hex: 0x251F28), location: 1),
+                    .init(color: Color(hex: 0x42C092), location: 0.5),
+                    .init(color: Color(hex: 0x1A2A2D), location: 1),
                 ], startPoint: .top, endPoint: .bottom))
         )
         .overlay(RoundedRectangle(cornerRadius: 34, style: .continuous)
-            .strokeBorder(Color(hex: 0x564860), lineWidth: 1))
+            .strokeBorder(Color(hex: 0x3E636A), lineWidth: 1))
         .shadow(color: .black.opacity(0.6), radius: 25, y: 22)
     }
 }
@@ -1376,8 +1362,8 @@ private struct DonePage: View {
     var body: some View {
         ZStack(alignment: .top) {
             OBBackground(stops: [
-                .init(color: Color(hex: 0x332A3C), location: 0),
-                .init(color: Color(hex: 0x262029), location: 0.5),
+                .init(color: Color(hex: 0x263C40), location: 0),
+                .init(color: Color(hex: 0x1B2B2E), location: 0.5),
                 .init(color: OB.ink, location: 1),
             ])
 
@@ -1386,7 +1372,7 @@ private struct DonePage: View {
             }
 
             VStack(alignment: .leading, spacing: 0) {
-                Text("L A M P A D A")
+                Text("M I S B A H")
                     .font(OB.ui(12, weight: 600))
                     .kerning(3.4)
                     .foregroundStyle(OB.brass)
@@ -1429,7 +1415,7 @@ private struct WhyPage: View {
     var body: some View {
         ZStack {
             OBBackground(stops: [
-                .init(color: Color(hex: 0x272029), location: 0),
+                .init(color: Color(hex: 0x1B2B2E), location: 0),
                 .init(color: OB.ink, location: 1),
             ], glow: .init(color: OB.violet.opacity(0.2), size: 470, x: -40, y: 190))
 
@@ -1443,14 +1429,14 @@ private struct WhyPage: View {
 
                     Text(l10n[.obWhyNumber])
                         .font(OB.display(64))
-                        .kerning(-2.5)
+                        .spaced(-2.5)
                         .foregroundStyle(OB.brass)
                         .minimumScaleFactor(0.6)
                         .lineLimit(1)
 
                     Text(l10n[.obWhyQuestion])
                         .font(OB.display(27))
-                        .kerning(-0.4)
+                        .spaced(-0.4)
                         .lineSpacing(OB.spacing(27, lineHeight: 1.2))
                         .multilineTextAlignment(.center)
                         .foregroundStyle(OB.text)
@@ -1505,12 +1491,12 @@ private struct OBTrackingPage: View {
                 VStack(alignment: .leading, spacing: 10) {
                     Text(l10n[.obTrackEyebrow])
                         .font(OB.ui(10, weight: 600))
-                        .kerning(2)
+                        .spaced(2)
                         .foregroundStyle(OB.brass)
 
                     Text(l10n[.obTrackTitle])
                         .font(OB.display(34))
-                        .kerning(-0.7)
+                        .spaced(-0.7)
                         .lineSpacing(OB.spacing(34, lineHeight: 1.1))
                         .foregroundStyle(OB.text)
                         .fixedSize(horizontal: false, vertical: true)

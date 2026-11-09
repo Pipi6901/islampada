@@ -60,7 +60,7 @@ struct AppSettingsTests {
         let name = "test.\(UUID().uuidString)"
         let store = try #require(UserDefaults(suiteName: name))
         let first = AppSettings(store: store)
-        first.language = .de
+        first.language = .ar
         first.themes = ["страх", "усталость"]
         first.hasSeenOnboarding = true
         first.markInstalled(.wallpaper)
@@ -68,7 +68,7 @@ struct AppSettingsTests {
         first.appIcon = AppIcon.night.rawValue
 
         let second = AppSettings(store: store)
-        #expect(second.language == .de)
+        #expect(second.language == .ar)
         #expect(second.themes == ["страх", "усталость"])
         #expect(second.hasSeenOnboarding)
         #expect(second.enabledSurfaces == [.wallpaper])
@@ -100,7 +100,7 @@ struct AppSettingsTests {
     @Test
     func `первый ряд наборов доступен без подписки`() {
         let free = VerseStyle.allCases.filter { !$0.isPremium }
-        #expect(free == [.lavender, .night, .parchment, .amber])
+        #expect(free == [.emerald, .night, .parchment, .amber])
         #expect(VerseStyle.allCases.count == 8)
     }
 
@@ -192,7 +192,7 @@ struct AppSettingsTests {
     func `основная иконка не имеет альтернативного имени`() {
         #expect(AppIcon.default.alternateName == nil)
         #expect(AppIcon.night.alternateName == "night")
-        #expect(AppIcon.christ.alternateName == "christ")
+        #expect(AppIcon.mosaic.alternateName == "mosaic")
     }
 
     /// Имя набора в каталоге и `alternateName` обязаны совпадать посимвольно:
@@ -201,27 +201,24 @@ struct AppSettingsTests {
     /// `App/make_icon.py` из списков `VARIANTS` и `PICTURES`.
     @Test
     func `у каждой альтернативной иконки есть имя набора`() {
-        let expected = ["night", "flame", "christ", "paul", "david", "fresco",
-                        "vitrage", "cross", "christmas", "easter", "dove"]
+        let expected = ["night", "mosaic", "star", "dawn", "dome", "rosette", "light"]
         #expect(AppIcon.allCases.compactMap(\.alternateName) == expected)
     }
 
-    /// Бесплатных иконок две: основная и «Голубь» — на шаге иконки в
+    /// Бесплатных иконок две: основная и «Ночь» — на шаге иконки в
     /// онбординге хоть одна новая должна включаться сразу, без Pro.
     @Test
-    func `голубь бесплатный`() {
+    func `ночь бесплатна`() {
         let free = StubEntitlements(isSubscribed: false)
-        #expect(AppIcon.allCases.filter { free.isUnlocked($0) } == [.default, .dove])
+        #expect(AppIcon.allCases.filter { free.isUnlocked($0) } == [.default, .night])
     }
 
-    /// Картиночные плитки берут изображение из ресурсов пакета, остальные
-    /// рисуются рецептом. Пустая строка вместо имени дала бы пустую плитку.
+    /// Плитки берут изображение из ресурсов пакета по имени `icon-<название>`.
+    /// Пустая строка или опечатка вместо имени дала бы пустую плитку.
     @Test
-    func `у картиночных иконок есть имя изображения`() {
+    func `у каждой иконки есть имя изображения`() {
         for icon in AppIcon.allCases {
-            let hasPicture = icon != .default && icon != .night
-            #expect((icon.previewAsset != nil) == hasPicture, "\(icon.rawValue)")
-            #expect(icon.previewAsset?.isEmpty != true, "\(icon.rawValue)")
+            #expect(icon.previewAsset == "icon-\(icon.rawValue)", "\(icon.rawValue)")
         }
     }
 }

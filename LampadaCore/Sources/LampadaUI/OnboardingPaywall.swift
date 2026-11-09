@@ -60,8 +60,8 @@ struct PaywallScreen: View {
     var body: some View {
         ZStack {
             OBBackground(stops: [
-                .init(color: Color(hex: 0x3B2F48), location: 0),
-                .init(color: Color(hex: 0x262029), location: 0.5),
+                .init(color: Color(hex: 0x2C464B), location: 0),
+                .init(color: Color(hex: 0x1B2B2E), location: 0.5),
                 .init(color: OB.ink, location: 1),
             ], glow: .init(color: OB.violet.opacity(0.29), size: 440, x: 40, y: -180))
 
@@ -131,7 +131,7 @@ struct PaywallScreen: View {
             if let eyebrow = pitch.eyebrow {
                 Text(eyebrow)
                     .font(OB.ui(10, weight: 600))
-                    .kerning(2)
+                    .spaced(2)
                     .foregroundStyle(OB.brass)
             }
 
@@ -159,7 +159,7 @@ struct PaywallScreen: View {
 
             Text(pitch.title)
                 .font(OB.display(32))
-                .kerning(-0.6)
+                .spaced(-0.6)
                 .lineSpacing(OB.spacing(32, lineHeight: 1.1))
                 .foregroundStyle(OB.text)
                 .fixedSize(horizontal: false, vertical: true)

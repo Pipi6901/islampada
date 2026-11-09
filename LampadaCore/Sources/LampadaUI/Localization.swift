@@ -20,8 +20,14 @@ extension EnvironmentValues {
 extension View {
     /// Ставит язык интерфейса и заодно системную локаль — от неё зависит
     /// формат даты и разделители в числах.
+    ///
+    /// Арабский интерфейс пишется справа налево, и зеркалит его одна строка
+    /// здесь: направление уходит по окружению во все экраны, листы и накрытия,
+    /// которые снова вызывают `localized`. Стрелки, отступы `leading` и порядок
+    /// в стопках переворачиваются сами.
     func localized(_ locale: AppLocale) -> some View {
         environment(\.l10n, L10n(locale))
-            .environment(\.locale, Locale(identifier: locale.rawValue))
+            .environment(\.locale, locale.formattingLocale)
+            .environment(\.layoutDirection, locale.isRightToLeft ? .rightToLeft : .leftToRight)
     }
 }

@@ -106,7 +106,7 @@ struct PlacesScreen: View {
         VStack(alignment: .leading, spacing: 12) {
             Text(groupTitle(group).uppercased())
                 .font(theme.ui(10, weight: 600))
-                .tracking(1.2)
+                .spaced(1.2)
                 .foregroundStyle(theme.textFaint)
             content()
         }

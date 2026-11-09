@@ -1,11 +1,11 @@
-# Codemagic → iOS → TestFlight (Lampada).
+# Codemagic → iOS → TestFlight (Misbah).
 #
 # Портировано с рабочего конфига medivue-main (та же команда VG9U7V4AAL, тот же
-# distribution-сертификат). Lampada проще: нативный Swift, без Expo, без npm и
+# distribution-сертификат). Misbah проще: нативный Swift, без Expo, без npm и
 # без CocoaPods — зависимости тянет SPM, и Xcode делает это сам.
 #
 # Три особенности ЭТОГО репозитория:
-#  1. Lampada.xcodeproj собирается скриптом `make_project.py`, а не правится
+#  1. Misbah.xcodeproj собирается скриптом `make_project.py`, а не правится
 #     руками. В репозитории он есть, но CI пересобирает его первым шагом:
 #     источник истины — скрипт, и расхождение между ним и закоммиченным
 #     проектом иначе всплыло бы только на устройстве.
@@ -18,7 +18,7 @@
 
 workflows:
   ios-testflight:
-    name: Lampada iOS → TestFlight
+    name: Misbah iOS → TestFlight
     instance_type: mac_mini_m2
     # С Firebase сборка заметно дольше: репозиторий SDK тянется целиком, а его
     # ядро собирается из исходников. 60 минут впритык, потолок с запасом
@@ -52,7 +52,7 @@ workflows:
         BUNDLE_ID: "com.astonio.misbah"
         WIDGET_BUNDLE_ID: "com.astonio.misbah.widgets"
         APP_STORE_APPLE_ID: 6832716134
-        XCODE_SCHEME: "Lampada"
+        XCODE_SCHEME: "Misbah"
       # 27.1 — не ниже: только с SDK iOS 27.1 приложение на iPhone Duo идёт
       # край в край на обоих экранах. На SDK 26 оно там открывается окном
       # обычного iPhone посреди пустоты, на SDK 27 обходит строку состояния
@@ -126,11 +126,11 @@ workflows:
           for attempt in 1 2 3; do
             echo "→ SPM, попытка $attempt"
             if perl -e 'alarm shift; exec @ARGV' 900 \
-                 xcodebuild -project Lampada.xcodeproj -scheme "$XCODE_SCHEME" \
+                 xcodebuild -project Misbah.xcodeproj -scheme "$XCODE_SCHEME" \
                    -resolvePackageDependencies; then
               exit 0
             fi
-            find ~/Library/Developer/Xcode/DerivedData -maxdepth 2 -path '*/Lampada-*/SourcePackages' -exec rm -rf {} + || true
+            find ~/Library/Developer/Xcode/DerivedData -maxdepth 2 -path '*/Misbah-*/SourcePackages' -exec rm -rf {} + || true
             sleep 30
           done
           echo "ERROR: пакеты SPM не скачались за три попытки"
@@ -140,7 +140,7 @@ workflows:
         script: |
           set -e
           cd App
-          xcode-project build-ipa --project "Lampada.xcodeproj" --scheme "$XCODE_SCHEME"
+          xcode-project build-ipa --project "Misbah.xcodeproj" --scheme "$XCODE_SCHEME"
 
     artifacts:
       - App/build/ios/ipa/*.ipa

@@ -12,7 +12,7 @@ import SwiftUI
 /// Платный экран, в отличие от этого, свой. Готовый `PaywallView` из панели
 /// сюда не подставляется: наш показывает ответы человека и подсвечивает по ним
 /// набор, а цены и покупку RevenueCat отдаёт и так — через `PaywallStore`.
-public struct LampadaCustomerCenter: View {
+public struct MisbahCustomerCenter: View {
     public init() {}
 
     public var body: some View {

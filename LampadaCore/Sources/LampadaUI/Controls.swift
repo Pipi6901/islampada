@@ -62,7 +62,7 @@ struct DisclosureRow: View {
                 Text(value)
                     .font(theme.ui(13, weight: 500))
                     .foregroundStyle(theme.text)
-                Image(systemName: "chevron.right")
+                Image(systemName: "chevron.forward")
                     .font(.system(size: 11, weight: .semibold))
                     .foregroundStyle(theme.textFaint)
             }

@@ -17,46 +17,59 @@ struct StringsTests {
         }
     }
 
-    /// Порядок значений в таблице один и тот же: ru, en, de, fr, es. Строка
-    /// короче пяти значений означала бы сдвиг — испанский показал бы
-    /// французское. Так как индекс берётся по языку, короткая строка ещё и
-    /// уронила бы приложение.
+    /// Порядок значений в таблице один: ru, en, ar. Короткая строка уронила бы
+    /// приложение на арабском — индекс 2 за пределами массива, — поэтому все
+    /// три языка читаются по каждому ключу.
     @Test
-    func `у каждой строки ровно пять переводов`() {
+    func `каждая строка читается на всех трёх языках`() {
         for key in L10n.Key.allCases {
-            let ru = L10n(.ru)[key]
-            #expect(!ru.isEmpty, "\(key.rawValue)")
-            // Испанский — последний в строке: если он читается, длины хватает.
-            #expect(!L10n(.es)[key].isEmpty, "\(key.rawValue)")
+            for locale in AppLocale.allCases {
+                #expect(!L10n(locale)[key].isEmpty, "\(key.rawValue) — \(locale.rawValue)")
+            }
         }
     }
 
-    /// У языков, добавленных отдельными словарями, запасной вариант —
-    /// английский, и пропуск прошёл бы незамеченным: английская строка посреди
-    /// португальского экрана. Поэтому словари сверяются с перечнем ключей.
+    /// Арабская строка — арабская, а не английская, подставленная запасным
+    /// вариантом. Исключения — имена, которые не переводятся: StandBy, Pro.
     @Test
-    func `у новых языков переведён каждый ключ`() {
-        for key in L10n.Key.allCases {
-            #expect(L10n.portuguese[key]?.isEmpty == false, "pt: \(key.rawValue)")
-            #expect(L10n.italian[key]?.isEmpty == false, "it: \(key.rawValue)")
-            #expect(L10n.korean[key]?.isEmpty == false, "ko: \(key.rawValue)")
-        }
-        for theme in L10n.themes.keys {
-            #expect(L10n.portugueseThemes[theme] != nil, "pt: \(theme)")
-            #expect(L10n.italianThemes[theme] != nil, "it: \(theme)")
-            #expect(L10n.koreanThemes[theme] != nil, "ko: \(theme)")
+    func `арабский интерфейс переведён, а не подменён английским`() {
+        let untranslated: Set<L10n.Key> = [.unlockStandBy]
+        for key in L10n.Key.allCases where !untranslated.contains(key) {
+            let ar = L10n(.ar)[key]
+            #expect(ar.isArabicScript || ar == L10n(.en)[key], "\(key.rawValue): \(ar)")
+            if ar == L10n(.en)[key] {
+                // Совпадает с английским — значит, в строке нет слов вовсе (число,
+                // имя, знак). Слова латиницей быть не должны.
+                #expect(!ar.contains { $0.isLetter }, "\(key.rawValue): \(ar)")
+            }
         }
     }
 
     /// Подстановки в переводе те же, что в английском: потерянный %@ роняет
     /// строку в «%@» на экране, лишний — читает мусор из памяти.
-    @Test(arguments: [AppLocale.pt, .it, .ko])
+    @Test(arguments: [AppLocale.ru, .ar])
     func `подстановки совпадают с английскими`(locale: AppLocale) {
         let pattern = /%(\d\$)?[@d]/
         for key in L10n.Key.allCases {
             let english = L10n(.en)[key].matches(of: pattern).map { String($0.output.0) }
             let local = L10n(locale)[key].matches(of: pattern).map { String($0.output.0) }
             #expect(english.sorted() == local.sorted(), "\(locale.rawValue): \(key.rawValue)")
+        }
+    }
+
+    /// Следов прежнего приложения в интерфейсе быть не должно.
+    @Test(arguments: AppLocale.allCases)
+    func `в строках нет следов прежнего приложения`(locale: AppLocale) {
+        let l10n = L10n(locale)
+        let forbidden = ["Lampada", "LAMPADA", "Библи", "Bible", "Христ", "Christ", "Иисус", "Jesus",
+                         "Псалом", "Psalm", "Евангел", "Gospel", "церк", "church", "молитв", "prayer",
+                         "الكتاب المقدس", "المسيح", "كنيسة"]
+        for key in L10n.Key.allCases {
+            let text = l10n[key]
+            for word in forbidden {
+                #expect(!text.localizedCaseInsensitiveContains(word),
+                        "\(locale.rawValue) \(key.rawValue): «\(word)» в «\(text)»")
+            }
         }
     }
 
@@ -71,6 +84,22 @@ struct StringsTests {
         for theme in inCorpus.sorted() {
             #expect(L10n.themes[theme] != nil, "нет перевода: \(theme)")
         }
+        // И наоборот: переведённое состояние, которого нет в корпусе, — мусор.
+        for theme in L10n.themes.keys {
+            #expect(inCorpus.contains(theme), "лишний перевод: \(theme)")
+        }
+    }
+
+    @Test
+    func `названия состояний на каждом языке отличаются от идентификатора`() {
+        for id in L10n.themes.keys {
+            for locale in [AppLocale.en, .ar] {
+                #expect(L10n(locale).theme(id) != id, "\(locale.rawValue): \(id)")
+            }
+        }
+        #expect(L10n(.ru).theme("страх") == "Страх")
+        #expect(L10n(.en).theme("страх") == "Fear")
+        #expect(L10n(.ar).theme("страх") == "الخوف")
     }
 
     /// Ссылки с пейволла — не украшение: по правилу 3.1.2 они обязаны быть на
@@ -82,11 +111,12 @@ struct StringsTests {
         #expect(Legal.terms.scheme == "https")
         #expect(Legal.privacy.scheme == "https")
         #expect(Legal.terms.host == "www.apple.com")
-        #expect(Legal.privacy.absoluteString.hasSuffix("lampada-privacy.html"))
+        #expect(Legal.privacy.absoluteString.hasSuffix("privacy.html"))
+        #expect(!Legal.privacy.absoluteString.contains("lampada"))
     }
 
-    /// «≈ 22 дня», а не «22 дней»: у русского три формы, у французского ноль
-    /// идёт в единственное число.
+    /// «≈ 22 дня», а не «22 дней»: у русского три формы, у английского две, у
+    /// арабского четыре.
     @Test
     func `число со словом в нужной форме`() {
         let ru = L10n(.ru)
@@ -94,16 +124,25 @@ struct StringsTests {
         #expect(ru.count(22, .daysUnit) == "22 дня")
         #expect(ru.count(45, .daysUnit) == "45 дней")
         #expect(ru.count(11, .daysUnit) == "11 дней")
-        #expect(ru.count(214, .versesUnit) == "214 стихов")
-        #expect(ru.count(21, .versesUnit) == "21 стих")
-        #expect(L10n(.en).count(1, .daysUnit) == "1 day")
-        #expect(L10n(.pt).count(0, .daysUnit).hasPrefix("0 "))
-        #expect(L10n(.it).count(45, .daysUnit) == "45 giorni")
-        #expect(L10n(.ko).count(45, .daysUnit) == "45일")
-        #expect(L10n(.ko).count(8, .fontsUnit) == "글꼴 8개")
-        #expect(L10n(.en).count(45, .daysUnit) == "45 days")
-        #expect(L10n(.fr).count(0, .versesUnit) == "0 verset")
-        #expect(L10n(.de).count(10, .iconsUnit) == "10 Symbole")
+        #expect(ru.count(214, .versesUnit) == "214 аятов")
+        #expect(ru.count(21, .versesUnit) == "21 аят")
+        #expect(ru.count(3, .versesUnit) == "3 аята")
+
+        let en = L10n(.en)
+        #expect(en.count(1, .daysUnit) == "1 day")
+        #expect(en.count(45, .daysUnit) == "45 days")
+        #expect(en.count(1, .versesUnit) == "1 ayah")
+        #expect(en.count(7, .versesUnit) == "7 ayat")
+        #expect(en.count(0, .versesUnit) == "0 ayat")
+
+        let ar = L10n(.ar)
+        #expect(ar.count(1, .versesUnit) == "1 آية")
+        #expect(ar.count(2, .versesUnit) == "2 آيتان")
+        #expect(ar.count(5, .versesUnit) == "5 آيات")
+        #expect(ar.count(10, .versesUnit) == "10 آيات")
+        #expect(ar.count(11, .versesUnit) == "11 آية")
+        #expect(ar.count(45, .daysUnit) == "45 يومًا")
+        #expect(ar.count(8, .daysUnit) == "8 أيام")
     }
 
     /// Дата в макете экрана блокировки должна быть на языке интерфейса.
@@ -111,6 +150,10 @@ struct StringsTests {
     func `дата в макете переводится`() {
         #expect(L10n(.ru).mockDate.contains("сентябр"))
         #expect(L10n(.en).mockDate.contains("September"))
-        #expect(L10n(.de).mockDate.contains("September"))
+        let ar = L10n(.ar).mockDate
+        #expect(ar.contains("سبتمبر"))
+        // Цифры западные: остальные числа интерфейса подставляются так же.
+        #expect(ar.contains("3"))
+        #expect(!ar.contains("٣"))
     }
 }

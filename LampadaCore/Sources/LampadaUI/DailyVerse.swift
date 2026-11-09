@@ -70,7 +70,7 @@ struct DailyVerseRow: View {
                 }
 
                 Spacer(minLength: 0)
-                Image(systemName: "chevron.right")
+                Image(systemName: "chevron.forward")
                     .font(.system(size: 11, weight: .semibold))
                     .foregroundStyle(theme.textFaint)
             }

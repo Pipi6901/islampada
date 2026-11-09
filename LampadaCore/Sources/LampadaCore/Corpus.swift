@@ -12,6 +12,9 @@ public struct Card: Sendable, Hashable, Identifiable, Codable {
     /// Подпись в нумерации своего издания: «Псалом 22:1», «Psaume 23:1».
     public let reference: String
     public let text: String
+    /// Арабский оригинал аята. В арабском бандле его нет: там `text` и есть
+    /// оригинал, и показывать его дважды незачем.
+    public var arabic: String? = nil
 
     // Ключи в бандле короткие: файл на тысячу карточек, и длинные имена
     // добавили бы к каждому языку заметный вес ни за что.
@@ -21,10 +24,47 @@ public struct Card: Sendable, Hashable, Identifiable, Codable {
         case theme = "th"
         case reference = "r"
         case text = "t"
+        case arabic = "a"
+    }
+}
+
+/// Из чего состоит показ карточки на конкретном языке.
+///
+/// Арабский интерфейс показывает один оригинал, остальные — оригинал над
+/// переводом (если человек не выключил оригинал в «Виде»). Решается здесь, а не
+/// на каждом экране: экранов семь, и расходиться в этом им нельзя.
+public struct VerseParts: Sendable, Hashable {
+    /// Арабский текст аята.
+    public let original: String?
+    /// Перевод. У арабского интерфейса его нет: перевод там — сам оригинал.
+    public let translation: String?
+
+    public init(original: String?, translation: String?) {
+        self.original = original
+        self.translation = translation
+    }
+
+    /// Самое длинное из показываемого: по нему экраны подбирают кегль.
+    public var longest: Int {
+        max(original?.count ?? 0, translation?.count ?? 0)
     }
 }
 
 extension Card {
+    /// Что показывать на экране. В арабском бандле `text` и есть оригинал, в
+    /// остальных оригинал лежит в `arabic`, а `text` — перевод.
+    public func parts(locale: AppLocale, showsArabic: Bool) -> VerseParts {
+        if locale == .ar { return VerseParts(original: text, translation: nil) }
+        guard showsArabic, let arabic else { return VerseParts(original: nil, translation: text) }
+        return VerseParts(original: arabic, translation: text)
+    }
+
+    /// Текст для уведомления: арабский оригинал строкой выше перевода.
+    public var notificationBody: String {
+        guard let arabic else { return text }
+        return arabic + "\n" + text
+    }
+
     /// Укороченный текст для экрана блокировки.
     ///
     /// Места там на три строки мелким кеглем. Длинный стих система обрезает
@@ -38,6 +78,8 @@ extension Card {
     /// Отдельно от `shortText`, потому что расширению виджета карточка не
     /// достаётся — у него на руках только готовая строка из ленты.
     public static func shorten(_ text: String) -> String {
+        // Для арабского хватает того же предела: `count` считает графемы, и
+        // огласовки вместе с буквой — один символ, как и на глаз.
         let limit = 78
         guard text.count > limit else { return text }
         let head = text.prefix(limit)
@@ -66,6 +108,9 @@ public struct Corpus: Sendable, Hashable, Codable {
     public let cards: [Card]
     /// Строка контекста по идентификатору отрывка.
     public let contexts: [String: String]
+    /// Строка авторства арабского текста (Tanzil, CC BY 3.0): лицензия требует
+    /// называть источник и давать ссылку на tanzil.net.
+    public let arabicCredit: String?
 
     /// Контекст для карточки. Отсутствие контекста — не ошибка данных, а повод
     /// не показывать блок: интерфейс должен это переживать.
@@ -102,7 +147,7 @@ extension Corpus {
     /// То же, но из указанного бандла: приложение кладёт корпус в свой ресурс,
     /// а не тянет пакетный.
     public static func load(_ locale: AppLocale, from bundle: Bundle) throws -> Corpus {
-        guard let url = bundle.url(forResource: "lampada-\(locale.rawValue)",
+        guard let url = bundle.url(forResource: "corpus-\(locale.rawValue)",
                                    withExtension: "json") else {
             throw CorpusError.missingResource(locale)
         }
@@ -113,4 +158,15 @@ extension Corpus {
 
 public enum CorpusError: Error, Sendable, Hashable {
     case missingResource(AppLocale)
+}
+
+extension String {
+    /// Есть ли в строке арабское письмо.
+    ///
+    /// По этому признаку экраны, виджеты и предпросмотры выбирают шрифт Корана:
+    /// латинские и кириллические начертания арабских букв не содержат. Лежит в
+    /// ядре, а не в интерфейсе, потому что нужна и расширению виджета.
+    public var isArabicScript: Bool {
+        unicodeScalars.contains { (0x0600...0x06FF).contains($0.value) }
+    }
 }

@@ -131,7 +131,7 @@ private struct WNIconsPage<Top: View>: View {
     @State private var paywallFor: AppIcon?
     @State private var pending: AppIcon?
 
-    private let icons: [AppIcon] = [.dove, .vitrage, .cross, .christmas, .easter]
+    private let icons: [AppIcon] = [.night, .mosaic, .star, .dawn, .dome]
     private let columns = Array(repeating: GridItem(.flexible(), spacing: 12), count: 3)
 
     private var current: AppIcon { AppIcon(rawValue: settings.appIcon) ?? .default }
@@ -217,7 +217,7 @@ private struct WNPicturesPage<Top: View>: View {
 
     @State private var preview: VerseScene?
 
-    private let scenes: [VerseScene] = [.galilee, .star, .gethsemane, .cross]
+    private let scenes: [VerseScene] = [.stars, .dome, .lantern, .garden]
     private let columns = Array(repeating: GridItem(.flexible(), spacing: 13), count: 2)
 
     var body: some View {
@@ -279,7 +279,7 @@ private struct ScenePreviewSheet: View {
                 HStack {
                     Text(l10n[scene.titleKey].uppercased())
                         .font(OB.ui(11, weight: 600))
-                        .kerning(2)
+                        .spaced(2)
                         .foregroundStyle(tint)
                     Spacer()
                     Button { dismiss() } label: {
@@ -297,14 +297,12 @@ private struct ScenePreviewSheet: View {
                 Spacer(minLength: 24)
 
                 VStack(alignment: .leading, spacing: 14) {
-                    Text(card?.text ?? l10n[.demoVerse])
-                        .font(OB.display(26))
-                        .lineSpacing(OB.spacing(26, lineHeight: 1.25))
+                    PlainVerse(text: card?.text ?? l10n[.demoVerse], size: 26)
                         .foregroundStyle(ink)
                         .fixedSize(horizontal: false, vertical: true)
                     Text((card?.reference ?? l10n[.demoReference]).uppercased())
                         .font(OB.ui(10, weight: 600))
-                        .kerning(2)
+                        .spaced(2)
                         .foregroundStyle(tint)
                 }
 
@@ -481,7 +479,7 @@ private struct WNArt: View {
                 if isPro {
                     Text("PRO")
                         .font(OB.ui(9, weight: 700))
-                        .kerning(1)
+                        .spaced(1)
                         .foregroundStyle(OB.brass)
                         .padding(.horizontal, 7)
                         .padding(.vertical, 3)

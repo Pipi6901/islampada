@@ -25,13 +25,15 @@ public enum Tab: String, Sendable, Hashable, CaseIterable, Identifiable {
         }
     }
 
-    /// Объёмные иконки нарисованы под этот интерфейс отдельно; системных
-    /// символов того же настроения нет.
-    var asset: String {
+    /// Значки вкладок — системные символы: полумесяц со звёздами для аята дня,
+    /// сетка виджетов для «Мест», палитра для «Вида». Объёмные картинки
+    /// прежнего приложения (огонь, телефон) к новому образу не подходят, а
+    /// символы сами подстраиваются под размер шрифта и тёмную тему.
+    var symbol: String {
         switch self {
-        case .today: "fire"
-        case .places: "phone"
-        case .look: "palette"
+        case .today: "moon.stars.fill"
+        case .places: "square.grid.2x2.fill"
+        case .look: "paintpalette.fill"
         }
     }
 }

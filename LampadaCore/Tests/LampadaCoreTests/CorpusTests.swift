@@ -9,18 +9,21 @@ struct CorpusTests {
     func `бандл каждого языка читается`(locale: AppLocale) throws {
         let corpus = try Corpus.load(locale)
         #expect(corpus.lang == locale.rawValue)
-        #expect(corpus.cards.count == 1003)
-        // Все издания — общественное достояние, кроме Bíblia Livre: она под
-        // CC BY 4.0, и строка лицензии с авторами едет в бандле.
-        if locale == .pt {
-            #expect(corpus.edition.license.hasPrefix("CC BY 4.0"))
-        } else {
-            #expect(corpus.edition.license == "Public Domain")
+        #expect(corpus.cards.count == 288)
+        // Переводы — общественное достояние (Пикталл, Саблуков). Арабский текст
+        // Tanzil под CC BY 3.0: его лицензия требует назвать источник, и строка
+        // с именем проекта обязана ехать в каждом бандле.
+        switch locale {
+        case .en, .ru: #expect(corpus.edition.license == "Public Domain")
+        case .ar: #expect(corpus.edition.license.hasPrefix("CC BY 3.0"))
         }
+        let credit = try #require(corpus.arabicCredit)
+        #expect(credit.contains("Tanzil"))
+        #expect(credit.contains("tanzil.net"))
     }
 
-    /// Ни одна карточка не должна приехать пустой или обрубленной. Порог в
-    /// восемь символов низкий намеренно: «Jesus wept» из Ин 11:35 есть в корпусе.
+    /// Ни одна карточка не должна приехать пустой или обрубленной. Порог низкий
+    /// намеренно: в корпусе есть короткие аяты.
     @Test(arguments: AppLocale.allCases)
     func `у карточек есть текст и подпись`(locale: AppLocale) throws {
         let corpus = try Corpus.load(locale)
@@ -42,6 +45,16 @@ struct CorpusTests {
         }
     }
 
+    /// Темы одни на все языки: фильтр человека сохраняется при смене языка.
+    @Test
+    func `темы карточек одинаковы во всех языках`() throws {
+        let reference = try Corpus.load(.en).cards.map(\.theme)
+        for locale in AppLocale.allCases where locale != .en {
+            #expect(try Corpus.load(locale).cards.map(\.theme) == reference,
+                    "расхождение тем в \(locale.rawValue)")
+        }
+    }
+
     @Test(arguments: AppLocale.allCases)
     func `у каждой карточки есть контекст`(locale: AppLocale) throws {
         let corpus = try Corpus.load(locale)
@@ -51,43 +64,114 @@ struct CorpusTests {
         }
     }
 
-    @Test
-    func `нумерация подписей отличается там, где отличаются издания`() throws {
-        let en = try Corpus.load(.en)
-        let ru = try Corpus.load(.ru)
-        let fr = try Corpus.load(.fr)
-        func reference(_ corpus: Corpus, _ id: String) throws -> String {
-            try #require(corpus.cards.first { $0.id == id }).reference
-        }
-        // Пс 23 в еврейской нумерации — Пс 22 в Синодальном.
-        #expect(try reference(en, "psa-23-1#0") == "Psalm 23:1")
-        #expect(try reference(ru, "psa-23-1#0") == "Псалом 22:1")
-        // Пс 13: Синодальный и Segond нумеруют надписание отдельным стихом.
-        #expect(try reference(en, "psa-13-1#0") == "Psalm 13:1")
-        #expect(try reference(ru, "psa-13-1#0") == "Псалом 12:2")
-        #expect(try reference(fr, "psa-13-1#0") == "Psaume 13:2")
-    }
+    // MARK: - Арабский оригинал
 
-    /// Надписание псалма — не текст псалма. Немецкое и французское издания
-    /// печатают его внутри первого стиха, и оно снимается на сборке.
+    /// В арабском бандле оригинал — это `text`, отдельного поля нет; в остальных
+    /// оригинал лежит в `arabic`, а `text` — перевод на латинице или кириллице.
     @Test
-    func `надписания псалмов не попали в карточки`() throws {
-        let openings = ["Ein Psalm", "Ein Lied", "Eine Unterweisung", "Ein Gebet",
-                        "Cantique de", "Cantique des", "Psaume de", "Salmo de",
-                        "Cántico", "Al Músico", "Начальнику хора"]
-        for locale in AppLocale.allCases {
-            let corpus = try Corpus.load(locale)
-            for card in corpus.cards {
-                #expect(!openings.contains { card.text.hasPrefix($0) },
-                        "\(locale.rawValue) \(card.id): \(card.text.prefix(40))")
+    func `оригинал лежит там, где ему положено`() throws {
+        for card in try Corpus.load(.ar).cards {
+            #expect(card.arabic == nil, "\(card.id): в арабском бандле оригинал дважды")
+            #expect(card.text.isArabicScript, "\(card.id): \(card.text)")
+        }
+        for locale in [AppLocale.en, .ru] {
+            for card in try Corpus.load(locale).cards {
+                let original = try #require(card.arabic, "\(card.id) без оригинала в \(locale.rawValue)")
+                #expect(original.isArabicScript)
+                #expect(!card.text.isArabicScript, "\(card.id): перевод набран арабским")
             }
         }
     }
 
+    /// Лицензия Tanzil разрешает копировать текст только без изменений. Один и
+    /// тот же аят обязан быть побуквенно одинаковым во всех трёх бандлах.
+    @Test
+    func `арабский оригинал одинаков во всех бандлах`() throws {
+        let ar = try Corpus.load(.ar).cards
+        for locale in [AppLocale.en, .ru] {
+            let cards = try Corpus.load(locale).cards
+            #expect(cards.count == ar.count)
+            for (translated, original) in zip(cards, ar) {
+                #expect(translated.id == original.id)
+                #expect(translated.arabic == original.text,
+                        "\(locale.rawValue) \(translated.id): оригинал отличается")
+            }
+        }
+    }
+
+    /// Текст Tanzil — арабский блок Юникода и пробел. Всё остальное (латиница,
+    /// цифры, знаки препинания) — следы порчи при сборке.
+    @Test
+    func `в арабском тексте только арабские знаки и пробел`() throws {
+        for card in try Corpus.load(.ar).cards {
+            for scalar in card.text.unicodeScalars {
+                let allowed = scalar == " " || (0x0600...0x06FF).contains(scalar.value)
+                #expect(allowed, "\(card.id): U+\(String(scalar.value, radix: 16, uppercase: true))")
+            }
+            #expect(!card.text.hasPrefix(" ") && !card.text.hasSuffix(" "), "\(card.id): пробел по краю")
+            #expect(!card.text.contains("  "), "\(card.id): двойной пробел")
+        }
+    }
+
+    @Test
+    func `нумерация подписей по языкам`() throws {
+        func reference(_ locale: AppLocale, _ id: String) throws -> String {
+            try #require(Corpus.load(locale).cards.first { $0.id == id }).reference
+        }
+        // Номер суры и аята общий, названия суры — на языке интерфейса.
+        #expect(try reference(.en, "9-51") == "At-Tawbah 9:51")
+        #expect(try reference(.ru, "9-51") == "Ат-Тауба 9:51")
+        #expect(try reference(.ar, "9-51") == "التوبة 9:51")
+    }
+
+    // MARK: - Что показывать
+
+    @Test
+    func `арабский интерфейс показывает один оригинал`() throws {
+        let card = try #require(Corpus.load(.ar).cards.first)
+        for shows in [true, false] {
+            let parts = card.parts(locale: .ar, showsArabic: shows)
+            #expect(parts.original == card.text)
+            #expect(parts.translation == nil)
+        }
+    }
+
+    @Test
+    func `перевод показывается с оригиналом или без него`() throws {
+        let card = try #require(Corpus.load(.ru).cards.first)
+
+        let both = card.parts(locale: .ru, showsArabic: true)
+        #expect(both.original == card.arabic)
+        #expect(both.translation == card.text)
+
+        let translationOnly = card.parts(locale: .ru, showsArabic: false)
+        #expect(translationOnly.original == nil)
+        #expect(translationOnly.translation == card.text)
+    }
+
+    @Test
+    func `без оригинала в карточке показывается только перевод`() {
+        let card = Card(id: "x", passage: "p", theme: "t", reference: "A 1:1", text: "Text")
+        let parts = card.parts(locale: .en, showsArabic: true)
+        #expect(parts.original == nil)
+        #expect(parts.translation == "Text")
+    }
+
+    @Test
+    func `текст для уведомления начинается с оригинала`() throws {
+        let card = try #require(Corpus.load(.en).cards.first)
+        let original = try #require(card.arabic)
+        #expect(card.notificationBody == original + "\n" + card.text)
+        let arabicCard = try #require(Corpus.load(.ar).cards.first)
+        #expect(arabicCard.notificationBody == arabicCard.text)
+    }
+
+    // MARK: - Состав и фильтр
+
     @Test(arguments: AppLocale.allCases)
     func `карточка не обрывается на запятой`(locale: AppLocale) throws {
         let corpus = try Corpus.load(locale)
-        let unfinished: Set<Character> = [",", ";", ":", "—", "–", "-"]
+        let unfinished: Set<Character> = [",", ";", ":", "—", "–", "-", "،", "؛"]
         for card in corpus.cards {
             let last = try #require(card.text.last)
             #expect(!unfinished.contains(last), "\(card.id): …\(card.text.suffix(24))")
@@ -126,14 +210,33 @@ struct CorpusTests {
         #expect(filtered.allSatisfy { two.contains($0.theme) })
     }
 
+    /// Каждая тема набирает достаточно аятов, чтобы пул не повторялся неделями.
+    @Test
+    func `в каждой теме не меньше десяти аятов`() throws {
+        let corpus = try Corpus.load(.en)
+        for theme in corpus.themes {
+            #expect(corpus.cards(themes: [theme]).count >= 10, "тема «\(theme)»")
+        }
+    }
+
+    // MARK: - Язык
+
     @Test
     func `язык устройства определяется по списку предпочтений`() {
-        #expect(AppLocale.detect(preferred: ["es-MX", "en-US"]) == .es)
-        #expect(AppLocale.detect(preferred: ["ja-JP", "fr-CA"]) == .fr)
-        #expect(AppLocale.detect(preferred: ["ko-KR"]) == .ko)
-        #expect(AppLocale.detect(preferred: ["pt-PT", "en-US"]) == .pt)
-        #expect(AppLocale.detect(preferred: ["it-CH"]) == .it)
+        #expect(AppLocale.detect(preferred: ["ar-SA", "en-US"]) == .ar)
+        #expect(AppLocale.detect(preferred: ["ru-BY", "en-US"]) == .ru)
+        #expect(AppLocale.detect(preferred: ["en-GB"]) == .en)
+        // Первый поддерживаемый, а не первый в списке.
+        #expect(AppLocale.detect(preferred: ["de-DE", "ru-RU"]) == .ru)
+        #expect(AppLocale.detect(preferred: ["tr-TR", "fr-FR", "ar-EG"]) == .ar)
         #expect(AppLocale.detect(preferred: ["ja-JP"]) == .en)
         #expect(AppLocale.detect(preferred: []) == .en)
+    }
+
+    @Test
+    func `справа налево пишется только арабский`() {
+        #expect(AppLocale.ar.isRightToLeft)
+        #expect(!AppLocale.en.isRightToLeft)
+        #expect(!AppLocale.ru.isRightToLeft)
     }
 }

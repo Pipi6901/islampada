@@ -96,7 +96,7 @@ public enum ReminderPlan {
                     kind: .dailyVerse,
                     date: fire,
                     title: card.reference,
-                    body: card.text
+                    body: card.notificationBody
                 ))
             }
         }
@@ -248,7 +248,7 @@ public enum Reminders {
     public static func sendFirstVerse(_ card: Card) {
         let content = UNMutableNotificationContent()
         content.title = card.reference
-        content.body = card.text
+        content.body = card.notificationBody
         content.sound = .default
         let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 2, repeats: false)
         UNUserNotificationCenter.current().add(UNNotificationRequest(

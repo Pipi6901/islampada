@@ -169,19 +169,19 @@ extension VerseScene {
     /// Где на картинке сюжет. Эта точка остаётся в кадре, когда экран режет
     /// картинку.
     ///
-    /// У ликов — лицо, чуть выше середины. У пейзажей сюжет у самого низа:
-    /// пастух со стадом, крест на холме, вертеп. Новый фон без точки фокуса
-    /// не соберётся — здесь исчерпывающий перебор, а не значение по умолчанию.
+    /// У пустыни и купола сюжет стоит низко (горизонт, силуэт), у звёзд и
+    /// фонаря — выше середины. Новый фон без точки фокуса не соберётся — здесь
+    /// исчерпывающий перебор, а не значение по умолчанию. Те же точки использует
+    /// `tools/art/build_assets.py`, когда режет квадрат и полосу.
     var focus: UnitPoint {
         switch self {
-        case .christ, .paul, .david: UnitPoint(x: 0.5, y: 0.4)
-        case .fresco: .center
-        case .shepherd, .clouds, .pastel, .oldbook: UnitPoint(x: 0.5, y: 1)
-        // Те же точки, вокруг которых `build-art.py` режет квадрат и полосу.
-        case .galilee: UnitPoint(x: 0.5, y: 0.8)
-        case .star: UnitPoint(x: 0.5, y: 0.55)
-        case .gethsemane: UnitPoint(x: 0.5, y: 0.7)
-        case .cross: UnitPoint(x: 0.5, y: 0.72)
+        case .desert: UnitPoint(x: 0.5, y: 0.8)
+        case .stars: UnitPoint(x: 0.5, y: 0.3)
+        case .dome: UnitPoint(x: 0.5, y: 0.74)
+        case .lantern: UnitPoint(x: 0.5, y: 0.24)
+        case .garden: UnitPoint(x: 0.5, y: 0.42)
+        case .mosaic: UnitPoint(x: 0.5, y: 0.5)
+        case .lattice: UnitPoint(x: 0.5, y: 0.5)
         }
     }
 }

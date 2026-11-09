@@ -6,7 +6,11 @@ import WidgetKit
 /// Запись расписания: один день — один стих.
 public struct VerseEntry: TimelineEntry, Sendable {
     public let date: Date
+    /// Основной текст: перевод, а у арабского интерфейса — сам оригинал.
     public let text: String
+    /// Арабский оригинал над переводом. `nil`, когда его не показываем: он
+    /// выключен в «Виде» или `text` и есть оригинал.
+    public let original: String?
     public let reference: String
     public let style: VerseStyle
     /// Выбранный фон-изображение. `nil` — обычная цветная заливка.
@@ -27,7 +31,7 @@ public struct VerseEntry: TimelineEntry, Sendable {
     /// Текст, урезанный по смыслу для экрана блокировки.
     public var shortText: String { Card.shorten(text) }
 
-    public init(date: Date, text: String, reference: String,
+    public init(date: Date, text: String, original: String? = nil, reference: String,
                 style: VerseStyle, scene: VerseScene? = nil,
                 lockLength: VerseLength = .full,
                 lockAlignment: VerseAlignment = .leading,
@@ -37,6 +41,7 @@ public struct VerseEntry: TimelineEntry, Sendable {
                 isPro: Bool = true) {
         self.date = date
         self.text = text
+        self.original = original
         self.reference = reference
         self.style = style
         self.scene = scene
@@ -143,8 +148,13 @@ public struct VerseProvider: TimelineProvider {
     private func entry(for date: Date) -> VerseEntry? {
         let settings = AppSettings()
         guard let card = dailyCard(for: date) else { return nil }
+        // Тот же отбор, что на экране «Сегодня»: оригинал над переводом, а у
+        // арабского интерфейса — один оригинал.
+        let parts = card.parts(locale: settings.language ?? .detect(),
+                               showsArabic: settings.showsArabic)
         return VerseEntry(date: date,
-                          text: card.text,
+                          text: parts.translation ?? parts.original ?? card.text,
+                          original: parts.translation == nil ? nil : parts.original,
                           reference: card.reference,
                           style: settings.effectiveStyle(for: .widgets, at: date),
                           scene: settings.effectiveScene(for: .widgets, at: date),

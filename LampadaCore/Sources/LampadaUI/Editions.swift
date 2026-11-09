@@ -4,7 +4,7 @@ import SwiftUI
 /// Названия языков и изданий.
 ///
 /// Живут отдельным файлом, а не в онбординге, где были раньше: их читают и
-/// «Вид», и лист выбора языка, и подпись под стихом. Привязка к экрану, который
+/// «Вид», и лист выбора языка, и подпись под аятом. Привязка к экрану, который
 /// человек видит один раз в жизни, была случайной.
 ///
 /// Названия НЕ переводятся: язык в списке подписан на себе самом, иначе
@@ -15,53 +15,39 @@ extension AppLocale {
         switch self {
         case .en: "English"
         case .ru: "Русский"
-        case .de: "Deutsch"
-        case .fr: "Français"
-        case .es: "Español"
-        case .pt: "Português"
-        case .it: "Italiano"
-        case .ko: "한국어"
+        case .ar: "العربية"
         }
     }
 
-    /// Короткое имя издания для подписи под стихом: в макете там
-    /// «СИНОДАЛЬНЫЙ», а не «Синодальный перевод» — длинное не влезает.
+    /// Короткое имя издания для подписи под аятом: длинное не влезает.
     var editionShort: String {
         switch self {
-        case .en: "WEB"
-        case .ru: "Синодальный"
-        case .de: "Luther 1912"
-        case .fr: "Segond 1910"
-        case .es: "Reina-Valera"
-        case .pt: "Bíblia Livre"
-        case .it: "Riveduta"
-        case .ko: "개역한글"
+        case .en: "Pickthall"
+        case .ru: "Саблуков"
+        case .ar: "رواية حفص"
         }
     }
 
     var editionName: String {
         switch self {
-        case .en: "World English Bible"
-        case .ru: "Синодальный перевод"
-        case .de: "Luther 1912"
-        case .fr: "Louis Segond 1910"
-        case .es: "Reina-Valera 1909"
-        case .pt: "Bíblia Livre"
-        case .it: "Riveduta 1927"
-        case .ko: "개역한글"
+        case .en: "Marmaduke Pickthall, 1930"
+        case .ru: "Г. С. Саблуков, 1878"
+        case .ar: "القرآن الكريم · رواية حفص عن عاصم"
         }
     }
 
     /// Строка авторства под изданием в листе выбора языка.
     ///
-    /// Есть только у Bíblia Livre: остальные издания — общественное достояние,
-    /// а она под CC BY 4.0, и лицензия требует назвать авторов, дать ссылку на
-    /// лицензию и сказать, что текст правился, — сборка заменяет запятую или
-    /// двоеточие в конце стиха точкой (см. `build-bundle.py`).
+    /// Арабский текст — Tanzil (CC BY 3.0), и лицензия требует назвать источник
+    /// и не менять текст; он идёт в каждом из трёх языков, поэтому подпись
+    /// стоит у всех. Переводы Пикталла и Саблукова — общественное достояние
+    /// (автор Пикталл умер в 1936 году, Саблуков — в 1881-м), их достаточно
+    /// назвать по имени.
     var editionCredit: String? {
         switch self {
-        case .pt: "© Diego Santos, Mario Sérgio, Marco Teles · CC BY 4.0 · pontuação final ajustada"
-        case .en, .ru, .de, .fr, .es, .it, .ko: nil
+        case .en: "Arabic text: Tanzil Project (tanzil.net), CC BY 3.0 · Translation: public domain"
+        case .ru: "Арабский текст: Tanzil Project (tanzil.net), CC BY 3.0 · Перевод: общественное достояние"
+        case .ar: "النص القرآني: مشروع تنزيل (tanzil.net) · CC BY 3.0"
         }
     }
 }

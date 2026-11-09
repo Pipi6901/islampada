@@ -234,6 +234,8 @@ struct LookScreen: View {
                     showsLanguage = true
                 }
             }
+            // У арабского интерфейса строки нет: оригинал там и есть весь текст.
+            if area == .app, l10n.locale != .ar { arabicRow }
             if area == .app {
                 // Страница отзыва открывается всегда — в отличие от системного
                 // окна, которое iOS показывает не чаще трёх раз в год.
@@ -246,6 +248,29 @@ struct LookScreen: View {
             if area == .app { versionFooter }
         }
         .padding(.bottom, 8)
+    }
+
+    /// Арабский оригинал над переводом. Включён по умолчанию: приложение про
+    /// Коран, а перевод без оригинала — пересказ.
+    private var arabicRow: some View {
+        HStack {
+            Text(l10n[.showArabic])
+                .font(theme.ui(14))
+                .foregroundStyle(theme.textMuted)
+            Spacer()
+            Toggle("", isOn: Binding(
+                get: { settings.showsArabic },
+                set: { settings.showsArabic = $0 }
+            ))
+            .labelsHidden()
+            .scaleEffect(0.75)
+            .frame(width: 38, height: 22)
+            .tint(theme.accent)
+            .accessibilityLabel(l10n[.showArabic])
+        }
+        .padding(.horizontal, 16)
+        .frame(height: 48)
+        .background(Capsule().fill(theme.raised))
     }
 
     /// Версия и сборка — для поддержки. Долгое нажатие копирует токен
@@ -280,10 +305,10 @@ struct LookScreen: View {
         let info = Bundle.main.infoDictionary
         let version = info?["CFBundleShortVersionString"] as? String ?? ""
         let build = info?["CFBundleVersion"] as? String ?? ""
-        return "Lampada \(version) (\(build))"
+        return "Misbah \(version) (\(build))"
     }
 
-    /// «Помогать улучшать Lampada». Последней строкой и только на вкладке
+    /// «Помогать улучшать Misbah». Последней строкой и только на вкладке
     /// «Приложение»: это настройка приложения, а не оформления.
     private var analyticsRow: some View {
         VStack(alignment: .leading, spacing: 6) {
@@ -350,7 +375,7 @@ struct LookScreen: View {
         VStack(alignment: .leading, spacing: 10) {
             Text(title.uppercased())
                 .font(theme.ui(10, weight: 600))
-                .tracking(1.2)
+                .spaced(1.2)
                 .foregroundStyle(theme.textFaint)
             content()
         }

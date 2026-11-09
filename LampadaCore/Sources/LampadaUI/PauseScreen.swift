@@ -13,12 +13,14 @@ struct PauseScreen: View {
     @Environment(\.theme) private var theme
     @Environment(\.l10n) private var l10n
     let card: Card
+    /// Показывать ли арабский оригинал над переводом — настройка «Вида».
+    let showsArabic: Bool
     /// Есть ли куда возвращаться по кнопке.
     ///
     /// Ложь означает, что в автоматизации не выбрано приложение: вернуть
     /// человека в соцсеть без её адреса нельзя, общего «открой то, откуда
     /// пришли» iOS не даёт. Раньше экран в этом случае просто закрывался, и
-    /// выглядело это поломкой: нажал «Продолжить» — и остался в Lampada.
+    /// выглядело это поломкой: нажал «Продолжить» — и остался в Misbah.
     let canReturn: Bool
     let onContinue: () -> Void
 
@@ -38,15 +40,14 @@ struct PauseScreen: View {
                     }
                     .foregroundStyle(theme.textFaint)
 
-                    Text(card.text)
-                        .font(theme.display(verseSize))
-                        .foregroundStyle(theme.text)
-                        .lineSpacing(theme.spacing(verseSize, lineHeight: 1.805))
-                        .fixedSize(horizontal: false, vertical: true)
+                    // Кегль подбирается по длине аята: карточка в рамке, и
+                    // длинный текст при крупном кегле пришлось бы прокручивать.
+                    VerseText(parts: card.parts(locale: l10n.locale, showsArabic: showsArabic),
+                              scale: 0.8)
 
                     Text(card.reference.uppercased())
                         .font(theme.ui(10, weight: 600))
-                        .tracking(1.2)
+                        .spaced(1.2)
                         .foregroundStyle(theme.textFaint)
                 }
                 .padding(22)
@@ -78,17 +79,6 @@ struct PauseScreen: View {
             .padding(.bottom, 34)
             .readableColumn()
             .fitOrScroll()
-        }
-    }
-
-    /// Кегль от длины стиха: пул неоднородный, и длинный текст при крупном
-    /// кегле пришлось бы прокручивать — а прокрутка здесь лишняя.
-    private var verseSize: CGFloat {
-        switch card.text.count {
-        case ..<90: 26
-        case ..<200: 22
-        case ..<340: 19
-        default: 17
         }
     }
 }

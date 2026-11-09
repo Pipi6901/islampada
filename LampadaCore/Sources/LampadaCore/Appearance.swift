@@ -27,9 +27,9 @@ public enum AppearanceArea: String, Sendable, Hashable, Codable, CaseIterable, I
 /// Набор стилей карточки со стихом.
 ///
 /// «Ночь» — оформление по умолчанию: именно она нарисована в макете, и первый
-/// запуск должен выглядеть так же. «Лаванда» осталась как вариант.
+/// запуск должен выглядеть так же. «Изумруд» осталась как вариант.
 public enum VerseStyle: String, Sendable, Hashable, Codable, CaseIterable, Identifiable {
-    case lavender
+    case emerald
     case night
     case parchment
     case amber
@@ -42,7 +42,7 @@ public enum VerseStyle: String, Sendable, Hashable, Codable, CaseIterable, Ident
 
     public var titleKey: L10n.Key {
         switch self {
-        case .lavender: .styleLavender
+        case .emerald: .styleEmerald
         case .night: .styleNight
         case .parchment: .styleParchment
         case .amber: .styleAmber
@@ -57,7 +57,7 @@ public enum VerseStyle: String, Sendable, Hashable, Codable, CaseIterable, Ident
     /// на которой всё под замком, отталкивает.
     public var isPremium: Bool {
         switch self {
-        case .lavender, .night, .parchment, .amber: false
+        case .emerald, .night, .parchment, .amber: false
         case .ink, .dawn, .opal, .coal: true
         }
     }
@@ -70,10 +70,10 @@ public enum VerseStyle: String, Sendable, Hashable, Codable, CaseIterable, Ident
     /// приложение и обнаружил его тёмным, будто что-то сломалось.
     public var freeEquivalent: VerseStyle {
         switch self {
-        case .lavender, .night, .parchment, .amber: self
+        case .emerald, .night, .parchment, .amber: self
         case .ink, .coal: .night
         case .dawn: .parchment
-        case .opal: .lavender
+        case .opal: .emerald
         }
     }
 
@@ -84,14 +84,14 @@ public enum VerseStyle: String, Sendable, Hashable, Codable, CaseIterable, Ident
     /// первого, у плоских совпадает.
     public var palette: (background: UInt32, second: UInt32, text: UInt32, accent: UInt32) {
         switch self {
-        case .lavender: (0x7C5CD6, 0x563189, 0xFFFFFF, 0xE0D5FF)
-        case .night: (0x1E181C, 0x302739, 0xE8E8EA, 0x9179C4)
-        case .parchment: (0xEDE3CE, 0xE3D6BC, 0x2A2320, 0x9C6B18)
+        case .emerald: (0x5CD6A9, 0x358285, 0xFFFFFF, 0xD5FFF0)
+        case .night: (0x141F22, 0x24383C, 0xE6EBEC, 0x6ECFAB)
+        case .parchment: (0xEDE3CE, 0xE3D6BC, 0x1F292B, 0x9C6B18)
         case .amber: (0x4A2F1A, 0x2A1B10, 0xF2E4CC, 0xF2A93B)
-        case .ink: (0x141018, 0x0B0910, 0xD9D6E0, 0x7F6FA8)
-        case .dawn: (0xE7E4EE, 0xCFC9DC, 0x241D22, 0x6B4E9E)
-        case .opal: (0xC9BEEB, 0xA893DC, 0x241D22, 0x563189)
-        case .coal: (0x2A2226, 0x171316, 0xC5C5D2, 0x807778)
+        case .ink: (0x0F1719, 0x090F10, 0xD2E1E4, 0x6DA0AA)
+        case .dawn: (0xE3EDEF, 0xC7DADE, 0x192628, 0x3BB186)
+        case .opal: (0xBEEBDA, 0x93DCC1, 0x192628, 0x358285)
+        case .coal: (0x1D2C2F, 0x10181A, 0xBED4D9, 0x807778)
         }
     }
 }

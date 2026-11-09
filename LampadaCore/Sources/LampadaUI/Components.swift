@@ -26,7 +26,7 @@ struct PrimaryButton: ButtonStyle {
         var body: some View {
             configuration.label
                 .font(theme.ui(17, weight: 600))
-                .tracking(0.1)
+                .spaced(0.1)
                 .foregroundStyle(theme.buttonText)
                 .frame(maxWidth: .infinity)
                 .frame(height: 58)
@@ -100,7 +100,7 @@ struct ReferenceLabel: View {
                 .frame(width: dash, height: max(1, dash / 14))
             Text(label.uppercased())
                 .font(theme.ui(size, weight: 600))
-                .tracking(size * 0.12)
+                .spaced(size * 0.12)
                 .foregroundStyle(tint ?? theme.textFaint)
         }
     }
@@ -213,14 +213,11 @@ struct TabBar: View {
             withAnimation(reduceMotion ? nil : .snappy(duration: 0.2)) { selection = tab }
         } label: {
             VStack(spacing: 2) {
-                Image(tab.asset, bundle: .module)
-                    .resizable()
-                    .scaledToFit()
+                Image(systemName: tab.symbol)
+                    .font(.system(size: 20, weight: .medium))
                     .frame(width: 26, height: 26)
-                    // Иконки объёмные: неактивные гасим прозрачностью, а не
-                    // перекраской — заливка цветом их уничтожает.
-                    .opacity(selection == tab ? 1 : 0.4)
-                    .saturation(selection == tab ? 1 : 0.45)
+                    // Активная вкладка — цвет акцента, остальные приглушены.
+                    .foregroundStyle(selection == tab ? theme.accent : ink.opacity(0.45))
 
                 Text(l10n[tab.titleKey])
                     .font(theme.ui(10, weight: 500))

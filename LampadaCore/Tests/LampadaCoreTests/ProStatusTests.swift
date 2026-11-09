@@ -66,11 +66,11 @@ struct ProStatusTests {
     @Test
     func `неизвестный статус не отнимает платное`() throws {
         let settings = AppSettings(store: try makeStore())
-        settings.setScene(.christ, for: .widgets)
+        settings.setScene(.dome, for: .widgets)
 
         #expect(settings.proStatus == nil)
         #expect(settings.allowsPro(at: now))
-        #expect(settings.effectiveScene(for: .widgets, at: now) == .christ)
+        #expect(settings.effectiveScene(for: .widgets, at: now) == .dome)
     }
 
     /// Приложение после конца подписки не открывали, а виджет всё равно
@@ -79,12 +79,12 @@ struct ProStatusTests {
     func `виджет отпускает платное в момент конца подписки`() throws {
         let settings = AppSettings(store: try makeStore())
         settings.setStyle(.dawn, for: .widgets)
-        settings.setScene(.christ, for: .widgets)
+        settings.setScene(.dome, for: .widgets)
         settings.setFont(.lora, for: .widgets)
         settings.updateProStatus(ProStatus(isActive: true, expiresAt: now, willRenew: false))
 
         let before = now.addingTimeInterval(-60)
-        #expect(settings.effectiveScene(for: .widgets, at: before) == .christ)
+        #expect(settings.effectiveScene(for: .widgets, at: before) == .dome)
         #expect(settings.effectiveStyle(for: .widgets, at: before) == .dawn)
         #expect(settings.effectiveFont(for: .widgets, at: before) == .lora)
 
@@ -99,11 +99,11 @@ struct ProStatusTests {
     func `бесплатное оформление виджету не мешает`() throws {
         let settings = AppSettings(store: try makeStore())
         settings.setStyle(.amber, for: .widgets)
-        settings.setScene(.shepherd, for: .widgets)
+        settings.setScene(.desert, for: .widgets)
         settings.updateProStatus(.noSubscription)
 
         #expect(settings.effectiveStyle(for: .widgets, at: now) == .amber)
-        #expect(settings.effectiveScene(for: .widgets, at: now) == .shepherd)
+        #expect(settings.effectiveScene(for: .widgets, at: now) == .desert)
         #expect(settings.effectiveFont(for: .widgets, at: now) == .system)
     }
 
@@ -115,15 +115,15 @@ struct ProStatusTests {
     func `откат снимает только платное`() throws {
         let settings = AppSettings(store: try makeStore())
         settings.setStyle(.opal, for: .app)
-        settings.setScene(.shepherd, for: .app)
+        settings.setScene(.desert, for: .app)
         settings.setStyle(.parchment, for: .widgets)
         settings.setFont(.cormorant, for: .lockScreen)
-        settings.appIcon = AppIcon.christ.rawValue
+        settings.appIcon = AppIcon.dome.rawValue
 
         #expect(settings.dropPremiumAppearance())
 
-        #expect(settings.style(for: .app) == .lavender)
-        #expect(settings.scene(for: .app) == .shepherd)
+        #expect(settings.style(for: .app) == .emerald)
+        #expect(settings.scene(for: .app) == .desert)
         #expect(settings.style(for: .widgets) == .parchment)
         #expect(settings.font(for: .lockScreen) == .system)
         #expect(settings.appIcon == AppIcon.default.rawValue)
@@ -133,7 +133,7 @@ struct ProStatusTests {
     /// закончилась». Тому, кто платным не пользовался, сообщать нечего.
     ///
     /// Бесплатная картинка берётся из кода, а не названием. Здесь стояли
-    /// «Облака» в расчёте, что они бесплатны, — а бесплатен только «Пастырь»,
+    /// другие картинки в расчёте, что они бесплатны, — а бесплатна только «Пустыня»,
     /// и тест падал на верном поведении отката.
     @Test
     func `без платного откат ничего не меняет`() throws {
@@ -153,7 +153,7 @@ struct ProStatusTests {
     func `откат и снимок переживают перезапуск`() throws {
         let store = try makeStore()
         let first = AppSettings(store: store)
-        first.setScene(.david, for: .widgets)
+        first.setScene(.lantern, for: .widgets)
         first.setFont(.vollkorn, for: .app)
         let status = ProStatus(isActive: false, expiresAt: now, willRenew: false)
         first.updateProStatus(status)

@@ -57,7 +57,7 @@ struct RemindersTests {
         let engine = VerseEngine(poolCount: pool.count)
         let card = pool[engine.dailyIndex(on: VerseEngine.dayIndex(for: reminder.date))]
         #expect(reminder.title == card.reference)
-        #expect(reminder.body == card.text)
+        #expect(reminder.body == card.notificationBody)
     }
 
     // MARK: - Возврат

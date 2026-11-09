@@ -134,7 +134,7 @@ struct AppearancePreview: View {
             Text(text)
                 .font(verseFont(19))
                 .foregroundStyle(ink)
-                .lineSpacing(theme.spacing(19, lineHeight: 1.825))
+                .lineSpacing(verseSpacing(19, lineHeight: 1.825))
                 .fixedSize(horizontal: false, vertical: true)
         }
         .padding(20)
@@ -156,13 +156,13 @@ struct AppearancePreview: View {
             Text(text)
                 .font(verseFont(size == .small ? 11 : 16))
                 .foregroundStyle(ink)
-                .lineSpacing(theme.spacing(size == .small ? 11 : 16, lineHeight: 1.785))
+                .lineSpacing(verseSpacing(size == .small ? 11 : 16, lineHeight: 1.785))
                 .lineLimit(size == .small ? 4 : nil)
                 .minimumScaleFactor(0.7)
                 .fixedSize(horizontal: false, vertical: size != .small)
             Text(reference.uppercased())
                 .font(theme.ui(8, weight: 600))
-                .tracking(0.8)
+                .spaced(0.8)
                 .foregroundStyle(tint)
             Spacer(minLength: 0)
         }
@@ -218,14 +218,24 @@ struct AppearancePreview: View {
         .frame(maxWidth: .infinity)
         .background(
             RoundedRectangle(cornerRadius: 22, style: .continuous)
-                .fill(LinearGradient(colors: [Color(hex: 0x3A2C4E), Color(hex: 0x1E181C)],
+                .fill(LinearGradient(colors: [Color(hex: 0x2D484D), Color(hex: 0x141F22)],
                                      startPoint: .top, endPoint: .bottom))
         )
     }
 
     /// Шрифт берётся из параметра, а не из оформления: предпросмотр показывает
     /// именно то начертание, которое настраивают.
+    ///
+    /// Арабский текст (арабский интерфейс) набирается шрифтом Корана вне
+    /// зависимости от выбора: в остальных начертаниях букв для него нет.
     private func verseFont(_ size: CGFloat) -> Font {
-        Fonts.font(font, size: size, weight: 400)
+        text.isArabicScript
+            ? Fonts.arabic(size: size * 1.15)
+            : Fonts.font(font, size: size, weight: 400)
+    }
+
+    /// У арабского своя высота строки, добавка от Literata там лишняя.
+    private func verseSpacing(_ size: CGFloat, lineHeight: CGFloat) -> CGFloat {
+        text.isArabicScript ? 0 : theme.spacing(size, lineHeight: lineHeight)
     }
 }

@@ -1,0 +1,79 @@
+{
+ "desert": {
+  "light_text": false,
+  "scrim": 0.19,
+  "background": 13478791,
+  "second": 12887689,
+  "focus": [
+   0.5,
+   0.8
+  ],
+  "accent": 9399892
+ },
+ "stars": {
+  "light_text": true,
+  "scrim": 0.0,
+  "background": 2112846,
+  "second": 1715259,
+  "focus": [
+   0.5,
+   0.3
+  ],
+  "accent": 15254138
+ },
+ "dome": {
+  "light_text": true,
+  "scrim": 0.41,
+  "background": 6649451,
+  "second": 3952209,
+  "focus": [
+   0.5,
+   0.74
+  ],
+  "accent": 14858342
+ },
+ "lantern": {
+  "light_text": true,
+  "scrim": 0.02,
+  "background": 2767159,
+  "second": 1649970,
+  "focus": [
+   0.5,
+   0.24
+  ],
+  "accent": 15254138
+ },
+ "garden": {
+  "light_text": true,
+  "scrim": 0.32,
+  "background": 5721147,
+  "second": 4802107,
+  "focus": [
+   0.5,
+   0.42
+  ],
+  "accent": 13214282
+ },
+ "mosaic": {
+  "light_text": false,
+  "scrim": 0.0,
+  "background": 14937834,
+  "second": 14740712,
+  "focus": [
+   0.5,
+   0.5
+  ],
+  "accent": 1011562
+ },
+ "lattice": {
+  "light_text": true,
+  "scrim": 0.0,
+  "background": 1457467,
+  "second": 1323827,
+  "focus": [
+   0.5,
+   0.5
+  ],
+  "accent": 13938487
+ }
+}

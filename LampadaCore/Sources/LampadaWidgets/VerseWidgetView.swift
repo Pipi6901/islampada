@@ -31,7 +31,7 @@ public struct VerseWidgetView: View {
         case .accessoryCircular:
             ZStack {
                 AccessoryWidgetBackground()
-                Image(systemName: "flame")
+                Image(systemName: "moon.stars.fill")
                     .font(.system(size: 20))
             }
 
@@ -80,7 +80,7 @@ public struct VerseWidgetView: View {
         .containerBackground(for: .widget) {
             background
         }
-        .widgetURL(URL(string: "lampada://pro"))
+        .widgetURL(URL(string: "misbah://pro"))
     }
 
     /// Своего выбора языка у расширения нет — берётся настройка приложения, а
@@ -106,16 +106,35 @@ public struct VerseWidgetView: View {
                 .lineLimit(1)
                 .widgetAccentable()
 
-            Text(entry.lockLength == .short ? entry.shortText : entry.text)
-                .font(verse(12))
-                .lineLimit(2)
-                // Ужать мелкий текст лучше, чем оборвать: на два кегля мельче
-                // строка ещё читается, а многоточие уносит half фразы.
-                .minimumScaleFactor(0.8)
+            lockText
         }
         .multilineTextAlignment(entry.lockAlignment == .center ? .center : .leading)
         .frame(maxWidth: .infinity,
                alignment: entry.lockAlignment == .center ? .center : .leading)
+    }
+
+    /// Текст на экране блокировки. Оригинал сюда не кладём: места на три строки,
+    /// и важнее, чтобы влез перевод. Арабскому интерфейсу переводить нечего —
+    /// там сам оригинал, набранный шрифтом Корана.
+    @ViewBuilder private var lockText: some View {
+        let shown = entry.lockLength == .short ? entry.shortText : entry.text
+        if shown.isArabicScript {
+            // У шрифта Корана высота строки около 2,5 кегля, поэтому кегль
+            // мельче, чем у латиницы.
+            Text(shown)
+                .font(Fonts.arabic(size: 11))
+                .lineLimit(2)
+                .minimumScaleFactor(0.7)
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .environment(\.layoutDirection, .rightToLeft)
+        } else {
+            Text(shown)
+                .font(verse(12))
+                .lineLimit(2)
+                // Ужать мелкий текст лучше, чем оборвать: на два кегля мельче
+                // строка ещё читается, а многоточие уносит половину фразы.
+                .minimumScaleFactor(0.8)
+        }
     }
 
     /// Шрифт стиха — тот же, что в приложении.
@@ -156,22 +175,70 @@ public struct VerseWidgetView: View {
     private var homeContent: some View {
         VStack(alignment: homeAlignment, spacing: 8) {
             Spacer(minLength: 0)
-            Text(entry.text)
-                .font(homeVerse(size))
-                .foregroundStyle(verseColor)
-                .lineSpacing(size * 0.3)
-                .minimumScaleFactor(0.6)
-                .lineLimit(lineLimit)
+            if let original = shownOriginal {
+                arabicBlock(original, size: originalSize, limit: originalLineLimit)
+            }
+            if entry.text.isArabicScript {
+                // Арабский интерфейс: оригинал единственный и занимает всё.
+                arabicBlock(entry.text, size: arabicOnlySize, limit: lineLimit)
+            } else {
+                Text(entry.text)
+                    .font(homeVerse(size))
+                    .foregroundStyle(verseColor)
+                    .lineSpacing(size * 0.3)
+                    .minimumScaleFactor(0.6)
+                    .lineLimit(shownOriginal == nil ? lineLimit : translationLineLimit)
+            }
 
             Text(entry.reference)
                 .font(.system(size: 10, weight: .medium))
                 .foregroundStyle(referenceColor)
-                .tracking(0.4)
+                .tracking(entry.text.isArabicScript ? 0 : 0.4)
             Spacer(minLength: 0)
         }
         .multilineTextAlignment(entry.widgetAlignment == .center ? .center : .leading)
         .frame(maxWidth: .infinity, maxHeight: .infinity,
                alignment: entry.widgetAlignment == .center ? .center : .leading)
+    }
+
+    /// Арабский блок: всегда справа налево, шрифтом Корана. Направление задано
+    /// явно — у расширения оно следует за языком устройства, а не приложения.
+    private func arabicBlock(_ text: String, size: CGFloat, limit: Int) -> some View {
+        Text(text)
+            .font(Fonts.arabic(size: size))
+            .foregroundStyle(verseColor)
+            .minimumScaleFactor(0.6)
+            .lineLimit(limit)
+            .multilineTextAlignment(entry.widgetAlignment == .center ? .center : .leading)
+            .frame(maxWidth: .infinity,
+                   alignment: entry.widgetAlignment == .center ? .center : .leading)
+            .environment(\.layoutDirection, .rightToLeft)
+    }
+
+    /// В маленьком виджете и в StandBy оригинал не показываем: на двух строках
+    /// ему негде развернуться, а смысл даёт перевод.
+    private var shownOriginal: String? {
+        family == .systemSmall ? nil : entry.original
+    }
+
+    private var originalSize: CGFloat {
+        family == .systemLarge ? 22 : 16
+    }
+
+    private var originalLineLimit: Int {
+        family == .systemLarge ? 5 : 3
+    }
+
+    private var arabicOnlySize: CGFloat {
+        switch family {
+        case .systemSmall: entry.text.count > 70 ? 12 : 15
+        case .systemLarge: entry.text.count > 150 ? 20 : 26
+        default: entry.text.count > 90 ? 15 : 19
+        }
+    }
+
+    private var translationLineLimit: Int {
+        family == .systemLarge ? 8 : 3
     }
 
     /// Цвета набора годятся, только пока под текстом лежит его подложка.
@@ -206,11 +273,13 @@ public struct VerseWidgetView: View {
     /// Кегль и лимит подобраны так, чтобы длинный стих ужимался, а короткий
     /// не тонул в пустоте.
     private var size: CGFloat {
-        switch family {
+        let base: CGFloat = switch family {
         case .systemSmall: entry.text.count > 90 ? 11 : 14
         case .systemLarge: entry.text.count > 300 ? 15 : 19
         default: entry.text.count > 160 ? 12 : 15
         }
+        // Над переводом стоит оригинал — перевод на ступень мельче.
+        return shownOriginal == nil ? base : base * 0.82
     }
 
     private var lineLimit: Int {
@@ -236,7 +305,7 @@ extension Color {
 
 /// Объявление виджета. `@main` живёт в расширении: там же права на группу и
 /// свой Info.plist, поэтому здесь только тело.
-public struct LampadaWidget: Widget {
+public struct MisbahWidget: Widget {
     public init() {}
 
     private var gallery: L10n { L10n(AppSettings().language ?? .detect()) }

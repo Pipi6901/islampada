@@ -52,26 +52,32 @@ struct BackgroundFitTests {
         }
     }
 
-    /// У пейзажей сюжет у нижнего края картинки. При обрезке по центру на
-    /// портретном Duo он уходил из кадра целиком.
+    /// У пустыни и купола сюжет — горизонт и силуэт у нижнего края картинки.
+    /// При обрезке по центру на портретном Duo он уходил из кадра целиком.
     @Test
     func `пейзаж держит низ картинки`() {
-        for size in [duoOuter, duoInner] {
-            let variant = SceneBackground.Variant.fitting(size)
-            let frame = variant.filling(size, focus: VerseScene.shepherd.focus)
-            #expect(abs(frame.maxY - size.height) < 0.001)
+        for scene in [VerseScene.desert, .dome] {
+            for size in [duoOuter, duoInner] {
+                let variant = SceneBackground.Variant.fitting(size)
+                let frame = variant.filling(size, focus: scene.focus)
+                #expect(abs(frame.maxY - size.height) < 0.001, "\(scene.rawValue) \(size)")
+            }
         }
     }
 
-    /// У ликов лицо около трети высоты картинки — оно должно попадать в кадр.
+    /// У звёзд и фонаря сюжет выше середины: точка фокуса обязана попадать в
+    /// кадр на любом экране, как бы он ни резал картинку.
     @Test
-    func `лик остаётся в кадре`() {
-        for size in [duoOuter, duoInner, duoInnerLying] {
-            let variant = SceneBackground.Variant.fitting(size)
-            let frame = variant.filling(size, focus: VerseScene.christ.focus)
-            let top = -frame.minY / frame.height
-            let bottom = (size.height - frame.minY) / frame.height
-            #expect(top <= 0.3 && 0.3 <= bottom, "\(size)")
+    func `сюжет остаётся в кадре`() {
+        for scene in VerseScene.allCases {
+            for size in [iPhone, duoOuter, duoInner, duoInnerLying] {
+                let variant = SceneBackground.Variant.fitting(size)
+                let frame = variant.filling(size, focus: scene.focus)
+                let top = -frame.minY / frame.height
+                let bottom = (size.height - frame.minY) / frame.height
+                #expect(top <= scene.focus.y && scene.focus.y <= bottom,
+                        "\(scene.rawValue) \(size)")
+            }
         }
     }
 }

@@ -26,8 +26,8 @@ struct WelcomeOfferScreen: View {
     var body: some View {
         ZStack(alignment: .top) {
             OBBackground(stops: [
-                .init(color: Color(hex: 0x3B2F48), location: 0),
-                .init(color: Color(hex: 0x262029), location: 0.5),
+                .init(color: Color(hex: 0x2C464B), location: 0),
+                .init(color: Color(hex: 0x1B2B2E), location: 0.5),
                 .init(color: OB.ink, location: 1),
             ], glow: .init(color: OB.violet.opacity(0.29), size: 440, x: -40, y: -160))
 
@@ -42,12 +42,12 @@ struct WelcomeOfferScreen: View {
                 VStack(alignment: .leading, spacing: 12) {
                     Text(l10n[.welcomeEyebrow])
                         .font(OB.ui(10, weight: 600))
-                        .kerning(2)
+                        .spaced(2)
                         .foregroundStyle(OB.brass)
 
                     Text(l10n(.welcomeTitle, offer.introPrice))
                         .font(OB.display(36))
-                        .kerning(-0.7)
+                        .spaced(-0.7)
                         .lineSpacing(OB.spacing(36, lineHeight: 1.1))
                         .foregroundStyle(OB.text)
                         .fixedSize(horizontal: false, vertical: true)

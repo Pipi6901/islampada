@@ -80,7 +80,7 @@ public struct TodayScreen: View {
         VStack(alignment: .leading, spacing: 0) {
             dateLine
             Spacer(minLength: 12)
-            verse(size: size * scale)
+            verse(scale: scale)
             Spacer(minLength: 12)
             actions
         }
@@ -122,18 +122,15 @@ public struct TodayScreen: View {
 
     // MARK: - Стих
 
-    private func verse(size: CGFloat) -> some View {
+    private func verse(scale: CGFloat) -> some View {
         VStack(alignment: .leading, spacing: 0) {
             ReferenceLabel(reference: model.card.reference,
-                           edition: (settings.language ?? .detect()).editionShort)
+                           edition: language.editionShort)
                 .padding(.bottom, 18)
 
-            Text(model.card.text)
-                .font(theme.display(size))
-                .foregroundStyle(theme.text)
-                .lineSpacing(theme.spacing(size, lineHeight: 1.805))
-                .multilineTextAlignment(.leading)
-                .fixedSize(horizontal: false, vertical: true)
+            // Арабский оригинал над переводом; у арабского интерфейса —
+            // один оригинал. Кегли подбираются по длине аята.
+            VerseText(parts: parts, scale: scale)
                 .id(model.card.id)
                 .transition(
                     reduceMotion
@@ -156,18 +153,12 @@ public struct TodayScreen: View {
         .coachAnchor(.swipe)
     }
 
-    /// Кегль стиха. В макете он один, но пул неоднородный: от «Иисус
-    /// прослезился» до восьми стихов Екклесиаста. Средний диапазон совпадает
-    /// с макетом, короткие крупнее, длинные мельче.
-    private var size: CGFloat {
-        switch model.card.text.count {
-        case ..<40: 32
-        case ..<90: 27
-        case ..<180: 24
-        case ..<320: 20
-        case ..<520: 17
-        default: 15
-        }
+    private var language: AppLocale { settings.language ?? .detect() }
+
+    /// Что показываем: оригинал, перевод или оба. Кегль от длины аята выбирает
+    /// сам `VerseText`: пул неоднородный, от пяти слов до абзаца.
+    private var parts: VerseParts {
+        model.card.parts(locale: language, showsArabic: settings.showsArabic)
     }
 
     // MARK: - Кнопки

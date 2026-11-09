@@ -15,6 +15,9 @@ public enum Legal {
     public static let terms = URL(
         string: "https://www.apple.com/legal/internet-services/itunes/dev/stdeula/")!
 
+    /// Политика конфиденциальности и условия лежат на Firebase Hosting проекта Misbah
+    /// (`docs/legal/misbah/`). Адрес поменять, когда проект заведён: имя сайта у
+    /// каждого проекта своё.
     public static let privacy = URL(
-        string: "https://pmoffice.space/lampada-privacy.html")!
+        string: "https://misbah-app.web.app/privacy.html")!
 }

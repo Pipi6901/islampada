@@ -50,6 +50,8 @@ public final class AppSettings {
         self.review = Self.readReview(self.store)
         self.whatsNewSeen = self.store.string(forKey: Key.whatsNewSeen.rawValue)
         self.promoOptIn = self.store.bool(forKey: Key.promoOptIn.rawValue)
+        // Ключа у нового человека нет — арабский показываем по умолчанию.
+        self.showsArabic = self.store.object(forKey: Key.showsArabic.rawValue) as? Bool ?? true
     }
 
     // MARK: - Значения
@@ -57,6 +59,14 @@ public final class AppSettings {
     /// Язык корпуса. `nil` — брать язык устройства.
     public var language: AppLocale? {
         didSet { write(.language, language?.rawValue); reloadWidgets() }
+    }
+
+    /// Показывать ли арабский оригинал над переводом. По умолчанию да: перевод
+    /// без оригинала — не Коран, а пересказ смысла. Выключатель на «Виде» для тех,
+    /// кому нужен только перевод; на арабском языке интерфейса не действует —
+    /// там сам текст и есть оригинал.
+    public var showsArabic: Bool {
+        didSet { store.set(showsArabic, forKey: Key.showsArabic.rawValue); reloadWidgets() }
     }
 
     /// Темы состояний, по которым сужен пул. Пустой набор — весь корпус.
@@ -409,7 +419,7 @@ public final class AppSettings {
         case dailyVerse, dailyVerseMinutes, analyticsOff
         case cancelReasonAsked, welcomeOfferShown, secondSurfaceDue
         case analyticsInstanceID, lastPulseDay, review
-        case whatsNewSeen, promoOptIn
+        case whatsNewSeen, promoOptIn, showsArabic
     }
 
     /// Пишет наборы, фоны и шрифты разом: откат меняет их вместе, и
@@ -480,46 +490,33 @@ public final class AppSettings {
     }
 }
 
-/// Варианты иконки приложения. Альтернативные — за подпиской, кроме «Голубя».
+/// Варианты иконки приложения. Альтернативные — за подпиской, кроме «Ночи».
 ///
-/// Две первые собираются из фирменной лампы рецептом, остальные — готовые
-/// изображения: те же лики, что человек ставит фоном стиха, пламя и с 1.0.2
-/// пять лампад в своём сюжете (витраж, крест, Рождество, Пасха, голубь).
-/// Списком заведует `App/make_icon.py`: имена наборов в каталоге обязаны
-/// совпадать с `alternateName`, иначе `setAlternateIconName` их не найдёт.
+/// Все восемь — готовые изображения без людей и животных: фонарь, орнаменты, купол,
+/// рассвет. Списком заведует `tools/art/build_assets.py`: имена наборов в каталоге
+/// обязаны совпадать с `alternateName`, иначе `setAlternateIconName` их не найдёт.
 public enum AppIcon: String, Sendable, Hashable, Codable, CaseIterable, Identifiable {
     case `default`
     case night
-    case flame
-    case christ
-    case paul
-    case david
-    case fresco
-    case vitrage
-    case cross
-    case christmas
-    case easter
-    case dove
+    case mosaic
+    case star
+    case dawn
+    case dome
+    case rosette
+    case light
 
     public var id: String { rawValue }
 
-    /// Лики названы теми же строками, что и фоны: человек видит «Спасителя» и
-    /// среди картинок, и среди иконок, и это один и тот же образ. Заводить им
-    /// вторые названия значило бы однажды их рассинхронизировать.
     public var titleKey: L10n.Key {
         switch self {
         case .default: .iconDefault
         case .night: .iconNight
-        case .flame: .iconFlame
-        case .christ: .sceneChrist
-        case .paul: .scenePaul
-        case .david: .sceneDavid
-        case .fresco: .sceneFresco
-        case .vitrage: .iconVitrage
-        case .cross: .iconCross
-        case .christmas: .iconChristmas
-        case .easter: .iconEaster
-        case .dove: .iconDove
+        case .mosaic: .iconMosaic
+        case .star: .iconStar
+        case .dawn: .iconDawn
+        case .dome: .iconDome
+        case .rosette: .iconRosette
+        case .light: .iconLight
         }
     }
 
@@ -530,31 +527,18 @@ public enum AppIcon: String, Sendable, Hashable, Codable, CaseIterable, Identifi
 
     /// Имя картинки в ресурсах `LampadaUI` для плитки в выборе.
     ///
-    /// `nil` означает, что плитка рисуется рецептом — градиент и лампа поверх.
-    /// Так сделано потому, что наборы иконок лежат в бандле приложения, а экран
-    /// выбора собирается в пакете и до них не дотягивается.
-    public var previewAsset: String? {
-        switch self {
-        case .default, .night: nil
-        case .flame: "icon-flame"
-        case .christ, .paul, .david, .fresco: "bg-\(rawValue)-square"
-        case .vitrage, .cross, .christmas, .easter, .dove: "icon-\(rawValue)"
-        }
-    }
+    /// Картинка, а не рецепт: наборы иконок лежат в бандле приложения, а экран
+    /// выбора собирается в пакете и до них не дотягивается, поэтому для плиток
+    /// те же изображения лежат и в ресурсах пакета.
+    public var previewAsset: String? { "icon-\(rawValue)" }
 
-    /// Градиент фона и, если фон светлый, тон лампы — для тех плиток, что
-    /// рисуются рецептом. Те же значения, из которых `App/make_icon.py`
-    /// собирает сами иконки. Меняете генератор — поправьте и здесь.
+    /// Градиент подложки плитки, пока картинка не прорисовалась.
     public var swatch: (top: UInt32, bottom: UInt32, lamp: UInt32?) {
-        switch self {
-        case .night: (0x141018, 0x0B0910, nil)
-        default: (0x302739, 0x1E181C, nil)
-        }
+        (0x174245, 0x0B1E21, nil)
     }
 
-    /// «Голубь» бесплатный: в онбординге человек выбирает иконку, и выбор,
+    /// Бесплатны основная и «Ночь»: в онбординге человек выбирает иконку, и выбор,
     /// который срабатывает сразу, а не «после Pro», и есть то «ага», ради
     /// которого шаг затевался. Одной основной для этого мало.
-    public var isPremium: Bool { self != .default && self != .dove }
+    public var isPremium: Bool { self != .default && self != .night }
 }
-

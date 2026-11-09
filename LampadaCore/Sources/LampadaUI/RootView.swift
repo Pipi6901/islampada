@@ -106,7 +106,8 @@ public struct RootView: View {
             set: { if !$0 { pause.finish() } }
         )) {
             if let card = dailyCard {
-                PauseScreen(card: card, canReturn: pause.returnURL != nil) {
+                PauseScreen(card: card, showsArabic: settings.showsArabic,
+                            canReturn: pause.returnURL != nil) {
                     // «Продолжить» возвращает в соцсеть само приложение.
                     // Системное действие «Открыть приложение» для этого не
                     // годится: до него дело не доходит — «Команды» успевают
@@ -175,7 +176,7 @@ public struct RootView: View {
         .onChange(of: entitlements.proStatus, initial: true) { _, status in
             applyProStatus(status)
         }
-        // Тап по закрытому StandBy приходит сюда адресом `lampada://pro`.
+        // Тап по закрытому StandBy приходит сюда адресом `misbah://pro`.
         // Регистрировать схему не нужно: адрес из виджета система отдаёт
         // своему приложению напрямую.
         .onOpenURL { url in

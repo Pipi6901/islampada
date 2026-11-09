@@ -83,4 +83,95 @@ struct FontTests {
         #expect(spacing > 0, "\(face.family): своя высота строки \(natural) выше заданной")
         #expect(abs(natural + spacing - size * target) < 0.01)
     }
+
+    // MARK: - Шрифт Корана
+
+    /// Amiri Quran не входит в набор для выбора, а ставится на арабский текст
+    /// всегда. Если файл не зарегистрировался или имя не совпало, CoreText молча
+    /// подставит Helvetica, и огласовки с малыми буквами Корана превратятся в
+    /// пустые квадраты — заметить это можно только глазами.
+    @Test
+    func `шрифт Корана находится`() {
+        #expect(Fonts.registered)
+        let font = Fonts.arabicCTFont(size: 24)
+        #expect(CTFontCopyFamilyName(font) as String == "Amiri Quran")
+    }
+
+    /// Первая сура целиком и несколько знаков, которых нет в обычных арабских
+    /// шрифтах: малая высокая мим, малая нижняя мим, надстрочный алиф. Если
+    /// глифа нет, шрифт вернёт нулевой идентификатор.
+    @Test
+    func `в шрифте Корана есть знаки чтения`() throws {
+        let font = Fonts.arabicCTFont(size: 24)
+        let sample = "بِسْمِ ٱللَّهِ ٱلرَّحْمَـٰنِ ٱلرَّحِيمِ ۖ ۗ ۘ ۙ ۚ ۛ ۜ ۢ ۣ ۭ"
+        let characters = Array(sample.utf16)
+        var glyphs = [CGGlyph](repeating: 0, count: characters.count)
+        #expect(CTFontGetGlyphsForCharacters(font, characters, &glyphs, characters.count))
+        for (character, glyph) in zip(characters, glyphs) {
+            #expect(glyph != 0, "нет глифа U+\(String(character, radix: 16, uppercase: true))")
+        }
+    }
+
+    /// Все знаки, которые есть в корпусе, должны рисоваться шрифтом Корана.
+    @Test
+    func `шрифт Корана покрывает весь корпус`() throws {
+        let font = Fonts.arabicCTFont(size: 24)
+        let corpus = try Corpus.load(.ar)
+        let scalars = Set(corpus.cards.flatMap { $0.text.unicodeScalars.map(\.value) })
+        for value in scalars.sorted() {
+            var character = UniChar(value)
+            var glyph: CGGlyph = 0
+            #expect(CTFontGetGlyphsForCharacters(font, &character, &glyph, 1),
+                    "нет глифа U+\(String(value, radix: 16, uppercase: true))")
+        }
+    }
+
+    // MARK: - Размеры
+
+    /// Оригинал над переводом не должен быть мельче перевода: его читают
+    /// первым, и в Коране он главный.
+    @Test
+    func `оригинал крупнее перевода`() {
+        let parts = VerseParts(original: String(repeating: "ب", count: 90),
+                               translation: String(repeating: "a", count: 90))
+        let sizes = VerseSizes(parts)
+        #expect(sizes.arabic > sizes.translation)
+        #expect(sizes.gap > 0)
+    }
+
+    /// Чем длиннее аят, тем мельче кегль, но не мельче читаемого.
+    @Test
+    func `кегль падает с длиной, но не ниже порога`() {
+        var previous = CGFloat.infinity
+        for length in [10, 50, 90, 150, 250, 600] {
+            let sizes = VerseSizes(VerseParts(original: String(repeating: "ب", count: length),
+                                              translation: String(repeating: "a", count: length)))
+            #expect(sizes.arabic <= previous)
+            #expect(sizes.arabic >= 15)
+            #expect(sizes.translation >= 13)
+            previous = sizes.arabic
+        }
+    }
+
+    /// Один арабский текст (арабский интерфейс) крупнее, чем тот же текст над
+    /// переводом: ему не нужно делить экран.
+    @Test
+    func `одинокий оригинал крупнее парного`() {
+        let text = String(repeating: "ب", count: 60)
+        let alone = VerseSizes(VerseParts(original: text, translation: nil))
+        let paired = VerseSizes(VerseParts(original: text, translation: "x"))
+        #expect(alone.arabic > paired.arabic)
+        #expect(alone.gap == 0)
+    }
+
+    /// Ступенька уменьшения (`ViewThatFits` на «Сегодня») масштабирует всё.
+    @Test
+    func `масштаб уменьшает оба кегля`() {
+        let parts = VerseParts(original: String(repeating: "ب", count: 90),
+                               translation: String(repeating: "a", count: 90))
+        let full = VerseSizes(parts)
+        let small = VerseSizes(parts, factor: 0.5)
+        #expect(abs(small.arabic - full.arabic * 0.5) < 0.001)
+        #expect(abs(small.translation - full.translation * 0.5) < 0.001)
+    }
 }

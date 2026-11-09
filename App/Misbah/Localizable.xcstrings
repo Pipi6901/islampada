@@ -1,0 +1,138 @@
+{
+  "sourceLanguage": "ru",
+  "version": "1.0",
+  "strings": {
+    "Пауза с аятом": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Пауза с аятом"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ayah pause"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "وقفة مع آية"
+          }
+        }
+      }
+    },
+    "Показывает аят дня поверх приложения, которое вы открыли.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Показывает аят дня поверх приложения, которое вы открыли."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Shows the ayah of the day over the app you just opened."
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تعرض آية اليوم فوق التطبيق الذي فتحته للتو."
+          }
+        }
+      }
+    },
+    "Пауза с аятом в ${applicationName}": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Пауза с аятом в ${applicationName}"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ayah pause in ${applicationName}"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "وقفة مع آية في ${applicationName}"
+          }
+        }
+      }
+    },
+    "${applicationName} пауза": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "${applicationName} пауза"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "${applicationName} pause"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "وقفة ${applicationName}"
+          }
+        }
+      }
+    },
+    "Приложение": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Приложение"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "App"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "التطبيق"
+          }
+        }
+      }
+    },
+    "Пауза с аятом перед ${app}": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Пауза с аятом перед ${app}"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ayah pause before ${app}"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "وقفة مع آية قبل ${app}"
+          }
+        }
+      }
+    }
+  }
+}
