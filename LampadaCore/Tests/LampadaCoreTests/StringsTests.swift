@@ -111,7 +111,7 @@ struct StringsTests {
         #expect(Legal.terms.scheme == "https")
         #expect(Legal.privacy.scheme == "https")
         #expect(Legal.terms.host == "www.apple.com")
-        #expect(Legal.privacy.absoluteString.hasSuffix("privacy.html"))
+        #expect(Legal.privacy.path.hasSuffix("/privacy"))
         #expect(!Legal.privacy.absoluteString.contains("lampada"))
     }
 

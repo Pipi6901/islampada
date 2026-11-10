@@ -27,11 +27,11 @@ public enum Legal {
 
     public static let tanzil = URL(string: "https://tanzil.net")!
 
-    /// Политика конфиденциальности, условия и поддержка лежат в корне сайта
-    /// pmoffice.space (как у остальных приложений команды): `docs/legal/misbah/`,
-    /// собираются `tools/legal/build_legal.py`, заливает их человек со своим доступом
-    /// (`docs/FIRST-BUILD.md`, шаг 4). Страница сама выбирает язык (en, ru, ar) по
-    /// устройству. Поменять адрес здесь, если сайт другой.
+    /// Политика конфиденциальности, условия и поддержка опубликованы на Google Sites
+    /// (`sites.google.com/view/misbah-app`): тексты и сборщик — `tools/legal`, готовые
+    /// страницы для встраивания — `docs/legal/google-sites`. Страница сама выбирает
+    /// язык (en, ru, ar) по устройству. Условия и поддержка — `/terms` и `/support`
+    /// на том же сайте.
     public static let privacy = URL(
-        string: "https://pmoffice.space/misbah-privacy.html")!
+        string: "https://sites.google.com/view/misbah-app/privacy")!
 }
