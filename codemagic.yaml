@@ -63,12 +63,16 @@ workflows:
       # которого мы не знали.
       xcode: latest
 
+    # Автозапуска по каждому пушу нет: у приложения много мелких коммитов, а сборка
+    # занимает 20–40 минут платного времени. Запуск — кнопкой «Start new build» в
+    # Codemagic или тегом: `git tag build-1 && git push origin build-1`.
     triggering:
       events:
-        - push
-      branch_patterns:
-        - pattern: main
+        - tag
+      tag_patterns:
+        - pattern: 'build-*'
           include: true
+      cancel_previous_builds: true
 
     scripts:
       - name: Сгенерировать Xcode-проект

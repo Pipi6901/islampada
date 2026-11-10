@@ -37,7 +37,8 @@ developer.apple.com → Account → Certificates, Identifiers & Profiles → Ide
 
 ## 3. Codemagic
 
-codemagic.io → Add application → GitHub → `Pipi6901/islampada` → «Other / codemagic.yaml».
+codemagic.io → Add application → GitHub → `Pipi6901/islampada` → «Other / codemagic.yaml». Если команда Astonio уже в Codemagic, нужно,
+чтобы куратор добавил тебя в неё: тогда готовая интеграция `Astonio` и ключ сертификата уже будут под рукой.
 
 - [ ] Teams → Integrations → App Store Connect: ключ из шага 2. Имя интеграции должно совпадать с `app_store_connect:` в
   `codemagic.yaml` посимвольно (сейчас `Astonio`).
@@ -115,7 +116,7 @@ app.revenuecat.com → новый проект → Add app → App Store.
 
 ## 7. Запуск сборки
 
-- [ ] Codemagic → Start new build → workflow `ios-testflight`, ветка `main`. Шаги: генерация проекта, тесты пакета, подпись,
+- [ ] Codemagic → Start new build → workflow `ios-testflight`, ветка `main` (или тегом: `git tag build-1 && git push origin build-1`; автозапуска по пушам нет, чтобы не жечь платные минуты). Шаги: генерация проекта, тесты пакета, подпись,
   номер сборки, пакеты SPM, `.ipa`, публикация в TestFlight. Первая сборка идёт 30–60 минут (скачиваются Firebase и RevenueCat).
 - [ ] ASC → TestFlight: через 10–30 минут сборка обработается. Добавь себя во внутренние тестеры.
 
