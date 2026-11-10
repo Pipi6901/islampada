@@ -29,6 +29,10 @@ REMOVED = {
     "sceneChrist", "scenePaul", "sceneDavid", "sceneGalilee", "sceneStar",
     "sceneGethsemane", "sceneCross", "iconFlame", "iconVitrage", "iconCross",
     "iconChristmas", "iconEaster", "iconDove", "styleLavender",
+    # Эпиграф (псалом 119:105 в оригинале) нигде не показывается. Свой аят-эпиграф
+    # не нужен: набирать текст Корана руками нельзя, а брать его из источников ради
+    # неиспользуемой строки незачем.
+    "epigraph",
 }
 ADDED = [
     "sceneDesert", "sceneStars", "sceneDome", "sceneLantern", "sceneGarden",
@@ -38,7 +42,6 @@ ADDED = [
 
 # ключ: (ru, en) — там, где автозамена терминов не годится
 OVERRIDE = {
-    "epigraph": ("«Аллах — свет небес и земли»", "“Allah is the Light of the heavens and the earth”"),
     "heroTitle": ("Аят там, куда ты и так смотришь", "The ayah where you already look"),
     "heroSubtitle": (
         "Экран блокировки, рабочий стол, тумбочка у кровати. Ничего не надо помнить — аят просто есть.",

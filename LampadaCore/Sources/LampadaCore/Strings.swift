@@ -61,69 +61,68 @@ public struct L10n: Sendable, Hashable {
     }
 
     public enum Key: String, Sendable, Hashable, CaseIterable {
-        case epigraph, heroTitle, heroSubtitle, heroAction, heroEditions, languageTitle
-        case languageSubtitle, next, themesTitle, themesSubtitle, themesEmpty, themesPicked
-        case widgetTitle, widgetSubtitle, widgetAction, widgetLater, pauseEyebrow, pauseTitle
-        case pauseSubtitle, pauseAction, pauseWait, pauseClose, pauseNoApp, obVerseEyebrow
-        case obVerseCta, obVerseTrust, goalTitle, goalLead, goalHint, goalComfort
-        case goalComfortSub, goalDaily, goalDailySub, goalFeed, goalFeedSub, goalBeauty
-        case goalBeautySub, obThemesTitle, obThemesSub, obThemesCounter, obTimeEyebrow, obTimeTitle
-        case obTimeSub, obTimeLater, obFeedTitle, obFeedSub, obFeedInsight, feedUnderOne
-        case feedOneToTwo, feedTwoToFour, feedOverFour, obLookEyebrow, obLookTitle, obLookSub
-        case obFirstTitle, obFirstSub, obFirstCta, obFirstSentTitle, obFirstSentSub, obIconEyebrow
-        case obIconTitle, obIconSub, obIconKeep, obWidgetEyebrow, obWidgetTitle, obWidgetSub
-        case obWidgetCta, obWidgetLater, obDoneEyebrow, obDoneTitle, obDoneFooter, obWhyLead
-        case obWhyNumber, obWhyQuestion, obWhySource, obWhyCta, versesUnit, daysUnit
-        case fontsUnit, iconsUnit, pwTitle, pwTitleGeneric, pwSub, pwComfortEyebrow
-        case pwComfortTitle, pwComfortSub, pwDailyEyebrow, pwDailyTitle, pwDailySub, chipDailyVerse
-        case pwFeedEyebrow, pwFeedTitle, pwFeedSub, pwBeautyTitle, pwBeautySub, pwBeautySubNoPick
-        case unlockStandBy, unlockWallpaper, unlockSets, unlockPictures, unlockFonts, unlockIcons
-        case planWeek, planMonth, planYear, planWeekNote, planMonthNote, planYearNote
-        case pwTrialCta, pwSubscribeCta, pwAfterTrial, pwCancelAnytime, pwHowTrial, pwRestore
-        case pwTerms, pwPrivacy, standByLocked, proEndedTitle, proEndedBody, proEndedCta
-        case stepLock1, stepLock1Hint, stepLock2, stepLock2Hint, stepLock3, stepLock3Hint
-        case stepHome1, stepHome1Hint, stepHome2, stepHome2Hint, stepHome3, stepHome3Hint
-        case stepControl1, stepControl1Hint, stepControl2, stepControl2Hint, stepControl3, stepControl3Hint
-        case stepStandBy1, stepStandBy1Hint, stepStandBy2, stepStandBy2Hint, stepStandBy3, stepStandBy3Hint
-        case stepWatch1, stepWatch1Hint, stepWatch2, stepWatch2Hint, stepWatch3, stepWatch3Hint
-        case stepWallpaper1, stepWallpaper1Hint, stepWallpaper2, stepWallpaper2Hint, stepWallpaper3, stepWallpaper3Hint
-        case stepPause1, stepPause1Hint, stepPause2, stepPause2Hint, stepPause3, stepPause3Hint
-        case back, notNow, continueAction, openShortcuts, installShortcut, manageSubscription
-        case coachSwipe, coachAreas, coachAppStyle, coachSwitchToWidgets, coachWidgetStyle, coachPlaces
-        case coachMarkDone, coachSkip, coachNext, coachDone, colourSets, imageSets
-        case tabToday, appIconTitle, iconDefault, iconNight, widgetDisplayName, widgetDescription
-        case controlDisplayName, controlDescription, depthHint, surfaceLock, surfaceHome, surfaceControl
-        case surfaceWallpaper, surfacePause, howLock, howHome, howControl, howStandBy
-        case howWatch, howWallpaper, noteAuto, noteSecondRelease, noteManual, ctaLock
-        case ctaHome, ctaControl, ctaStandBy, ctaWatch, ctaWallpaper, ctaPause
-        case areaApp, areaWidgets, areaLock, styleNight, styleParchment, styleAmber
-        case styleInk, styleDawn, styleOpal, styleCoal, sizeSmall, sizeMedium
-        case sizeLarge, lengthShort, lengthFull, alignLeading, alignCenter, formatStory
-        case formatSquare, formatWallpaper, backToDaily, share, contextPill, placesTitle
-        case placesProgress, groupScreens, groupMoment, lookTitle, preview, size
-        case font, languageAndEdition, systemFont, verseLength, alignment, lockColorNote
-        case appIcon, shareTitle, sendAction, wordmark, context, understood
-        case close, openSettings, markDone, paywallTitle, subscribe, restore
-        case paywallLegal, perkSurfaces, perkStyles, perkIcons, demoVerse, demoReference
-        case pauseVerse, pauseReference, obNotifyEyebrow, notifyNow, obTrackEyebrow, obTrackTitle
-        case obTrackSub, obTrackCta, dailyVerseTitle, dailyVerseOn, dailyVerseOff, dailyVerseSub
-        case dailyVerseTime, notifyDenied, comeback3Title, comeback3Body, comeback7Title, comeback7Body
-        case widgetGoneTitle, widgetGoneBody, secondHomeTitle, secondHomeBody, secondLockTitle, secondLockBody
-        case cancelTitle, cancelSub, cancelSkip, cancelThanks, cancelSend, reasonPrice
-        case reasonUnused, reasonFreeEnough, reasonNotWhat, reasonJustLooking, reasonOther, welcomeEyebrow
-        case welcomeTitle, welcomeSub, welcomeTerms, welcomeCta, welcomeNo, pwPickedEyebrow
-        case analyticsTitle, analyticsNote, wnIconsEyebrow, wnIconsTitle, wnIconsSub, wnFree
-        case wnSkip, wnPicturesEyebrow, wnPicturesTitle, wnPicturesSub, wnSetPicture, wnUnlockPicture
-        case wnDailyTitle, wnDailySub, wnDailyCta, wnDone, promoTitle, promoSub
-        case promoPlacesSub, rateApp, pushTokenCopied, corpusFailedTitle, corpusFailedHint, sceneDesert
-        case sceneStars, sceneDome, sceneLantern, sceneGarden, sceneMosaic, sceneLattice
-        case iconMosaic, iconStar, iconDawn, iconDome, iconRosette, iconLight
-        case styleEmerald, showArabic
+        case heroTitle, heroSubtitle, heroAction, heroEditions, languageTitle, languageSubtitle
+        case next, themesTitle, themesSubtitle, themesEmpty, themesPicked, widgetTitle
+        case widgetSubtitle, widgetAction, widgetLater, pauseEyebrow, pauseTitle, pauseSubtitle
+        case pauseAction, pauseWait, pauseClose, pauseNoApp, obVerseEyebrow, obVerseCta
+        case obVerseTrust, goalTitle, goalLead, goalHint, goalComfort, goalComfortSub
+        case goalDaily, goalDailySub, goalFeed, goalFeedSub, goalBeauty, goalBeautySub
+        case obThemesTitle, obThemesSub, obThemesCounter, obTimeEyebrow, obTimeTitle, obTimeSub
+        case obTimeLater, obFeedTitle, obFeedSub, obFeedInsight, feedUnderOne, feedOneToTwo
+        case feedTwoToFour, feedOverFour, obLookEyebrow, obLookTitle, obLookSub, obFirstTitle
+        case obFirstSub, obFirstCta, obFirstSentTitle, obFirstSentSub, obIconEyebrow, obIconTitle
+        case obIconSub, obIconKeep, obWidgetEyebrow, obWidgetTitle, obWidgetSub, obWidgetCta
+        case obWidgetLater, obDoneEyebrow, obDoneTitle, obDoneFooter, obWhyLead, obWhyNumber
+        case obWhyQuestion, obWhySource, obWhyCta, versesUnit, daysUnit, fontsUnit
+        case iconsUnit, pwTitle, pwTitleGeneric, pwSub, pwComfortEyebrow, pwComfortTitle
+        case pwComfortSub, pwDailyEyebrow, pwDailyTitle, pwDailySub, chipDailyVerse, pwFeedEyebrow
+        case pwFeedTitle, pwFeedSub, pwBeautyTitle, pwBeautySub, pwBeautySubNoPick, unlockStandBy
+        case unlockWallpaper, unlockSets, unlockPictures, unlockFonts, unlockIcons, planWeek
+        case planMonth, planYear, planWeekNote, planMonthNote, planYearNote, pwTrialCta
+        case pwSubscribeCta, pwAfterTrial, pwCancelAnytime, pwHowTrial, pwRestore, pwTerms
+        case pwPrivacy, standByLocked, proEndedTitle, proEndedBody, proEndedCta, stepLock1
+        case stepLock1Hint, stepLock2, stepLock2Hint, stepLock3, stepLock3Hint, stepHome1
+        case stepHome1Hint, stepHome2, stepHome2Hint, stepHome3, stepHome3Hint, stepControl1
+        case stepControl1Hint, stepControl2, stepControl2Hint, stepControl3, stepControl3Hint, stepStandBy1
+        case stepStandBy1Hint, stepStandBy2, stepStandBy2Hint, stepStandBy3, stepStandBy3Hint, stepWatch1
+        case stepWatch1Hint, stepWatch2, stepWatch2Hint, stepWatch3, stepWatch3Hint, stepWallpaper1
+        case stepWallpaper1Hint, stepWallpaper2, stepWallpaper2Hint, stepWallpaper3, stepWallpaper3Hint, stepPause1
+        case stepPause1Hint, stepPause2, stepPause2Hint, stepPause3, stepPause3Hint, back
+        case notNow, continueAction, openShortcuts, installShortcut, manageSubscription, coachSwipe
+        case coachAreas, coachAppStyle, coachSwitchToWidgets, coachWidgetStyle, coachPlaces, coachMarkDone
+        case coachSkip, coachNext, coachDone, colourSets, imageSets, tabToday
+        case appIconTitle, iconDefault, iconNight, widgetDisplayName, widgetDescription, controlDisplayName
+        case controlDescription, depthHint, surfaceLock, surfaceHome, surfaceControl, surfaceWallpaper
+        case surfacePause, howLock, howHome, howControl, howStandBy, howWatch
+        case howWallpaper, noteAuto, noteSecondRelease, noteManual, ctaLock, ctaHome
+        case ctaControl, ctaStandBy, ctaWatch, ctaWallpaper, ctaPause, areaApp
+        case areaWidgets, areaLock, styleNight, styleParchment, styleAmber, styleInk
+        case styleDawn, styleOpal, styleCoal, sizeSmall, sizeMedium, sizeLarge
+        case lengthShort, lengthFull, alignLeading, alignCenter, formatStory, formatSquare
+        case formatWallpaper, backToDaily, share, contextPill, placesTitle, placesProgress
+        case groupScreens, groupMoment, lookTitle, preview, size, font
+        case languageAndEdition, systemFont, verseLength, alignment, lockColorNote, appIcon
+        case shareTitle, sendAction, wordmark, context, understood, close
+        case openSettings, markDone, paywallTitle, subscribe, restore, paywallLegal
+        case perkSurfaces, perkStyles, perkIcons, demoVerse, demoReference, pauseVerse
+        case pauseReference, obNotifyEyebrow, notifyNow, obTrackEyebrow, obTrackTitle, obTrackSub
+        case obTrackCta, dailyVerseTitle, dailyVerseOn, dailyVerseOff, dailyVerseSub, dailyVerseTime
+        case notifyDenied, comeback3Title, comeback3Body, comeback7Title, comeback7Body, widgetGoneTitle
+        case widgetGoneBody, secondHomeTitle, secondHomeBody, secondLockTitle, secondLockBody, cancelTitle
+        case cancelSub, cancelSkip, cancelThanks, cancelSend, reasonPrice, reasonUnused
+        case reasonFreeEnough, reasonNotWhat, reasonJustLooking, reasonOther, welcomeEyebrow, welcomeTitle
+        case welcomeSub, welcomeTerms, welcomeCta, welcomeNo, pwPickedEyebrow, analyticsTitle
+        case analyticsNote, wnIconsEyebrow, wnIconsTitle, wnIconsSub, wnFree, wnSkip
+        case wnPicturesEyebrow, wnPicturesTitle, wnPicturesSub, wnSetPicture, wnUnlockPicture, wnDailyTitle
+        case wnDailySub, wnDailyCta, wnDone, promoTitle, promoSub, promoPlacesSub
+        case rateApp, pushTokenCopied, corpusFailedTitle, corpusFailedHint, sceneDesert, sceneStars
+        case sceneDome, sceneLantern, sceneGarden, sceneMosaic, sceneLattice, iconMosaic
+        case iconStar, iconDawn, iconDome, iconRosette, iconLight, styleEmerald
+        case showArabic
     }
 
     // Порядок в строке: ru, en, ar
     private static let table: [Key: [String]] = [
-        .epigraph: ["«Аллах — свет небес и земли»", "“Allah is the Light of the heavens and the earth”", "«اللَّهُ نُورُ السَّمَاوَاتِ وَالْأَرْضِ»"],
         .heroTitle: ["Аят там, куда ты и так смотришь", "The ayah where you already look", "الآية حيث تنظر أصلًا"],
         .heroSubtitle: ["Экран блокировки, рабочий стол, тумбочка у кровати. Ничего не надо помнить — аят просто есть.", "Lock screen, home screen, bedside table. Nothing to remember — the ayah is simply there.", "شاشة القفل، الشاشة الرئيسية، الطاولة بجانب السرير. لا شيء تتذكره، فالآية حاضرة."],
         .heroAction: ["Зажечь", "Light it", "أضئها"],
