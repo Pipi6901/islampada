@@ -19,7 +19,7 @@
 | `tools/art/` | Сборка фонов, иконок и картинок онбординга в каталоги ассетов |
 | `art-src/` | Исходные изображения для `tools/art` |
 | `design/` | Макеты (Pencil), экспорт картинок |
-| `docs/` | `FIRST-BUILD.md` — сборка и выпуск, `TRANSLATIONS.md` — тексты и лицензии, `legal/misbah/` — политика и условия |
+| `docs/` | `FIRST-BUILD.md` — сборка и выпуск, `TRANSLATIONS.md` — тексты и лицензии, `legal/misbah/` — политика, условия и поддержка (en, ru, ar; собираются `tools/legal/build_legal.py`) |
 
 ## Проверка
 

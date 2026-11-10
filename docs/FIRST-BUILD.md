@@ -55,9 +55,27 @@ codemagic.io → Add application → GitHub → `Pipi6901/islampada` → «Other
 - [ ] console.firebase.google.com → новый проект (Analytics включить) → Add app → iOS → `com.astonio.misbah`.
 - [ ] Скачай `GoogleService-Info.plist`, положи в `App/Misbah/`, закоммить и запушь.
 - [ ] Рассылки: Project settings → Cloud Messaging → загрузи APNs-ключ (Apple Developer → Keys → APNs, `.p8`).
-- [ ] Hosting для политики конфиденциальности: `docs/legal/misbah/*.html` залить в Firebase Hosting и поправить адрес в
-  `LampadaCore/Sources/LampadaCore/Legal.swift` (сейчас `https://misbah-app.web.app/privacy.html` — подставить настоящий).
-  В файлах `docs/legal/misbah/*.html` заменить `{{EMAIL}}` на почту поддержки.
+
+## 4а. Политика, условия, поддержка (обязательно до отправки на ревью)
+
+Три страницы на en, ru и ar лежат в `docs/legal/misbah/misbah-{privacy,terms,support}.html`; исходники текстов — `tools/legal/`.
+Страница сама выбирает язык по устройству, а `?lang=ru` или `?lang=ar` в адресе открывает нужный язык.
+
+- [ ] Подставить почту поддержки и пересобрать (без неё сборка с `--final` падает):
+  `python tools/legal/build_legal.py --email <почта> --final`. Если есть почтовый адрес юрлица, добавить его в раздел
+  «Контакты» фрагментов `tools/legal/{en,ru,ar}/privacy.html` и `terms.html`.
+- [ ] Залить файлы в корень сайта. Сейчас в коде стоит `https://pmoffice.space/misbah-privacy.html`
+  (`LampadaCore/Sources/LampadaCore/Legal.swift`); если сайт другой — поправить там. Заливку делает человек со своим доступом:
+  `curl -sS --ssl-reqd --max-time 120 -u '<ЛОГИН>' -T docs/legal/misbah/misbah-privacy.html ftp://<хост>.beget.tech/misbah-privacy.html`
+  (так же `misbah-terms.html` и `misbah-support.html`; хост — часть логина до `_` плюс `.beget.tech`; пароль curl спросит сам,
+  в команду и в репозиторий его не писать; сертификат выдан на `*.beget.tech`, поэтому адрес должен быть именно такой и без `-k`).
+- [ ] Проверить: `https://pmoffice.space/misbah-privacy.html`, `-terms.html`, `-support.html` открываются по HTTPS без входа,
+  в каждой видны три языковые кнопки.
+- [ ] В App Store Connect: Privacy Policy URL — `…/misbah-privacy.html`; Support URL — `…/misbah-support.html` (для локализаций
+  ru и ar-SA можно добавить `?lang=ru` и `?lang=ar`).
+- [ ] Политику юридически никто не проверял: это адаптация. Она должна совпадать с анкетой App Privacy и с реально
+  подключёнными SDK (Firebase, RevenueCat); Amplitude и Meta в первой сборке выключены и в тексте не упомянуты —
+  включишь их, поправь фрагменты и анкету.
 
 ## 5. RevenueCat
 

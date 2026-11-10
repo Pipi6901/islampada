@@ -27,9 +27,11 @@ public enum Legal {
 
     public static let tanzil = URL(string: "https://tanzil.net")!
 
-    /// Политика конфиденциальности и условия лежат на Firebase Hosting проекта Misbah
-    /// (`docs/legal/misbah/`). Адрес поменять, когда проект заведён: имя сайта у
-    /// каждого проекта своё.
+    /// Политика конфиденциальности, условия и поддержка лежат в корне сайта
+    /// pmoffice.space (как у остальных приложений команды): `docs/legal/misbah/`,
+    /// собираются `tools/legal/build_legal.py`, заливает их человек со своим доступом
+    /// (`docs/FIRST-BUILD.md`, шаг 4). Страница сама выбирает язык (en, ru, ar) по
+    /// устройству. Поменять адрес здесь, если сайт другой.
     public static let privacy = URL(
-        string: "https://misbah-app.web.app/privacy.html")!
+        string: "https://pmoffice.space/misbah-privacy.html")!
 }
