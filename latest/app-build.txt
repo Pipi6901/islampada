@@ -1,20 +1,20 @@
 == app: ошибки и итог ==
 8:Resolve Package Graph
-21941:** BUILD SUCCEEDED **
+21852:** BUILD SUCCEEDED **
 
 == app: хвост ==
+    builtin-copyStrings --validate --outputencoding binary --outfilename Localizable.strings --outdir /Users/runner/Library/Developer/Xcode/DerivedData/Misbah-bpppaovembtoqbbxbthaylbhbuiy/Build/Products/Debug-iphonesimulator/Misbah.app/ru.lproj -- /Users/runner/Library/Developer/Xcode/DerivedData/Misbah-bpppaovembtoqbbxbthaylbhbuiy/Build/Intermediates.noindex/Misbah.build/Debug-iphonesimulator/Mis
+/Users/runner/Library/Developer/Xcode/DerivedData/Misbah-bpppaovembtoqbbxbthaylbhbuiy/Build/Intermediates.noindex/Misbah.build/Debug-iphonesimulator/Misbah.build/ru.lproj/Localizable.strings:1:1: note: detected encoding of input file as Unicode (UTF-8) (in target 'Misbah' from project 'Misbah')
 
-SwiftDriverJobDiscovery normal x86_64 Compiling MetaAds.swift (in target 'Misbah' from project 'Misbah')
-
-SwiftDriverJobDiscovery normal x86_64 Compiling AmplitudeEvents.swift, FirebaseEvents.swift (in target 'Misbah' from project 'Misbah')
-
-SwiftDriver\ Compilation Misbah normal x86_64 com.apple.xcode.tools.swift.compiler (in target 'Misbah' from project 'Misbah')
+CopyStringsFile /Users/runner/Library/Developer/Xcode/DerivedData/Misbah-bpppaovembtoqbbxbthaylbhbuiy/Build/Products/Debug-iphonesimulator/Misbah.app/en.lproj/Localizable.strings /Users/runner/Library/Developer/Xcode/DerivedData/Misbah-bpppaovembtoqbbxbthaylbhbuiy/Build/Intermediates.noindex/Misbah.build/Debug-iphonesimulator/Misbah.build/en.lproj/Localizable.strings (in target 'Misbah' from proje
     cd /Users/runner/work/islampada/islampada/App
-    builtin-Swift-Compilation -- /Applications/Xcode_26.6.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc -module-name Misbah -Onone @/Users/runner/Library/Developer/Xcode/DerivedData/Misbah-bpppaovembtoqbbxbthaylbhbuiy/Build/Intermediates.noindex/Misbah.build/Debug-iphonesimulator/Misbah.build/Objects-normal/x86_64/Misbah.SwiftFileList -DDEBUG -Xcc -fmodule-map-file\=/Us
+    builtin-copyStrings --validate --outputencoding binary --outfilename Localizable.strings --outdir /Users/runner/Library/Developer/Xcode/DerivedData/Misbah-bpppaovembtoqbbxbthaylbhbuiy/Build/Products/Debug-iphonesimulator/Misbah.app/en.lproj -- /Users/runner/Library/Developer/Xcode/DerivedData/Misbah-bpppaovembtoqbbxbthaylbhbuiy/Build/Intermediates.noindex/Misbah.build/Debug-iphonesimulator/Mis
+/Users/runner/Library/Developer/Xcode/DerivedData/Misbah-bpppaovembtoqbbxbthaylbhbuiy/Build/Intermediates.noindex/Misbah.build/Debug-iphonesimulator/Misbah.build/en.lproj/Localizable.strings:1:1: note: detected encoding of input file as Unicode (UTF-8) (in target 'Misbah' from project 'Misbah')
 
-Ld /Users/runner/Library/Developer/Xcode/DerivedData/Misbah-bpppaovembtoqbbxbthaylbhbuiy/Build/Intermediates.noindex/Misbah.build/Debug-iphonesimulator/Misbah.build/Objects-normal/x86_64/Binary/Misbah normal x86_64 (in target 'Misbah' from project 'Misbah')
+CopyStringsFile /Users/runner/Library/Developer/Xcode/DerivedData/Misbah-bpppaovembtoqbbxbthaylbhbuiy/Build/Products/Debug-iphonesimulator/Misbah.app/ar.lproj/Localizable.strings /Users/runner/Library/Developer/Xcode/DerivedData/Misbah-bpppaovembtoqbbxbthaylbhbuiy/Build/Intermediates.noindex/Misbah.build/Debug-iphonesimulator/Misbah.build/ar.lproj/Localizable.strings (in target 'Misbah' from proje
     cd /Users/runner/work/islampada/islampada/App
-    /Applications/Xcode_26.6.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -Xlinker -reproducible -target x86_64-apple-ios17.0-simulator -isysroot /Applications/Xcode_26.6.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.5.sdk -O0 -L/Users/runner/Library/Developer/Xcode/DerivedData/Misbah-bpppaovembtoqbbxbthaylbhbuiy/Build/Interm
+    builtin-copyStrings --validate --outputencoding binary --outfilename Localizable.strings --outdir /Users/runner/Library/Developer/Xcode/DerivedData/Misbah-bpppaovembtoqbbxbthaylbhbuiy/Build/Products/Debug-iphonesimulator/Misbah.app/ar.lproj -- /Users/runner/Library/Developer/Xcode/DerivedData/Misbah-bpppaovembtoqbbxbthaylbhbuiy/Build/Intermediates.noindex/Misbah.build/Debug-iphonesimulator/Mis
+/Users/runner/Library/Developer/Xcode/DerivedData/Misbah-bpppaovembtoqbbxbthaylbhbuiy/Build/Intermediates.noindex/Misbah.build/Debug-iphonesimulator/Misbah.build/ar.lproj/Localizable.strings:1:1: note: detected encoding of input file as Unicode (UTF-8) (in target 'Misbah' from project 'Misbah')
 
 CreateUniversalBinary /Users/runner/Library/Developer/Xcode/DerivedData/Misbah-bpppaovembtoqbbxbthaylbhbuiy/Build/Products/Debug-iphonesimulator/Misbah.app/Misbah normal arm64\ x86_64 (in target 'Misbah' from project 'Misbah')
     cd /Users/runner/work/islampada/islampada/App
@@ -35,10 +35,10 @@ Ignoring --strip-bitcode because --sign was not passed
 
 ExtractAppIntentsMetadata (in target 'Misbah' from project 'Misbah')
     cd /Users/runner/work/islampada/islampada/App
-    /Applications/Xcode_26.6.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/appintentsmetadataprocessor --toolchain-dir /var/run/com.apple.security.cryptexd/mnt/com.apple.MobileAsset.MetalToolchain-v17.6.109.0.pGpwwJ/Metal.xctoolchain --module-name Misbah --sdk-root /Applications/Xcode_26.6.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator
-2026-11-10 00:14:01.012 appintentsmetadataprocessor[8255:30483] Starting appintentsmetadataprocessor export
-2026-11-10 00:14:01.052 appintentsmetadataprocessor[8255:30483] Writing Metadata.appintents
-2026-11-10 00:14:01.052 appintentsmetadataprocessor[8255:30483] Metadata root: /Users/runner/Library/Developer/Xcode/DerivedData/Misbah-bpppaovembtoqbbxbthaylbhbuiy/Build/Products/Debug-iphonesimulator/Misbah.app/Metadata.appintents
+    /Applications/Xcode_26.6.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/appintentsmetadataprocessor --toolchain-dir /var/run/com.apple.security.cryptexd/mnt/com.apple.MobileAsset.MetalToolchain-v17.6.109.0.qyXdlG/Metal.xctoolchain --module-name Misbah --sdk-root /Applications/Xcode_26.6.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator
+2026-11-10 00:28:16.140 appintentsmetadataprocessor[15804:47721] Starting appintentsmetadataprocessor export
+2026-11-10 00:28:16.283 appintentsmetadataprocessor[15804:47721] Writing Metadata.appintents
+2026-11-10 00:28:16.284 appintentsmetadataprocessor[15804:47721] Metadata root: /Users/runner/Library/Developer/Xcode/DerivedData/Misbah-bpppaovembtoqbbxbthaylbhbuiy/Build/Products/Debug-iphonesimulator/Misbah.app/Metadata.appintents
 
 ValidateEmbeddedBinary /Users/runner/Library/Developer/Xcode/DerivedData/Misbah-bpppaovembtoqbbxbthaylbhbuiy/Build/Products/Debug-iphonesimulator/Misbah.app/PlugIns/MisbahWidgetExtension.appex (in target 'Misbah' from project 'Misbah')
     cd /Users/runner/work/islampada/islampada/App
@@ -47,26 +47,26 @@ ValidateEmbeddedBinary /Users/runner/Library/Developer/Xcode/DerivedData/Misbah-
 AppIntentsSSUTraining (in target 'Misbah' from project 'Misbah')
     cd /Users/runner/work/islampada/islampada/App
     /Applications/Xcode_26.6.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/appintentsnltrainingprocessor --infoplist-path /Users/runner/Library/Developer/Xcode/DerivedData/Misbah-bpppaovembtoqbbxbthaylbhbuiy/Build/Products/Debug-iphonesimulator/Misbah.app/Info.plist --temp-dir-path /Users/runner/Library/Developer/Xcode/DerivedData/Misbah-bpppaovembtoqbbxbthaylbhbuiy/Build/Inte
-2026-11-10 00:14:01.079 appintentsnltrainingprocessor[8280:30548] Parsing options for appintentsnltrainingprocessor
-2026-11-10 00:14:01.079 appintentsnltrainingprocessor[8280:30548] Starting AppIntents SSU YAML Generation
-2026-11-10 00:14:01.091 appintentsnltrainingprocessor[8280:30548] Training 'Пауза с аятом в ${+applicationName}|${+applicationName} пауза' for ru
-2026-11-10 00:14:01.091 appintentsnltrainingprocessor[8280:30548] Training 'Пауза с аятом в ${+applicationName}|${+applicationName} пауза' for ar
-2026-11-10 00:14:01.091 appintentsnltrainingprocessor[8280:30548] Training 'Пауза с аятом в ${+applicationName}|${+applicationName} пауза' for en
-2026-11-10 00:14:01.091 appintentsnltrainingprocessor[8280:30548] Training Negative Phrases '' for ru
-2026-11-10 00:14:01.091 appintentsnltrainingprocessor[8280:30548] Training Negative Phrases '' for ar
-2026-11-10 00:14:01.092 appintentsnltrainingprocessor[8280:30548] Training Negative Phrases '' for en
-2026-11-10 00:14:01.092 appintentsnltrainingprocessor[8280:30548] Application name 'Misbah' for ru
-2026-11-10 00:14:01.092 appintentsnltrainingprocessor[8280:30548] Application name 'Misbah' for ar
-2026-11-10 00:14:01.092 appintentsnltrainingprocessor[8280:30548] Application name 'Misbah' for en
-2026-11-10 00:14:01.113 appintentsnltrainingprocessor[8280:30548] Generated AppIntents SSU YAML files in file:///Users/runner/Library/Developer/Xcode/DerivedData/Misbah-bpppaovembtoqbbxbthaylbhbuiy/Build/Intermediates.noindex/Misbah.build/Debug-iphonesimulator/Misbah.build/ssu/
-2026-11-10 00:14:01.113 appintentsnltrainingprocessor[8280:30548] Copied AppIntents SSU YAML files to file:///Users/runner/Library/Developer/Xcode/DerivedData/Misbah-bpppaovembtoqbbxbthaylbhbuiy/Build/Products/Debug-iphonesimulator/Misbah.app/Metadata.appintents/
+2026-11-10 00:28:16.369 appintentsnltrainingprocessor[15806:47729] Parsing options for appintentsnltrainingprocessor
+2026-11-10 00:28:16.374 appintentsnltrainingprocessor[15806:47729] Starting AppIntents SSU YAML Generation
+2026-11-10 00:28:16.410 appintentsnltrainingprocessor[15806:47729] Training 'Пауза с аятом в ${+applicationName}|${+applicationName} пауза' for ru
+2026-11-10 00:28:16.411 appintentsnltrainingprocessor[15806:47729] Training 'Пауза с аятом в ${+applicationName}|${+applicationName} пауза' for en
+2026-11-10 00:28:16.411 appintentsnltrainingprocessor[15806:47729] Training 'Пауза с аятом в ${+applicationName}|${+applicationName} пауза' for ar
+2026-11-10 00:28:16.412 appintentsnltrainingprocessor[15806:47729] Training Negative Phrases '' for ru
+2026-11-10 00:28:16.412 appintentsnltrainingprocessor[15806:47729] Training Negative Phrases '' for en
+2026-11-10 00:28:16.412 appintentsnltrainingprocessor[15806:47729] Training Negative Phrases '' for ar
+2026-11-10 00:28:16.412 appintentsnltrainingprocessor[15806:47729] Application name 'Misbah' for ru
+2026-11-10 00:28:16.412 appintentsnltrainingprocessor[15806:47729] Application name 'Misbah' for en
+2026-11-10 00:28:16.412 appintentsnltrainingprocessor[15806:47729] Application name 'Misbah' for ar
+2026-11-10 00:28:16.485 appintentsnltrainingprocessor[15806:47729] Generated AppIntents SSU YAML files in file:///Users/runner/Library/Developer/Xcode/DerivedData/Misbah-bpppaovembtoqbbxbthaylbhbuiy/Build/Intermediates.noindex/Misbah.build/Debug-iphonesimulator/Misbah.build/ssu/
+2026-11-10 00:28:16.485 appintentsnltrainingprocessor[15806:47729] Copied AppIntents SSU YAML files to file:///Users/runner/Library/Developer/Xcode/DerivedData/Misbah-bpppaovembtoqbbxbthaylbhbuiy/Build/Products/Debug-iphonesimulator/Misbah.app/Metadata.appintents/
 Archiving all locales.
-[------------------------------------------------------------] 0% archiving en[🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢----------------------------------------] 33% archived en[🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢----------------------------------------] 33% archiving ar[🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢--------------------] 66% archived ar[🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢--------------------] 66% archiving ru[🁢
-/Users/runner/Library/Developer/Xcode/DerivedData/Misbah-bpppaovembtoqbbxbthaylbhbuiy/Build/Products/Debug-iphonesimulator/Misbah.app/en.lproj/nlu.appintents/725d644f9f30f2b5beb3baf683a9ded8.version
-/Users/runner/Library/Developer/Xcode/DerivedData/Misbah-bpppaovembtoqbbxbthaylbhbuiy/Build/Products/Debug-iphonesimulator/Misbah.app/ar.lproj/nlu.appintents
+[------------------------------------------------------------] 0% archiving ar[🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢----------------------------------------] 33% archived ar[🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢----------------------------------------] 33% archiving ru[🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢--------------------] 66% archived ru[🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢--------------------] 66% archiving en[🁢
 /Users/runner/Library/Developer/Xcode/DerivedData/Misbah-bpppaovembtoqbbxbthaylbhbuiy/Build/Products/Debug-iphonesimulator/Misbah.app/ar.lproj/nlu.appintents/a3295bfcc232a3d79bc4a4ffda4608ad.version
 /Users/runner/Library/Developer/Xcode/DerivedData/Misbah-bpppaovembtoqbbxbthaylbhbuiy/Build/Products/Debug-iphonesimulator/Misbah.app/ru.lproj/nlu.appintents
 /Users/runner/Library/Developer/Xcode/DerivedData/Misbah-bpppaovembtoqbbxbthaylbhbuiy/Build/Products/Debug-iphonesimulator/Misbah.app/ru.lproj/nlu.appintents/6c65cfb7456c1e9009e9627f0c3bbad2.version
+/Users/runner/Library/Developer/Xcode/DerivedData/Misbah-bpppaovembtoqbbxbthaylbhbuiy/Build/Products/Debug-iphonesimulator/Misbah.app/en.lproj/nlu.appintents
+/Users/runner/Library/Developer/Xcode/DerivedData/Misbah-bpppaovembtoqbbxbthaylbhbuiy/Build/Products/Debug-iphonesimulator/Misbah.app/en.lproj/nlu.appintents/725d644f9f30f2b5beb3baf683a9ded8.version
 
 
 RegisterExecutionPolicyException /Users/runner/Library/Developer/Xcode/DerivedData/Misbah-bpppaovembtoqbbxbthaylbhbuiy/Build/Products/Debug-iphonesimulator/Misbah.app (in target 'Misbah' from project 'Misbah')
