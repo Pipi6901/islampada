@@ -1,10 +1,10 @@
 == app: ошибки и итог ==
 8:Resolve Package Graph
-22668:** BUILD SUCCEEDED **
+21941:** BUILD SUCCEEDED **
 
 == app: хвост ==
-    cd /Users/runner/work/islampada/islampada/App
-    /Applications/Xcode_26.6.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -Xlinker -reproducible -target arm64-apple-ios17.0-simulator -isysroot /Applications/Xcode_26.6.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.5.sdk -O0 -L/Users/runner/Library/Developer/Xcode/DerivedData/Misbah-bpppaovembtoqbbxbthaylbhbuiy/Build/Interme
+
+SwiftDriverJobDiscovery normal x86_64 Compiling MetaAds.swift (in target 'Misbah' from project 'Misbah')
 
 SwiftDriverJobDiscovery normal x86_64 Compiling AmplitudeEvents.swift, FirebaseEvents.swift (in target 'Misbah' from project 'Misbah')
 
@@ -28,17 +28,17 @@ ProcessInfoPlistFile /Users/runner/Library/Developer/Xcode/DerivedData/Misbah-bp
     cd /Users/runner/work/islampada/islampada/App
     builtin-infoPlistUtility /Users/runner/work/islampada/islampada/App/MisbahInfo.plist -producttype com.apple.product-type.application -genpkginfo /Users/runner/Library/Developer/Xcode/DerivedData/Misbah-bpppaovembtoqbbxbthaylbhbuiy/Build/Products/Debug-iphonesimulator/Misbah.app/PkgInfo -expandbuildsettings -format binary -platform iphonesimulator -additionalcontentfile /Users/runner/Library/De
 
-ExtractAppIntentsMetadata (in target 'Misbah' from project 'Misbah')
-    cd /Users/runner/work/islampada/islampada/App
-    /Applications/Xcode_26.6.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/appintentsmetadataprocessor --toolchain-dir /var/run/com.apple.security.cryptexd/mnt/com.apple.MobileAsset.MetalToolchain-v17.6.109.0.js77sk/Metal.xctoolchain --module-name Misbah --sdk-root /Applications/Xcode_26.6.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator
-2026-11-10 00:03:51.271 appintentsmetadataprocessor[14664:45257] Starting appintentsmetadataprocessor export
-2026-11-10 00:03:51.348 appintentsmetadataprocessor[14664:45257] Writing Metadata.appintents
-2026-11-10 00:03:51.348 appintentsmetadataprocessor[14664:45257] Metadata root: /Users/runner/Library/Developer/Xcode/DerivedData/Misbah-bpppaovembtoqbbxbthaylbhbuiy/Build/Products/Debug-iphonesimulator/Misbah.app/Metadata.appintents
-
 CopySwiftLibs /Users/runner/Library/Developer/Xcode/DerivedData/Misbah-bpppaovembtoqbbxbthaylbhbuiy/Build/Products/Debug-iphonesimulator/Misbah.app (in target 'Misbah' from project 'Misbah')
     cd /Users/runner/work/islampada/islampada/App
     builtin-swiftStdLibTool --copy --verbose --scan-executable /Users/runner/Library/Developer/Xcode/DerivedData/Misbah-bpppaovembtoqbbxbthaylbhbuiy/Build/Products/Debug-iphonesimulator/Misbah.app/Misbah --scan-folder /Users/runner/Library/Developer/Xcode/DerivedData/Misbah-bpppaovembtoqbbxbthaylbhbuiy/Build/Products/Debug-iphonesimulator/Misbah.app/Frameworks --scan-folder /Users/runner/Library/D
 Ignoring --strip-bitcode because --sign was not passed
+
+ExtractAppIntentsMetadata (in target 'Misbah' from project 'Misbah')
+    cd /Users/runner/work/islampada/islampada/App
+    /Applications/Xcode_26.6.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/appintentsmetadataprocessor --toolchain-dir /var/run/com.apple.security.cryptexd/mnt/com.apple.MobileAsset.MetalToolchain-v17.6.109.0.pGpwwJ/Metal.xctoolchain --module-name Misbah --sdk-root /Applications/Xcode_26.6.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator
+2026-11-10 00:14:01.012 appintentsmetadataprocessor[8255:30483] Starting appintentsmetadataprocessor export
+2026-11-10 00:14:01.052 appintentsmetadataprocessor[8255:30483] Writing Metadata.appintents
+2026-11-10 00:14:01.052 appintentsmetadataprocessor[8255:30483] Metadata root: /Users/runner/Library/Developer/Xcode/DerivedData/Misbah-bpppaovembtoqbbxbthaylbhbuiy/Build/Products/Debug-iphonesimulator/Misbah.app/Metadata.appintents
 
 ValidateEmbeddedBinary /Users/runner/Library/Developer/Xcode/DerivedData/Misbah-bpppaovembtoqbbxbthaylbhbuiy/Build/Products/Debug-iphonesimulator/Misbah.app/PlugIns/MisbahWidgetExtension.appex (in target 'Misbah' from project 'Misbah')
     cd /Users/runner/work/islampada/islampada/App
@@ -47,26 +47,26 @@ ValidateEmbeddedBinary /Users/runner/Library/Developer/Xcode/DerivedData/Misbah-
 AppIntentsSSUTraining (in target 'Misbah' from project 'Misbah')
     cd /Users/runner/work/islampada/islampada/App
     /Applications/Xcode_26.6.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/appintentsnltrainingprocessor --infoplist-path /Users/runner/Library/Developer/Xcode/DerivedData/Misbah-bpppaovembtoqbbxbthaylbhbuiy/Build/Products/Debug-iphonesimulator/Misbah.app/Info.plist --temp-dir-path /Users/runner/Library/Developer/Xcode/DerivedData/Misbah-bpppaovembtoqbbxbthaylbhbuiy/Build/Inte
-2026-11-10 00:03:51.395 appintentsnltrainingprocessor[14666:45284] Parsing options for appintentsnltrainingprocessor
-2026-11-10 00:03:51.395 appintentsnltrainingprocessor[14666:45284] Starting AppIntents SSU YAML Generation
-2026-11-10 00:03:51.416 appintentsnltrainingprocessor[14666:45284] Training 'Пауза с аятом в ${+applicationName}|${+applicationName} пауза' for en
-2026-11-10 00:03:51.416 appintentsnltrainingprocessor[14666:45284] Training 'Пауза с аятом в ${+applicationName}|${+applicationName} пауза' for ar
-2026-11-10 00:03:51.416 appintentsnltrainingprocessor[14666:45284] Training 'Пауза с аятом в ${+applicationName}|${+applicationName} пауза' for ru
-2026-11-10 00:03:51.416 appintentsnltrainingprocessor[14666:45284] Training Negative Phrases '' for en
-2026-11-10 00:03:51.416 appintentsnltrainingprocessor[14666:45284] Training Negative Phrases '' for ar
-2026-11-10 00:03:51.416 appintentsnltrainingprocessor[14666:45284] Training Negative Phrases '' for ru
-2026-11-10 00:03:51.417 appintentsnltrainingprocessor[14666:45284] Application name 'Misbah' for en
-2026-11-10 00:03:51.417 appintentsnltrainingprocessor[14666:45284] Application name 'Misbah' for ar
-2026-11-10 00:03:51.417 appintentsnltrainingprocessor[14666:45284] Application name 'Misbah' for ru
-2026-11-10 00:03:51.451 appintentsnltrainingprocessor[14666:45284] Generated AppIntents SSU YAML files in file:///Users/runner/Library/Developer/Xcode/DerivedData/Misbah-bpppaovembtoqbbxbthaylbhbuiy/Build/Intermediates.noindex/Misbah.build/Debug-iphonesimulator/Misbah.build/ssu/
-2026-11-10 00:03:51.452 appintentsnltrainingprocessor[14666:45284] Copied AppIntents SSU YAML files to file:///Users/runner/Library/Developer/Xcode/DerivedData/Misbah-bpppaovembtoqbbxbthaylbhbuiy/Build/Products/Debug-iphonesimulator/Misbah.app/Metadata.appintents/
+2026-11-10 00:14:01.079 appintentsnltrainingprocessor[8280:30548] Parsing options for appintentsnltrainingprocessor
+2026-11-10 00:14:01.079 appintentsnltrainingprocessor[8280:30548] Starting AppIntents SSU YAML Generation
+2026-11-10 00:14:01.091 appintentsnltrainingprocessor[8280:30548] Training 'Пауза с аятом в ${+applicationName}|${+applicationName} пауза' for ru
+2026-11-10 00:14:01.091 appintentsnltrainingprocessor[8280:30548] Training 'Пауза с аятом в ${+applicationName}|${+applicationName} пауза' for ar
+2026-11-10 00:14:01.091 appintentsnltrainingprocessor[8280:30548] Training 'Пауза с аятом в ${+applicationName}|${+applicationName} пауза' for en
+2026-11-10 00:14:01.091 appintentsnltrainingprocessor[8280:30548] Training Negative Phrases '' for ru
+2026-11-10 00:14:01.091 appintentsnltrainingprocessor[8280:30548] Training Negative Phrases '' for ar
+2026-11-10 00:14:01.092 appintentsnltrainingprocessor[8280:30548] Training Negative Phrases '' for en
+2026-11-10 00:14:01.092 appintentsnltrainingprocessor[8280:30548] Application name 'Misbah' for ru
+2026-11-10 00:14:01.092 appintentsnltrainingprocessor[8280:30548] Application name 'Misbah' for ar
+2026-11-10 00:14:01.092 appintentsnltrainingprocessor[8280:30548] Application name 'Misbah' for en
+2026-11-10 00:14:01.113 appintentsnltrainingprocessor[8280:30548] Generated AppIntents SSU YAML files in file:///Users/runner/Library/Developer/Xcode/DerivedData/Misbah-bpppaovembtoqbbxbthaylbhbuiy/Build/Intermediates.noindex/Misbah.build/Debug-iphonesimulator/Misbah.build/ssu/
+2026-11-10 00:14:01.113 appintentsnltrainingprocessor[8280:30548] Copied AppIntents SSU YAML files to file:///Users/runner/Library/Developer/Xcode/DerivedData/Misbah-bpppaovembtoqbbxbthaylbhbuiy/Build/Products/Debug-iphonesimulator/Misbah.app/Metadata.appintents/
 Archiving all locales.
-[------------------------------------------------------------] 0% archiving en[🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢----------------------------------------] 33% archived en[🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢----------------------------------------] 33% archiving ru[🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢--------------------] 66% archived ru[🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢--------------------] 66% archiving ar[🁢
+[------------------------------------------------------------] 0% archiving en[🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢----------------------------------------] 33% archived en[🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢----------------------------------------] 33% archiving ar[🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢--------------------] 66% archived ar[🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢--------------------] 66% archiving ru[🁢
 /Users/runner/Library/Developer/Xcode/DerivedData/Misbah-bpppaovembtoqbbxbthaylbhbuiy/Build/Products/Debug-iphonesimulator/Misbah.app/en.lproj/nlu.appintents/725d644f9f30f2b5beb3baf683a9ded8.version
-/Users/runner/Library/Developer/Xcode/DerivedData/Misbah-bpppaovembtoqbbxbthaylbhbuiy/Build/Products/Debug-iphonesimulator/Misbah.app/ru.lproj/nlu.appintents
-/Users/runner/Library/Developer/Xcode/DerivedData/Misbah-bpppaovembtoqbbxbthaylbhbuiy/Build/Products/Debug-iphonesimulator/Misbah.app/ru.lproj/nlu.appintents/6c65cfb7456c1e9009e9627f0c3bbad2.version
 /Users/runner/Library/Developer/Xcode/DerivedData/Misbah-bpppaovembtoqbbxbthaylbhbuiy/Build/Products/Debug-iphonesimulator/Misbah.app/ar.lproj/nlu.appintents
 /Users/runner/Library/Developer/Xcode/DerivedData/Misbah-bpppaovembtoqbbxbthaylbhbuiy/Build/Products/Debug-iphonesimulator/Misbah.app/ar.lproj/nlu.appintents/a3295bfcc232a3d79bc4a4ffda4608ad.version
+/Users/runner/Library/Developer/Xcode/DerivedData/Misbah-bpppaovembtoqbbxbthaylbhbuiy/Build/Products/Debug-iphonesimulator/Misbah.app/ru.lproj/nlu.appintents
+/Users/runner/Library/Developer/Xcode/DerivedData/Misbah-bpppaovembtoqbbxbthaylbhbuiy/Build/Products/Debug-iphonesimulator/Misbah.app/ru.lproj/nlu.appintents/6c65cfb7456c1e9009e9627f0c3bbad2.version
 
 
 RegisterExecutionPolicyException /Users/runner/Library/Developer/Xcode/DerivedData/Misbah-bpppaovembtoqbbxbthaylbhbuiy/Build/Products/Debug-iphonesimulator/Misbah.app (in target 'Misbah' from project 'Misbah')
