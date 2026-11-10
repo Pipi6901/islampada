@@ -412,13 +412,16 @@ private struct VersePage: View {
                 .init(color: OB.ink, location: 1),
             ])
 
-            OBPoster { HeroLantern() }
+            // Светильник сдвинут вверх, а аят прижат к кнопке: оригинал над
+            // переводом занимает втрое больше места, чем один перевод, и по
+            // центру экрана он лёг бы прямо на пламя.
+            OBPoster(lift: 130) { HeroLantern() }
 
             VStack(alignment: .leading, spacing: 0) {
                 header
                 Spacer(minLength: 12)
                 verse
-                Spacer(minLength: 20)
+                Color.clear.frame(height: 20)
                 bottom
             }
             .padding(.horizontal, 26)
@@ -512,6 +515,10 @@ private struct VersePage: View {
 /// был бы тот же шов.
 struct OBPoster<Content: View>: View {
     var drop: CGFloat = 64
+    /// Подъём всей картинки без изменения размера: открывшуюся снизу полосу
+    /// закрывает фон экрана, а картинка к низу растворена в тот же цвет, так что
+    /// шва нет. Нужен, когда под картинкой должно остаться место для текста.
+    var lift: CGFloat = 0
     @ViewBuilder let content: Content
 
     var body: some View {
@@ -530,6 +537,7 @@ struct OBPoster<Content: View>: View {
             )
             .padding(.top, drop)
             .ignoresSafeArea()
+            .offset(y: -lift)
             .allowsHitTesting(false)
     }
 }
