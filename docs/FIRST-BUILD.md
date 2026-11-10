@@ -64,7 +64,12 @@ codemagic.io → Add application → GitHub → `Pipi6901/islampada` → «Other
 - [x] Почта поддержки в страницах — `help@pmoffice.space` (задана в `tools/legal/build_legal.py`, `DEFAULT_EMAIL`). Сменить:
   `python tools/legal/build_legal.py --email <почта> --final` и перезалить файлы. Если есть почтовый адрес юрлица, добавить его
   в раздел «Контакты» фрагментов `tools/legal/{en,ru,ar}/privacy.html` и `terms.html` и пересобрать.
-- [ ] Залить файлы в корень сайта. Сейчас в коде стоит `https://pmoffice.space/misbah-privacy.html`
+- [ ] **HTTPS должен открываться без предупреждений.** Проверка 10.11.2026: у `pmoffice.space` по HTTPS отдаётся сертификат
+  `*.beget.com`, он не подходит к домену, а страниц Misbah (и RoadReady) на сайте нет. Либо включить SSL-сертификат для домена
+  в панели хостинга (Let's Encrypt), либо взять другой хостинг с рабочим HTTPS (Firebase Hosting; отдельный публичный
+  репозиторий с GitHub Pages) и поправить адрес в `Legal.swift`.
+- [ ] Залить файлы в корень сайта. Проще всего: `python tools/legal/upload.py <ЛОГИН>` — пароль спросит скрыто, нигде не
+  сохранит, после заливки проверит страницы по HTTPS. Вручную: Сейчас в коде стоит `https://pmoffice.space/misbah-privacy.html`
   (`LampadaCore/Sources/LampadaCore/Legal.swift`); если сайт другой — поправить там. Заливку делает человек со своим доступом:
   `curl -sS --ssl-reqd --max-time 120 -u '<ЛОГИН>' -T docs/legal/misbah/misbah-privacy.html ftp://<хост>.beget.tech/misbah-privacy.html`
   (так же `misbah-terms.html` и `misbah-support.html`; хост — часть логина до `_` плюс `.beget.tech`; пароль curl спросит сам,
