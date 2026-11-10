@@ -9,9 +9,9 @@
 внешних ресурсов, которые кладутся в корень сайта.
 
 Запуск:
-    python tools/legal/build_legal.py                       # с заглушкой {{EMAIL}}
-    python tools/legal/build_legal.py --email help@example  # подставить почту
-    python tools/legal/build_legal.py --email help@example --final   # и проверить, что заглушек нет
+    python tools/legal/build_legal.py                       # почта поддержки по умолчанию
+    python tools/legal/build_legal.py --email help@example  # другая почта
+    python tools/legal/build_legal.py --final               # и проверить, что заглушек не осталось
 """
 import argparse
 import io
@@ -23,6 +23,9 @@ import sys
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(os.path.dirname(HERE))
 OUT = os.path.join(ROOT, "docs", "legal", "misbah")
+
+# Почта поддержки, как у остальных приложений команды (pmoffice.space).
+DEFAULT_EMAIL = "help@pmoffice.space"
 
 LANGS = [("en", "English"), ("ru", "Русский"), ("ar", "العربية")]
 
@@ -125,7 +128,7 @@ def build(page, email):
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--email", default="{{EMAIL}}")
+    ap.add_argument("--email", default=DEFAULT_EMAIL)
     ap.add_argument("--final", action="store_true", help="упасть, если остались заглушки")
     args = ap.parse_args()
 

@@ -61,9 +61,9 @@ codemagic.io → Add application → GitHub → `Pipi6901/islampada` → «Other
 Три страницы на en, ru и ar лежат в `docs/legal/misbah/misbah-{privacy,terms,support}.html`; исходники текстов — `tools/legal/`.
 Страница сама выбирает язык по устройству, а `?lang=ru` или `?lang=ar` в адресе открывает нужный язык.
 
-- [ ] Подставить почту поддержки и пересобрать (без неё сборка с `--final` падает):
-  `python tools/legal/build_legal.py --email <почта> --final`. Если есть почтовый адрес юрлица, добавить его в раздел
-  «Контакты» фрагментов `tools/legal/{en,ru,ar}/privacy.html` и `terms.html`.
+- [x] Почта поддержки в страницах — `help@pmoffice.space` (задана в `tools/legal/build_legal.py`, `DEFAULT_EMAIL`). Сменить:
+  `python tools/legal/build_legal.py --email <почта> --final` и перезалить файлы. Если есть почтовый адрес юрлица, добавить его
+  в раздел «Контакты» фрагментов `tools/legal/{en,ru,ar}/privacy.html` и `terms.html` и пересобрать.
 - [ ] Залить файлы в корень сайта. Сейчас в коде стоит `https://pmoffice.space/misbah-privacy.html`
   (`LampadaCore/Sources/LampadaCore/Legal.swift`); если сайт другой — поправить там. Заливку делает человек со своим доступом:
   `curl -sS --ssl-reqd --max-time 120 -u '<ЛОГИН>' -T docs/legal/misbah/misbah-privacy.html ftp://<хост>.beget.tech/misbah-privacy.html`
