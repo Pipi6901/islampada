@@ -209,6 +209,11 @@ struct ShareScreen: View {
                                    showsWordmark: showsWordmark,
                                    width: format.pixels.width)
                 .themed(theme)
+                // Язык интерфейса уходит в картинку вместе с оформлением: от него
+                // зависят направление письма и разрядка подписей. Без него
+                // отправленная карточка у арабского интерфейса вышла бы слева
+                // направо и с разрядкой, которая рвёт арабские буквы.
+                .localized(l10n.locale)
         )
         renderer.scale = 1
         #if canImport(UIKit)
