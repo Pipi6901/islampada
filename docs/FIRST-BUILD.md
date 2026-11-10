@@ -64,6 +64,14 @@ codemagic.io → Add application → GitHub → `Pipi6901/islampada` → «Other
 - [x] Почта поддержки в страницах — `help@pmoffice.space` (задана в `tools/legal/build_legal.py`, `DEFAULT_EMAIL`). Сменить:
   `python tools/legal/build_legal.py --email <почта> --final` и перезалить файлы. Если есть почтовый адрес юрлица, добавить его
   в раздел «Контакты» фрагментов `tools/legal/{en,ru,ar}/privacy.html` и `terms.html` и пересобрать.
+- [ ] **Выбрано 10.11.2026: Google Sites** (хостинг pmoffice.space недоступен). Готовые страницы для встраивания лежат в
+  `docs/legal/google-sites/` (ссылки между страницами уже ведут на `https://sites.google.com/view/misbah-app/{privacy,terms,support}`;
+  другой адрес сайта — пересобрать: `python tools/legal/build_legal.py --embed --final --out-dir docs/legal/google-sites --link-privacy … --link-terms … --link-support …`).
+  Порядок: sites.google.com/new → пустой сайт «Misbah» → страницы «Privacy», «Terms», «Support» (адреса `/privacy`, `/terms`,
+  `/support`) → на каждой Вставка → Внедрить → «Код для вставки» → вставить весь файл → «Далее» → «Вставить», растянуть блок на
+  всю ширину и высоту → «Опубликовать» с адресом `misbah-app`. Проверить три адреса в окне инкогнито, затем поправить адрес
+  политики в `Legal.swift` на настоящий.
+- Запасной вариант на своём хостинге:
 - [ ] **HTTPS должен открываться без предупреждений.** Проверка 10.11.2026: у `pmoffice.space` по HTTPS отдаётся сертификат
   `*.beget.com`, он не подходит к домену, а страниц Misbah (и RoadReady) на сайте нет. Либо включить SSL-сертификат для домена
   в панели хостинга (Let's Encrypt), либо взять другой хостинг с рабочим HTTPS (Firebase Hosting; отдельный публичный

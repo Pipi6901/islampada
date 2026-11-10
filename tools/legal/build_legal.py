@@ -94,11 +94,15 @@ def read(path):
         return f.read().strip()
 
 
-def build(page, email):
+def build(page, email, links=None, embed=False):
     meta = PAGES[page]
+    links = links or {}
     sections = []
     for code, _ in LANGS:
         body = read(os.path.join(HERE, code, page + ".html")).replace("{{EMAIL}}", email)
+        for target in PAGES:
+            if target in links:
+                body = body.replace(f'href="misbah-{target}.html"', f'href="{links[target]}"')
         attrs = f'data-lang="{code}" lang="{code}"' + (' dir="rtl"' if code == "ar" else "")
         cls = ' class="on"' if code == "en" else ""
         sections.append(f"<section {attrs}{cls}>\n{body}\n</section>")
@@ -108,6 +112,9 @@ def build(page, email):
     titles = {c: meta["title"][c] for c, _ in LANGS}
     js = JS % {"langs": json.dumps([c for c, _ in LANGS]),
                "titles": json.dumps(titles, ensure_ascii=False)}
+    # Во встроенном виде (Google Sites) ссылки открываются в новой вкладке: внутри окна
+    # встраивания Google и почтовые ссылки не откроются.
+    base = '<base target="_blank">' + chr(10) if embed else ""
     return f"""<!doctype html>
 <html lang="en">
 <head>
@@ -115,7 +122,7 @@ def build(page, email):
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{meta['title']['en']}</title>
 <meta name="description" content="{meta['desc']['en']}">
-<style>{CSS}</style>
+{base}<style>{CSS}</style>
 </head>
 <body>
 <nav class="lang" aria-label="Language">{buttons}</nav>
@@ -130,18 +137,23 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--email", default=DEFAULT_EMAIL)
     ap.add_argument("--final", action="store_true", help="упасть, если остались заглушки")
+    ap.add_argument("--out-dir", default=OUT, help="куда писать страницы")
+    ap.add_argument("--embed", action="store_true", help="вариант для встраивания в Google Sites")
+    for page in PAGES:
+        ap.add_argument(f"--link-{page}", help=f"адрес страницы «{page}» для ссылок между страницами")
     args = ap.parse_args()
 
     stale = re.compile(r"Lampada|Psalm|Bible|Библи[яиюе]|Христ|Иисус|Colour|Centre", re.I)
     problems = []
-    os.makedirs(OUT, exist_ok=True)
+    links = {page: getattr(args, f"link_{page}") for page in PAGES if getattr(args, f"link_{page}")}
+    os.makedirs(args.out_dir, exist_ok=True)
     for page in PAGES:
-        html = build(page, args.email)
+        html = build(page, args.email, links, args.embed)
         for m in stale.finditer(html):
             problems.append(f"{page}: след прежнего приложения или британское написание: {m.group(0)}")
         if args.final and "{{" in html:
             problems.append(f"{page}: остались заглушки {{{{...}}}}")
-        path = os.path.join(OUT, f"misbah-{page}.html")
+        path = os.path.join(args.out_dir, f"misbah-{page}.html")
         with io.open(path, "w", encoding="utf-8", newline="\n") as f:
             f.write(html)
         print(f"  {os.path.relpath(path, ROOT)}  {len(html.encode('utf-8')) / 1024:5.1f} КБ")
